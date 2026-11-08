@@ -4,6 +4,8 @@ Proyecto integrador de Ciencia de Datos (UTN FRM, 2026), grupo 5K09-04.
 
 La aplicación cuenta el proyecto entero y deja usarlo: `index.html` es una sola página que se publica con GitHub Pages.
 
+**Aplicación publicada:** https://joaquinrodriguezc.github.io/bank-marketing-app/
+
 ## Cómo se regenera la aplicación
 
 Con Python 3.12:
