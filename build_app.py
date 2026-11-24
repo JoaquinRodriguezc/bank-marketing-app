@@ -501,7 +501,7 @@ def grafico_techo(r, d):
                            for e, det, a, t, c in filas])
     orden = barras.estrategia.tolist()
     x = alt.X("ahorro:Q", title="Ahorro de llamadas por cada sí en el test (%)", scale=alt.Scale(zero=True))
-    y = lambda: alt.Y("estrategia:N", sort=orden, title=None,
+    y = lambda: alt.Y("estrategia:N", sort=orden, title="Con qué época se entrenó",
                       axis=alt.Axis(labelFontSize=14.5, labelLimit=200))
     base = alt.Chart(barras).encode(
         y(),
@@ -513,7 +513,7 @@ def grafico_techo(r, d):
     graf = base.mark_bar(size=30).encode(x, alt.Color("color:N", scale=None, legend=None))
     texto = base.mark_text(align="left", dx=6, fontSize=14, fontWeight="bold").encode(
         alt.X("ahorro:Q", scale=alt.Scale(zero=True)), y(), alt.Text("ahorro:Q", format=".1f"))
-    return tema(alt.layer(graf, texto).properties(width=640, height=210))
+    return tema(alt.layer(graf, texto).properties(width=632, height=210))
 
 
 SALDO_LOG = "Saldo en la cuenta (log con signo)"
