@@ -616,7 +616,9 @@ def hipotesis(df):
                 fracaso=t.loc["Fracaso", "tasa"], n_fracaso=int(t.loc["Fracaso", "n"]),
                 n_desc=int(t.loc["Desconocido (con contacto previo)", "n"]),
                 estudiante=estudiante, lift_est=estudiante / media,
-                n_est=int(df.job.eq("student").sum()))
+                n_est=int(df.job.eq("student").sum()),
+                hist_viejos=float(df.loc[df.contact_date < INICIO, "previous"].gt(0).mean()),
+                hist_rec=float(df.loc[df.contact_date >= INICIO, "previous"].gt(0).mean()))
 
 
 def specs_json(graficos):
