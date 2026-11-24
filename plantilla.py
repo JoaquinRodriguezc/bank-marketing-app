@@ -10,12 +10,12 @@ def fecha_larga(ts):
 
 
 CSS = """
-:root{--tinta:#1a1a1a;--gris:#555;--suave:#f4f5f6;--linea:#dcdfe3;--acento:#0072B2;--copa:#8a4b0f;--fondo:#fff}
+:root{--tinta:#141310;--tinta-2:#3d3831;--gris:#6b6459;--suave:#f4f1ea;--linea:#e4dfd5;--acento:#0072B2;--acento-suave:#eff4f9;--copa:#8a4b0f;--fondo:#faf9f6;--serif:Georgia,"Times New Roman",serif}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:16px}
 body{margin:0;background:var(--fondo);color:var(--tinta);font:18px/1.55 "Segoe UI",Helvetica,Arial,sans-serif}
 nav{position:fixed;top:0;left:0;bottom:0;width:230px;padding:28px 18px;border-right:1px solid var(--linea);background:#fafbfc;overflow-y:auto}
-nav .marca{font-size:13px;color:var(--gris);margin:0 0 22px}
+nav .marca{font-family:var(--serif);font-size:13.5px;color:var(--gris);margin:0 0 22px}
 nav h3{font-size:12px;letter-spacing:.08em;text-transform:uppercase;margin:22px 0 6px;padding-left:12px}
 nav .tallo h3{color:var(--acento)} nav .copa h3{color:var(--copa)}
 nav ol{list-style:none;margin:0;padding:0 0 0 12px}
@@ -28,11 +28,11 @@ section{max-width:980px;margin:0 auto;padding:56px 0 24px;border-bottom:1px soli
 section:last-of-type{border-bottom:none}
 .etapa{font-size:13px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;margin:0 0 6px}
 .etapa.tallo{color:var(--acento)} .etapa.copa{color:var(--copa)}
-h1{font-size:40px;line-height:1.15;margin:0 0 18px;max-width:24ch}
-h2{font-size:28px;line-height:1.25;margin:0 0 14px;max-width:46ch}
+h1{font-family:var(--serif);font-weight:400;letter-spacing:-.01em;font-size:44px;line-height:1.14;margin:0 0 18px;max-width:24ch}
+h2{font-family:var(--serif);font-weight:400;letter-spacing:-.01em;font-size:30px;line-height:1.22;margin:0 0 14px;max-width:46ch}
 p,li{max-width:74ch}
 .lead{font-size:22px;line-height:1.5;color:#3f4750;max-width:66ch}
-.oracion{font-size:24px;line-height:1.4;border-left:5px solid var(--acento);padding:4px 0 4px 20px;margin:26px 0 34px;max-width:54ch}
+.oracion{font-family:var(--serif);font-size:25px;line-height:1.42;border-left:4px solid var(--acento);padding:6px 0 6px 24px;margin:26px 0 34px;max-width:54ch}
 .nums{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:10px 0 18px}
 .nums.dos{grid-template-columns:repeat(2,1fr)}
 #portada{margin-top:26px;padding:46px 40px 26px;border:1px solid var(--linea);border-top:4px solid var(--acento);border-radius:14px;background:linear-gradient(180deg,#f7f9fb 0%,#fff 72%)}
@@ -47,7 +47,7 @@ p,li{max-width:74ch}
 .nums.versus .conmodelo .rotulo{color:var(--acento)}
 .nums.versus .num p:not(.rotulo){margin:4px 0 0;font-size:15px;color:var(--gris)}
 .nums.versus .flecha{font-size:32px;font-weight:700;line-height:1;color:var(--acento);justify-self:center}
-main h3{font-size:22px;margin:30px 0 10px}
+main h3{font-family:var(--serif);font-weight:400;font-size:23px;margin:30px 0 10px}
 .num{background:var(--suave);border-radius:8px;padding:18px 20px}
 .num span{display:block;font-size:44px;font-weight:700;line-height:1.1;color:var(--acento)}
 .num p{margin:6px 0 0;font-size:15.5px;color:var(--gris)}
@@ -82,7 +82,29 @@ legend{font-weight:600;font-size:14px;color:var(--gris);padding:0 4px}
 .fijo{position:sticky;top:16px}
 footer{max-width:980px;margin:0 auto;padding:30px 0;color:var(--gris);font-size:14px}
 @media (max-width:1150px){.probar{grid-template-columns:1fr}.fijo{position:static}}
-@media (max-width:860px){nav{display:none}main{margin-left:0;padding:0 16px 60px}.nums{grid-template-columns:1fr}h1{font-size:32px}
+.paso{margin:44px 0 0}
+.rotulo-paso{font-size:11.5px;letter-spacing:.15em;text-transform:uppercase;font-weight:700;color:var(--gris);display:flex;align-items:center;gap:12px;margin:0}
+.rotulo-paso::after{content:"";flex:1;border-top:1px solid var(--linea)}
+.paso.resultado .rotulo-paso{color:var(--acento)}
+.duelo{display:grid;grid-template-columns:1fr auto 1fr;gap:18px;align-items:stretch;margin-top:16px}
+.duelo .lado{border-radius:12px;padding:22px 24px}
+.duelo .hoy{background:#fff;border:1px dashed #c3c9d0}
+.duelo .nuevo{background:#fff;border:1px solid var(--linea)}
+.duelo .modelo{background:var(--acento-suave);border:2px solid var(--acento)}
+.duelo .rotulo{font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--gris);margin:0 0 10px}
+.duelo .modelo .rotulo{color:var(--acento)}
+.duelo .cifra{font-family:var(--serif);font-size:58px;line-height:1;font-weight:400;color:var(--tinta-2)}
+.duelo .modelo .cifra{color:var(--acento)}
+.duelo .detalle{font-size:14.5px;color:var(--gris);margin:10px 0 0;max-width:28ch}
+.duelo .flecha{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-width:86px}
+.duelo .delta{font-size:12px;font-weight:700;color:var(--acento);background:#fff;border:1px solid var(--acento);border-radius:999px;padding:4px 12px}
+.duelo .punta{font-size:26px;color:var(--acento)}
+.duelo .nota-f{font-size:11.5px;color:var(--gris);text-align:center;max-width:18ch;margin:0}
+.remate{font-family:var(--serif);font-size:19px;color:var(--tinta-2);margin:18px 0 0;max-width:54ch}
+.remate b{color:var(--acento);font-weight:400}
+.pie-portada{margin-top:36px;border-top:3px double var(--linea);padding-top:14px}
+@media (max-width:860px){.duelo{grid-template-columns:1fr}.duelo .flecha{flex-direction:row;min-height:64px}
+nav{display:none}main{margin-left:0;padding:0 16px 60px}.nums{grid-template-columns:1fr}h1{font-size:32px}
 #portada{padding:28px 20px 18px;border-radius:12px}.nums.versus{grid-template-columns:1fr}.nums.versus .flecha{transform:rotate(90deg)}}
 """
 
@@ -168,31 +190,55 @@ def armar(df, r, pm, specs, h, sha, tablas):
   <p class="etapa tallo">El proyecto</p>
   <h1>¿A quién conviene llamar para que cada depósito cueste menos llamadas?</h1>
   <p class="lead">Un banco portugués llamó a sus clientes para ofrecerles un depósito a plazo.
-  Son las campañas de telemarketing del dataset público Bank Marketing (UCI, bank-full): {num(len(df))} contactos
+  Son las campañas de telemarketing del dataset público Bank Marketing (UCI, <i>bank-full</i>): {num(len(df))} contactos
   entre {fecha_larga(df.contact_date.min())} y {fecha_larga(hasta)}.
   Cada llamada le cuesta minutos de operador al banco, y las llamadas son justamente lo que este proyecto intenta bajar.
-  La pregunta es si, con lo que el banco ya sabe de un cliente antes de llamarlo, se puede llamar a menos gente sin perder a los que iban a aceptar.</p>
+  Antes de mostrar nuestro resultado, conviene conocer al rival.</p>
+  <div class="paso">
+    <p class="rotulo-paso">Primero · contra quién competimos</p>
+    <div class="duelo">
+      <div class="lado hoy">
+        <p class="rotulo">2008 · el banco llamaba a todos</p>
+        <p class="cifra">{pct(float(df[df.contact_date < INICIO].si.mean()), 1)}</p>
+        <p class="detalle">de sí, con miles de llamadas por mes a casi toda la base de clientes.</p>
+      </div>
+      <div class="flecha">
+        <span class="punta" aria-hidden="true">──▶</span>
+        <p class="nota-f">el banco aprende y cambia de estrategia</p>
+      </div>
+      <div class="lado nuevo">
+        <p class="rotulo">Desde 2009 · elige a quién llamar</p>
+        <p class="cifra">{pct(float(r['reciente'].si.mean()), 1)}</p>
+        <p class="detalle">de sí, llamando a una lista mucho más chica de clientes elegidos.</p>
+      </div>
+    </div>
+    <p class="remate">Nuestro rival no es el azar: es <b>la lista que el banco ya elige</b> — un piso que sus expertos
+    construyeron con el tiempo. La pregunta del proyecto es si todavía se le puede ganar algo.</p>
+  </div>
+  <div class="paso resultado">
+    <p class="rotulo-paso">Después · lo que hace el modelo</p>
+    <div class="duelo">
+      <div class="lado hoy">
+        <p class="rotulo">Banco hoy</p>
+        <p class="cifra">{num(todos, 2)}</p>
+        <p class="detalle">llamadas por cada sí: {num(len(r['y_te']))} llamadas para conseguir los {num(t['si_totales'])} sí de su lista.</p>
+      </div>
+      <div class="flecha">
+        <span class="delta">−{pct(ahorro, 0)}</span>
+        <span class="punta" aria-hidden="true">──▶</span>
+        <p class="nota-f">{num(menos)} llamadas menos, {num(perdidos)} sí que se escapan</p>
+      </div>
+      <div class="lado modelo">
+        <p class="rotulo">Con el modelo</p>
+        <p class="cifra">{num(t['llamadas_por_si'], 2)}</p>
+        <p class="detalle">llamadas por cada sí: {num(t['llamadas'])} llamadas y {num(t['si_conseguidos'])} de los {num(t['si_totales'])} sí conseguidos.</p>
+      </div>
+    </div>
+  </div>
   <p class="oracion">{oracion}</p>
-  <div class="nums dos versus">
-    <div class="num hoy">
-      <p class="rotulo">Banco hoy</p>
-      <span>{num(todos, 2)}</span>
-      <p>llamadas por cada sí si llama a toda su lista, la que ya elige desde 2009</p>
-    </div>
-    <div class="flecha" aria-hidden="true">→</div>
-    <div class="num conmodelo">
-      <p class="rotulo">Con el modelo</p>
-      <span>{num(t['llamadas_por_si'], 2)}</span>
-      <p>llamadas por cada sí, y {num(menos)} llamadas menos que esas {num(len(r['y_te']))}</p>
-    </div>
-  </div>
-  <div class="nums">
-    <div class="num"><span>{num(t['llamadas'])}</span><p>llamadas en el test, de las {num(len(r['y_te']))} de esa lista</p></div>
-    <div class="num"><span>{pct(t['recall'])}</span><p>de los {num(t['si_totales'])} sí conseguidos: se escapan {num(perdidos)} clientes</p></div>
-    <div class="num"><span>{pct(float(r['y_te'].mean()), 1)}</span><p>de la lista que el banco ya llama termina en sí: el rival a batir ya es alto</p></div>
-  </div>
-  <p class="nota">Medido sobre los {num(len(r['y_te']))} contactos más recientes (julio a noviembre de 2010) del dataset Bank Marketing,
-  que el modelo no vio. La mejora es modesta, y la aplicación cuenta por qué.</p>
+  <p class="nota pie-portada">Medido sobre los {num(len(r['y_te']))} contactos más recientes (julio a noviembre de 2010), que el modelo no vio.
+  Las secciones siguientes cuentan cómo se llega a estas cifras y por qué no se pueden estirar mucho más: entrená con la época
+  que entrenes, el techo es el mismo.</p>
 </section>
 
 <section id="datos">
