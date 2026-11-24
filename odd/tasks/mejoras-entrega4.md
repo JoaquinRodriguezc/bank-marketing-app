@@ -54,3 +54,4 @@ Publicación y defensa (decisiones del grupo):
 - [ ] Preparar el cruce V6-vs-techo: el informe V6 dice «lift máximo 1,24× desde los datos viejos» (aplica al umbral transplantado); la sección del techo muestra el empate con calibración (3,98 % vs 4,08 %). La diferencia es transplantar vs calibrar el umbral — pregunta probable de la devolución.
 
 Estado: 16 commits en `mejoras-entrega4`, rama local (nunca pusheada). El test del build imprime idéntico en cada regeneración: umbral 0,354462 · 1.003 llamadas · 519/542 sí.
+- L11 (handoff de diseño): implementado design/hallazgos-revista/02-morgue-de-hipotesis.html (capítulo 03, figura enmarcada, grilla visible de hipótesis fallidas con números, aparte «Otro» completo, details como capa de evidencia). Artboards 01 y 03 quedan como alternativas.
