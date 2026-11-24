@@ -1,0 +1,35 @@
+{
+  "title": "Portada «El proyecto» — revista de datos",
+  "brief": "Rediseño visual de la portada de la app de la Entrega 4 (bank marketing, estilo revista de datos elegido por el grupo: serif editorial, papel claro, aire, nav lateral mantenida, paleta Okabe-Ito en los gráficos). Tres direcciones de estructura para la primera sección «El proyecto», con el contenido real de la app: pregunta, contexto del banco portugués, oración honesta del techo, versus 2,01→1,93 y los tres números del test.",
+  "feature": "odd/tasks/mejoras-entrega4.md",
+  "artboards": [
+    {
+      "file": "01-apertura-editorial.html",
+      "title": "Apertura editorial",
+      "tradeoff": "Lee como el arranque de un artículo de revista: kicker, titular serif grande, lead a dos columnas con capitular, oración como cita destacada y riel de números al pie. Máxima narrativa; el versus pasa a un segundo plano.",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "02-cifras-protagonistas.html",
+      "title": "Cifras protagonistas",
+      "tradeoff": "La respuesta primero: cada fila es una cifra gigante con su anotación, estilo página de datos del FT. Escaneable y potente en pantalla; menos cuento, más tablero de resultados.",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "03-gancho-regimen.html",
+      "title": "El gancho del régimen",
+      "tradeoff": "Abre con el hallazgo de fondo (el salto de la estrategia del banco) como mini-gráfico de área antes de dar el resultado. Engancha con la historia, pero la portada ya adelanta contenido de la sección «Los datos».",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "04-cadena-versus.html",
+      "title": "Cadena de dos versus",
+      "tradeoff": "La elegida por el grupo: primero el banco contra su propio pasado (7,1 % → 49,6 %, presenta al rival), después el banco de hoy contra el modelo (2,01 → 1,93, el resultado). Narra la competencia completa en dos pasos; ocupa más altura de portada que una caja única.",
+      "width": 1440,
+      "height": 900
+    }
+  ]
+}

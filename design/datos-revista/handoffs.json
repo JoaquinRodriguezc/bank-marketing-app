@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "chosen": "01-salto-senhalado.html",
+  "handoffs": {
+    "01-salto-senhalado.html": {
+      "status": "implemented",
+      "queued": false,
+      "sentAt": "2026-11-24T05:33:06.177Z",
+      "startedAt": "2026-11-24T05:33:20.648Z",
+      "implementedAt": "2026-11-24T05:34:33.814Z",
+      "feature": "odd/tasks/mejoras-entrega4.md",
+      "note": "Chapter chip, framed figure with epigrafe, and the regime jump annotated inside the real Altair chart (point at the steepest month + era range labels computed from data). Build line identical. Artboards 02-03 remain as alternatives.",
+      "previewUrl": "http://127.0.0.1:8424/index.html"
+    }
+  }
+}

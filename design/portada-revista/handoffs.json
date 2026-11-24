@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "chosen": "04-cadena-versus.html",
+  "handoffs": {
+    "04-cadena-versus.html": {
+      "status": "implemented",
+      "queued": false,
+      "sentAt": "2026-11-24T05:19:58.472Z",
+      "startedAt": "2026-11-24T05:20:54.367Z",
+      "implementedAt": "2026-11-24T05:21:51.451Z",
+      "feature": "odd/tasks/mejoras-entrega4.md",
+      "note": "Two-versus chain portada implemented in plantilla.py with the editorial base tokens; charts keep Okabe-Ito on transparent views; build line identical. Preview served from the repo build.",
+      "previewUrl": "http://127.0.0.1:8424/index.html"
+    }
+  }
+}

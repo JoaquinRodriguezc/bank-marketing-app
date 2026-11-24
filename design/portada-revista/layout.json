@@ -1,0 +1,17 @@
+{
+  "arrangement": "row",
+  "positions": {
+    "01-apertura-editorial.html": {
+      "x": 0,
+      "y": 0
+    },
+    "02-cifras-protagonistas.html": {
+      "x": 1520,
+      "y": 0
+    },
+    "03-gancho-regimen.html": {
+      "x": 3040,
+      "y": 0
+    }
+  }
+}
