@@ -216,32 +216,38 @@ def tasa_por_anterior(df):
 
 def grafico_lift(h):
     """La escala del corte: un punto por hipótesis sobre la línea de lift, el corte en 3,33."""
-    filas = [dict(lift=0.87, etiqueta=f"casados · {num(0.87, 2)}", color=GRIS, arriba=True),
-             dict(lift=1.28, etiqueta=f"solteros · {num(1.28, 2)}", color=GRIS, arriba=False),
-             dict(lift=float(h["lift_est"]), etiqueta=f"estudiantes · {num(h['lift_est'], 2)}", color=GRIS, arriba=True)]
-    exito = dict(lift=float(h["lift_exito"]), etiqueta=f"éxito previo · {num(h['lift_exito'], 2)}")
-    d = pd.DataFrame(filas)
-    escala = alt.Scale(domain=[0, 6])
-    base = alt.Chart(d)
-    linea = alt.Chart(pd.DataFrame({"a": [0.0], "b": [6.0]})).mark_rule(color="#e4dfd5", size=2).encode(
-        x="a:Q", x2="b:Q", y=alt.value(70))
-    extremos = alt.Chart(pd.DataFrame([dict(v=0.0, t="lift 0"), dict(v=6.0, t="lift 6")])).mark_text(
-        dy=34, fontSize=11.5, color="#9a9a9a", align="center").encode(alt.X("v:Q", scale=escala, axis=None), y=alt.value(70), text="t:N")
-    puntos = base.mark_point(filled=True, size=150).encode(
-        alt.X("lift:Q", scale=escala, axis=None), y=alt.value(70), color=alt.Color("color:N", scale=None, legend=None))
-    arriba = base.transform_filter(alt.datum.arriba).mark_text(dy=-18, fontSize=13, align="center", color="#6b6459").encode(
-        alt.X("lift:Q", scale=escala, axis=None), y=alt.value(70), text="etiqueta:N")
-    abajo = base.transform_filter(~alt.datum.arriba).mark_text(dy=26, fontSize=13, align="center", color="#6b6459").encode(
-        alt.X("lift:Q", scale=escala, axis=None), y=alt.value(70), text="etiqueta:N")
-    e = alt.Chart(pd.DataFrame([exito])).mark_point(filled=True, size=170, color=AZUL).encode(
-        alt.X("lift:Q", scale=escala, axis=None), y=alt.value(70))
-    e_t = alt.Chart(pd.DataFrame([exito])).mark_text(dy=-20, fontSize=13.5, fontWeight="bold", align="center", color=AZUL).encode(
-        alt.X("lift:Q", scale=escala, axis=None), y=alt.value(70), text="etiqueta:N")
-    corte = alt.Chart(pd.DataFrame({"c": [3.33]})).mark_rule(color="#555", strokeDash=[5, 4]).encode(
-        alt.X("c:Q", scale=escala, axis=None), y=alt.value(40), y2=alt.value(100))
-    corte_t = alt.Chart(pd.DataFrame({"c": [3.33]})).mark_text(fontSize=12.5, color="#555", align="center").encode(
-        alt.X("c:Q", scale=escala, axis=None), y=alt.value(104), text=alt.value("el corte: 3,33"))
-    return tema(alt.layer(linea, extremos, corte, puntos, arriba, abajo, e, e_t, corte_t).properties(width=720, height=150))
+    puntos_df = pd.DataFrame([dict(lift=0.87, color=GRIS), dict(lift=1.28, color=GRIS),
+                              dict(lift=float(h["lift_est"]), color=GRIS)])
+    etiquetas_df = pd.DataFrame([
+        dict(lift=0.87, y=0.5, etiqueta=f"casados · {num(0.87, 2)}"),
+        dict(lift=1.28, y=-0.52, etiqueta=f"solteros · {num(1.28, 2)}"),
+        dict(lift=float(h["lift_est"]), y=0.5, etiqueta=f"estudiantes · {num(h['lift_est'], 2)}")])
+    exito_df = pd.DataFrame([dict(lift=float(h["lift_exito"]), y=0.0)])
+    exito_t_df = pd.DataFrame([dict(lift=float(h["lift_exito"]), y=0.55, etiqueta=f"éxito previo · {num(h['lift_exito'], 2)}")])
+    base_df = pd.DataFrame({"lift": [0.0, 6.0], "y": [0.0, 0.0]})
+    extremos_df = pd.DataFrame([dict(lift=0.0, y=-0.6, t="lift 0"), dict(lift=6.0, y=-0.6, t="lift 6")])
+    corte_df = pd.DataFrame({"lift": [3.33], "y0": [-0.38], "y1": [0.38]})
+    corte_t_df = pd.DataFrame([dict(lift=3.33, y=-0.66, t="el corte: 3,33")])
+
+    base = alt.Chart(base_df).mark_line(color="#e4dfd5", strokeWidth=2).encode(
+        alt.X("lift:Q", scale=alt.Scale(domain=[0, 6]), axis=None),
+        alt.Y("y:Q", scale=alt.Scale(domain=[-0.75, 0.75]), axis=None))
+    corte = alt.Chart(corte_df).mark_rule(color="#555", strokeDash=[5, 4]).encode(
+        alt.X("lift:Q", scale=alt.Scale(domain=[0, 6]), axis=None), alt.Y("y0:Q", scale=alt.Scale(domain=[-0.75, 0.75]), axis=None), y2="y1:Q")
+    corte_t = alt.Chart(corte_t_df).mark_text(fontSize=12.5, color="#555", align="center").encode(
+        alt.X("lift:Q", scale=alt.Scale(domain=[0, 6]), axis=None), alt.Y("y:Q", scale=alt.Scale(domain=[-0.75, 0.75]), axis=None), text="t:N")
+    extremos = alt.Chart(extremos_df).mark_text(fontSize=11.5, color="#9a9a9a", align="center").encode(
+        alt.X("lift:Q", scale=alt.Scale(domain=[0, 6]), axis=None), alt.Y("y:Q", scale=alt.Scale(domain=[-0.75, 0.75]), axis=None), text="t:N")
+    puntos = alt.Chart(puntos_df.assign(y=0.0)).mark_point(filled=True, size=150).encode(
+        alt.X("lift:Q", scale=alt.Scale(domain=[0, 6]), axis=None), alt.Y("y:Q", scale=alt.Scale(domain=[-0.75, 0.75]), axis=None),
+        color=alt.Color("color:N", scale=None, legend=None))
+    etiquetas = alt.Chart(etiquetas_df).mark_text(fontSize=13, align="center", color="#6b6459").encode(
+        alt.X("lift:Q", scale=alt.Scale(domain=[0, 6]), axis=None), alt.Y("y:Q", scale=alt.Scale(domain=[-0.75, 0.75]), axis=None), text="etiqueta:N")
+    e = alt.Chart(exito_df).mark_point(filled=True, size=170, color=AZUL).encode(
+        alt.X("lift:Q", scale=alt.Scale(domain=[0, 6]), axis=None), alt.Y("y:Q", scale=alt.Scale(domain=[-0.75, 0.75]), axis=None))
+    e_t = alt.Chart(exito_t_df).mark_text(fontSize=13.5, fontWeight="bold", align="center", color=AZUL).encode(
+        alt.X("lift:Q", scale=alt.Scale(domain=[0, 6]), axis=None), alt.Y("y:Q", scale=alt.Scale(domain=[-0.75, 0.75]), axis=None), text="etiqueta:N")
+    return tema(alt.layer(base, extremos, corte, puntos, e, etiquetas, e_t, corte_t).properties(width=720, height=150))
 
 
 def grafico_hallazgo(df):
