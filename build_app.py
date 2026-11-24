@@ -215,6 +215,33 @@ def grafico_hallazgo(df):
     return tema(alt.layer(barras, texto, regla, nota).properties(width=700, height=230))
 
 
+def grafico_familias(r):
+    t = r["tabla"]
+    mejor = t.loc[t.groupby("familia").ahorro_media.idxmax()].copy()
+    elegida = r["eleccion"].familia
+    nombre = {"piso": "Piso: llamar a todos", "logistica": "Regresión logística", "arbol": "Árbol",
+              "bosque": "Bosque aleatorio", "boosting": "Gradient boosting"}
+    mejor["modelo"] = mejor.familia.map(nombre)
+    mejor["color"] = np.where(mejor.familia.eq("piso"), GRIS,
+                              np.where(mejor.familia.eq(elegida), AZUL, "#9ec7e3"))
+    for c in ("ahorro_media", "ahorro_desvio"):
+        mejor[c] = mejor[c] * 100
+    mejor["lo"] = (mejor.ahorro_media - mejor.ahorro_desvio).clip(lower=0)
+    mejor["hi"] = mejor.ahorro_media + mejor.ahorro_desvio
+    mejor = mejor.sort_values("ahorro_media", ascending=False)
+    barras = alt.Chart(mejor).mark_bar(size=26).encode(
+        alt.Y("modelo:N", sort=mejor.modelo.tolist(), title=None, axis=alt.Axis(labelFontSize=15)),
+        alt.X("ahorro_media:Q", title="Ahorro de llamadas por sí en la validación (%)", scale=alt.Scale(zero=True)),
+        alt.Color("color:N", scale=None, legend=None),
+        tooltip=[alt.Tooltip("ahorro_media:Q", title="Ahorro medio", format=".1f"),
+                 alt.Tooltip("ahorro_desvio:Q", title="± desvío", format=".1f"),
+                 alt.Tooltip("recall_media:Q", title="Recall medio", format=".3f")])
+    error = alt.Chart(mejor).mark_rule(size=2, color="#555").encode(
+        alt.Y("modelo:N", sort=mejor.modelo.tolist()),
+        alt.X("lo:Q"), alt.X2("hi:Q"))
+    return tema(alt.layer(barras, error).properties(width=720, height=200))
+
+
 def curva_test(y, p):
     filas = []
     for u in np.unique(p):
@@ -231,7 +258,7 @@ def grafico_modelo(r):
     todos = len(r["y_te"]) / r["y_te"].sum()
     escala_x = alt.Scale(domain=[0.8, 1])
     x = alt.X("recall:Q", title="Sí conseguidos (de cada 100 que había)", axis=alt.Axis(format="%"), scale=escala_x)
-    y = alt.Y("llamadas_por_si:Q", title="Llamadas por cada sí", scale=alt.Scale(zero=False))
+    y = alt.Y("llamadas_por_si:Q", title="Llamadas por cada sí", scale=alt.Scale(zero=True))
     linea = alt.Chart(c).mark_line(color=AZUL, interpolate="step-after", clip=True).encode(
         x=x, y=y, tooltip=[alt.Tooltip("recall:Q", title="Sí conseguidos", format=".1%"),
                            alt.Tooltip("llamadas_por_si:Q", title="Llamadas por sí", format=".2f"),
@@ -508,6 +535,7 @@ def construir():
     rango = rangos(r)
     r["descartados"] = analizar_descartados(df, r)
     graficos = {"g-datos": grafico_datos(df), "g-hallazgo": grafico_hallazgo(df), "g-modelo": grafico_modelo(r),
+                "g-familias": grafico_familias(r),
                 "g-techo": grafico_techo(r, r["descartados"]),
                 "g-explora": grafico_explora(r), "g-proba": grafico_proba(r, pm, rango)}
     html = pagina(df, r, pm, graficos)

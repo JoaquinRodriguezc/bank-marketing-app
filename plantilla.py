@@ -116,6 +116,8 @@ def armar(df, r, pm, specs, h, sha, tablas):
     perdidos = t["si_totales"] - t["si_conseguidos"]
     e = r["eleccion"]
     d = r["descartados"]
+    may09 = df[df.contact_date.dt.strftime("%Y-%m").eq("2009-05")]
+    n_may, tasa_may = len(may09), float(may09.si.mean())
     hasta = df.contact_date.max()
     oracion = (f"Con lo que el banco sabe antes de llamar, el modelo consigue el {pct(t['recall'])} de los sí con "
                f"{num(menos)} llamadas menos, y cada sí cuesta {num(t['llamadas_por_si'], 2)} llamadas en vez de {num(todos, 2)}.")
@@ -210,18 +212,39 @@ def armar(df, r, pm, specs, h, sha, tablas):
 <section id="modelo">
   <p class="etapa tallo">El modelo</p>
   <h2>El modelo baja el costo de cada sí un {pct(ahorro, 1)} y deja escapar menos de 5 de cada 100 clientes</h2>
-  <p>La línea muestra, en el test, cuántas llamadas cuesta cada sí según cuántos sí se exige conseguir; la línea gris es llamar a todos.
-  Cuanto más a la derecha, menos clientes se escapan y más se acerca al costo de llamar a todos. El punto es el umbral que se eligió
-  antes de mirar el test: exige al menos el 95 % de los sí.</p>
+  <p>Un aviso antes del número: el rival no es llamar a los {num(len(df))} clientes del dataset, sino la lista a la que el banco ya llama —
+  la que su estrategia elige desde 2009. En el test esa lista convierte a la mitad de los que llama: es un rival duro. Contra eso, cada sí
+  pasa de {num(todos, 2)} a {num(t['llamadas_por_si'], 2)} llamadas.</p>
+  <div class="nums">
+    <div class="num"><span>−{num(menos)}</span><p>llamadas de las {num(len(r['y_te']))} del test: un {pct(menos / len(r['y_te']), 1)} menos</p></div>
+    <div class="num"><span>{num(t['si_conseguidos'])} de {num(t['si_totales'])}</span><p>sí conseguidos: el compromiso de no perder más de {num(100 * (1 - m3.RECALL_MIN), 0)} de cada 100 se sostiene</p></div>
+    <div class="num"><span>{num(t['llamadas_por_si'], 2)}</span><p>llamadas por cada sí, contra {num(todos, 2)} de llamar a toda la lista</p></div>
+  </div>
+  <h3>Cómo se llegó: cuatro familias contra el piso</h3>
+  <p>Antes del resultado, el proceso. Cada barra es el ahorro del mejor de cada familia en la misma validación temporal, con su desvío;
+  la gris es llamar a todos. Ninguna familia le gana a la logística por más de un desvío — y la logística, además, es la que se puede
+  llevar a esta página: se elige por la regla fijada de antemano.</p>
+  <div class="grafico" id="g-familias"></div>
+  <h3>El resultado, medido una sola vez en el test</h3>
+  <p>La línea muestra cuántas llamadas cuesta cada sí según cuántos sí se exige conseguir; el eje arranca en cero, para que la distancia
+  a la línea gris —el ahorro real— se vea del tamaño que es. El punto es el umbral fijado antes de mirar el test: exige al menos el
+  {pct(m3.RECALL_MIN, 0)} de los sí. Aceptando perder más sí el ahorro crecería, pero eso ya no lo decide el modelo sino el negocio.</p>
   <div class="grafico" id="g-modelo"></div>
   <details><summary>Cómo lo sabemos</summary>
     <h4>La métrica y por qué</h4>
     <p>El banco quiere que cada depósito le cueste la menor cantidad de llamadas posible, sin perder a los que iban a decir que sí.
     Por eso se fija un mínimo de recall —conseguir al menos el {pct(m3.RECALL_MIN)} de los sí— y, con eso fijo, se busca la mayor
     precision, que se lee como <b>llamadas por cada sí = 1 / precision</b>. No se usa F1: mezcla las dos cosas en un número que no se lee en llamadas.</p>
-    <h4>El piso</h4>
-    <p>Llamar a todos (<code>DummyClassifier</code>): consigue el 100 % de los sí y su precision es la tasa de sí. En el test cuesta {num(todos, 2)} llamadas por sí.
-    Como la tasa de sí cambia entre períodos, los modelos se comparan por el <b>ahorro</b>: cuánto bajan las llamadas por sí respecto de llamar a todos en el mismo período.</p>
+    <h4>El piso: la estrategia del banco</h4>
+    <p>El piso no es llamar a todos los clientes del banco: es llamar a toda la lista que el banco ya decidió llamar, la lista del operador,
+    elegida campaña a campaña desde 2009 (<code>DummyClassifier</code> sobre esa lista). Llamarla entera consigue el 100 % de los sí y cuesta
+    {num(todos, 2)} llamadas por sí en el test. Como la tasa de sí cambia entre períodos, los modelos se comparan por el <b>ahorro</b>:
+    cuánto bajan las llamadas por sí respecto de esa lista en el mismo período.</p>
+    <h4>Las correcciones que llevaron a este modelo</h4>
+    <p>V1 entrenaba con las campañas viejas y sus números no se podían leer: la tasa de sí cambia de época y las validaciones al azar
+    daban números más lindos que falsos. V3 fijó la métrica de negocio y el umbral por pedazo. V4 sacó mayo de 2009: {num(n_may)} llamadas
+    con {pct(tasa_may, 1)} de sí, la cola del régimen viejo que quedaba en el corte; sin ese mes, el ahorro de validación sube en los
+    cuatro pedazos (1,5 % → 5,0 %).</p>
     <h4>La validación</h4>
     <p>Validación cruzada temporal (<code>TimeSeriesSplit</code>, 5 pedazos) sobre el entrenamiento: cada pedazo se entrena con el pasado y se valida con lo que viene después,
     como se va a usar el modelo. Imputar, escalar y codificar van adentro del pipeline, así que se ajustan dentro de cada pedazo.</p>
