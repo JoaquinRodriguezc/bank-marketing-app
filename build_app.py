@@ -490,26 +490,32 @@ def grafico_versiones(r):
 def grafico_techo(r, d):
     t_app = m3.medir(r["y_te"], r["p_te"], r["umbral"])
     tasa_te = float(r["y_te"].mean())
-    filas = [("El modelo de esta app, entrenado con lo reciente", 1 - tasa_te / t_app["precision"], t_app, AZUL),
-             ("Entrenado con los viejos, umbral calibrado con lo reciente", d["ahorro_cal"], d["cal"], AZUL),
-             ("Entrenado con los viejos, umbral transplantado", d["ahorro_trans"], d["trans"], ROJO)]
-    barras = pd.DataFrame([dict(estrategia=e, ahorro=a * 100, llamadas=t["llamadas"], si_conseguidos=t["si_conseguidos"],
-                                por_si=t["llamadas_por_si"], color=c) for e, a, t, c in filas])
+    filas = [("Lo reciente · esta app", "La logística del modelo oficial de la página, entrenada con los contactos recientes.",
+              1 - tasa_te / t_app["precision"], t_app, AZUL),
+             ("Los viejos · umbral recalibrado", "Entrenada sólo con los contactos descartados; el umbral se volvió a elegir con los datos recientes.",
+              d["ahorro_cal"], d["cal"], AZUL),
+             ("Los viejos · umbral transplantado", "Entrenada sólo con los contactos descartados, con su umbral de época tal cual vino.",
+              d["ahorro_trans"], d["trans"], ROJO)]
+    barras = pd.DataFrame([dict(estrategia=e, detalle=det, ahorro=a * 100, llamadas=t["llamadas"],
+                                si_conseguidos=t["si_conseguidos"], por_si=t["llamadas_por_si"], color=c)
+                           for e, det, a, t, c in filas])
+    orden = barras.estrategia.tolist()
     x = alt.X("ahorro:Q", title="Ahorro de llamadas por cada sí en el test (%)", scale=alt.Scale(zero=True))
+    y = lambda: alt.Y("estrategia:N", sort=orden, title="Con qué época se entrenó",
+                      axis=alt.Axis(labelFontSize=14.5, labelLimit=250))
     base = alt.Chart(barras).encode(
-        alt.Y("estrategia:N", sort=barras.estrategia.tolist(), title=None, axis=alt.Axis(labelFontSize=15)),
-        tooltip=[alt.Tooltip("llamadas:Q", title="Llamadas", format=",d"),
+        y(),
+        tooltip=[alt.Tooltip("estrategia:N", title="Versión"),
+                 alt.Tooltip("detalle:N", title="Detalle"),
+                 alt.Tooltip("llamadas:Q", title="Llamadas", format=",d"),
                  alt.Tooltip("si_conseguidos:Q", title="Sí conseguidos", format=",d"),
                  alt.Tooltip("por_si:Q", title="Llamadas por sí", format=".2f")])
     graf = base.mark_bar(size=30).encode(x, alt.Color("color:N", scale=None, legend=None))
     texto = base.mark_text(align="left", dx=6, fontSize=14, fontWeight="bold").encode(
-        alt.X("ahorro:Q"), alt.Y("estrategia:N", sort=barras.estrategia.tolist()),
-        alt.Text("ahorro:Q", format=".1f"))
+        alt.X("ahorro:Q", scale=alt.Scale(zero=True)), y(), alt.Text("ahorro:Q", format=".1f"))
     return tema(alt.layer(graf, texto).properties(width=720, height=210))
 
 
-# El eje vertical de g-explora se elige por nombre de columna: la opción del menú y la columna del
-# DataFrame tienen que ser el mismo string para que `datum[eje_y]` resuelva.
 SALDO_LOG = "Saldo en la cuenta (log con signo)"
 EJE_Y = ("Edad", SALDO_LOG, "Contactos anteriores")
 
