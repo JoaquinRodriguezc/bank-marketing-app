@@ -21,7 +21,8 @@ Feature: aplicar las correcciones del profesor a la app de la Entrega 4 (copa de
 | T3 | S3 | Hallazgos: qué es OTRO, etiqueta eje Y, hipótesis fallidas | 1c6c159 |
 | T4 | S2 | Portada/intro: oración honesta, caja versus, contexto, CSS renovado | e904795 |
 | T5 | S5 | Copa: aclarar Saldo; selector eje Y verificado y con guard | b182bfb |
-| T6 | S7 | Cierre: README, coherencia con notebook, reparto de explicación | pendiente |
+| T6 | S7 | Cierre: README, coherencia con notebook, reparto de explicación | d6230df |
+| T7 | S2+ | Restilo editorial elegido por el grupo («revista de datos», paleta Okabe-Ito, nav lateral, aire): portada con cadena de dos versus (artboard 04 aprobado) implementada en plantilla.py; faltan las demás secciones | 1755166 |
 
 ## Log
 
@@ -33,3 +34,4 @@ Feature: aplicar las correcciones del profesor a la app de la Entrega 4 (copa de
 - L6 (límite de slice): 535 líneas autoradas en 5 commits al cerrar T5 (último: b182bfb). La forma de entrega al publicar la decide el grupo (push/merge de la rama).
 - L7 (corrección del usuario): «Leiste bien las correcciones? ... habia que poner el grafico de el modelo en 0,0. Ahora parece en 0,0 pero los ejes estan mal. Despues, la sección de "Como lo sabemos" de "El modelo" sigue estando completamente congestionada, faltan los graficos que se piden, y el estilo sigue igual de aburrido, faltan graficos, faltan versus, falta la compración de modelos.» → resuelto en 4d301ac: ejes (0,0) de verdad (x 0→1), versus dentro de El modelo, y tres gráficos nuevos en el Cómo lo sabemos (comparación de 12 candidatos, matriz de confusión, coeficientes).
 - L8 (estilo visual): el grupo eligió personalidad «revista de datos», paleta Okabe-Ito intacta en los gráficos, nav lateral y ritmo editorial con aire. Diseño de la portada en design/portada-revista/ (3 artboards: apertura editorial, cifras protagonistas, gancho del régimen). Pendiente: elegir dirección y aplicarla sección por sección a plantilla.py.
+- L9 (handoff de diseño): implementado design/portada-revista/04-cadena-versus.html (elegido por el grupo: cadena de dos versus — banco vs su pasado 7,1→45,5 %, luego banco hoy vs modelo 2,01→1,93). Base editorial global: papel #faf9f6, serif en títulos, hairlines. Artboards 01-03 quedan como alternativas. Pendiente por sección: datos, hallazgos, modelo, techo, copa.
