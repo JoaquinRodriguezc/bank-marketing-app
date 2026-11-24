@@ -603,20 +603,21 @@ def grafico_proba(r, pm, rango):
         t_grande="format(datum.p, '.1%')",
         t_decision="datum.decision == 'Llamar' ? 'de probabilidad de sí → el modelo lo llama' : 'de probabilidad de sí → el modelo no lo llama'",
         nota="previos == 0 ? 'Sin contacto previo: los días y el resultado anterior no se usan' : ''")
+    color_decision = lambda: alt.condition("datum.decision == 'Llamar'", alt.value(AZUL), alt.value("#9a9a9a"))
+    grande = base.mark_text(align="left", fontSize=46, fontWeight="bold").encode(
+        x=alt.value(0), y=alt.value(40), text="t_grande:N", color=color_decision())
+    decision_t = base.mark_text(align="left", fontSize=15.5, fontWeight="bold").encode(
+        x=alt.value(0), y=alt.value(76), text="t_decision:N", color=color_decision())
+    encabezado = alt.layer(grande, decision_t).properties(width=420, height=86)
     x = alt.X("p:Q", title=None, axis=alt.Axis(format="%"), scale=alt.Scale(domain=[0, 1]))
     fondo = alt.Chart(pd.DataFrame({"a": [0], "b": [1]})).mark_bar(color="#eef1f4", height=46).encode(x="a:Q", x2="b:Q")
     barra = base.mark_bar(height=46).encode(x=x, color=alt.Color("decision:N", scale=alt.Scale(domain=["Llamar", "No llamar"], range=[AZUL, GRIS]), legend=None))
     regla = alt.Chart(pd.DataFrame({"u": [umbral]})).mark_rule(color="#1a1a1a", strokeDash=[5, 4], size=2).encode(x="u:Q")
-    regla_t = alt.Chart(pd.DataFrame({"u": [umbral]})).mark_text(align="left", dx=4, y=-14, fontSize=12.5, color="#1a1a1a").encode(
-        x="u:Q", text=alt.value(f"umbral {pct(umbral, 1)}"))
-    grande = base.mark_text(align="left", fontSize=46, fontWeight="bold").encode(
-        x=alt.value(0), y=alt.value(-92), text="t_grande:N",
-        color=alt.condition("datum.decision == 'Llamar'", alt.value(AZUL), alt.value("#9a9a9a")))
-    decision_t = base.mark_text(align="left", fontSize=15.5, fontWeight="bold").encode(
-        x=alt.value(0), y=alt.value(-46), text="t_decision:N",
-        color=alt.condition("datum.decision == 'Llamar'", alt.value(AZUL), alt.value("#9a9a9a")))
-    nota = base.mark_text(align="left", fontSize=13, color="#555").encode(x=alt.value(0), y=alt.value(84), text="nota:N")
-    chart = alt.layer(fondo, barra, regla, regla_t, grande, decision_t, nota).properties(width=420, height=46, padding={"top": 136, "bottom": 40, "left": 10, "right": 20})
+    cuerpo = alt.layer(fondo, barra, regla).properties(width=420, height=46)
+    nota = base.mark_text(align="left", fontSize=13, color="#555").encode(x=alt.value(0), y=alt.value(15), text="nota:N")
+    pie = nota.properties(width=420, height=20)
+    chart = alt.vconcat(encabezado, cuerpo, pie, spacing=6).properties(
+        padding={"top": 6, "bottom": 8, "left": 10, "right": 20})
     return tema(chart.add_params(*params))
 
 
