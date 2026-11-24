@@ -120,7 +120,20 @@ footer{max-width:980px;margin:0 auto;padding:30px 0;color:var(--gris);font-size:
 .remate{font-family:var(--serif);font-size:19px;color:var(--tinta-2);margin:18px 0 0;max-width:54ch}
 .remate b{color:var(--acento);font-weight:400}
 .pie-portada{margin-top:36px;border-top:3px double var(--linea);padding-top:14px}
-@media (max-width:860px){.morgue ul{grid-template-columns:1fr}.duelo{grid-template-columns:1fr}.duelo .flecha{flex-direction:row;min-height:64px}
+.carta{margin:38px 0 0}
+.rotulo-c{font-size:11.5px;letter-spacing:.15em;text-transform:uppercase;font-weight:700;color:var(--gris);
+  display:flex;align-items:center;gap:12px;margin:0 0 14px}
+.rotulo-c::after{content:"";flex:1;border-top:1px solid var(--linea)}
+.carta ul{list-style:none;display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;padding:0;margin:0}
+.carta li{border:1px solid var(--linea);border-radius:12px;background:#fff;padding:18px 18px 16px}
+.carta li .falta{font-family:var(--serif);font-size:18px;color:var(--tinta);margin:0 0 6px}
+.carta li .hoy{font-size:13.5px;color:var(--gris);line-height:1.5;margin:0}
+.carta li .hoy b{color:var(--tinta-2)}
+.palanca{margin:24px 0 0;display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center;
+  border:2px solid var(--acento);background:var(--acento-suave);border-radius:12px;padding:16px 20px}
+.palanca .cifra{font-family:var(--serif);font-size:34px;color:var(--acento);line-height:1}
+.palanca p{font-size:14.5px;color:var(--tinta-2);margin:0;max-width:56ch}
+@media (max-width:860px){.carta ul{grid-template-columns:1fr}.morgue ul{grid-template-columns:1fr}.duelo{grid-template-columns:1fr}.duelo .flecha{flex-direction:row;min-height:64px}
 nav{display:none}main{margin-left:0;padding:0 16px 60px}.nums{grid-template-columns:1fr}h1{font-size:32px}
 #portada{padding:28px 20px 18px;border-radius:12px}.nums.versus{grid-template-columns:1fr}.nums.versus .flecha{transform:rotate(90deg)}}
 """
@@ -497,20 +510,43 @@ def armar(df, r, pm, specs, h, sha, tablas):
 
 <section id="techo">
   <p class="etapa tallo">El techo</p>
-  <h2>Entrená con los datos viejos o con los nuevos: el ahorro de cada sí se topa en el {pct(ahorro, 1)}</h2>
-  <p>Cada barra mide el ahorro de llamadas por sí en el mismo test, según con qué época se entrenó la misma logística.
-  Las dos azules son entrenamientos con épocas disjuntas —los {num(d['n'])} contactos descartados y los recientes— y llegan al mismo techo.
-  La roja es el mismo modelo viejo con su umbral tal cual vino de su época. El límite no está en el modelo: está en lo que el dataset sabe de cada cliente.</p>
-  <div class="grafico" id="g-techo"></div>
-  <h3>¿La estrategia del banco salió de los datos viejos?</h3>
-  <p>No como regla para llamar. La señal del cliente siempre estuvo en esos datos —ordenan el test de hoy igual que el modelo reciente—
-  pero la escala de probabilidad quedó atada a la tasa de sí de su época, {pct(d['tasa'], 1)}, y los umbrales no viajan entre regímenes.
-  Lo que cambió en 2009 fue el régimen: menos llamadas, más elegidas, casi todas a clientes ya contactados.</p>
-  <div class="nums dos">
-    <div class="num"><span>{pct(d['ahorro_trans'], 1)}</span><p>de ahorro si el umbral de la era vieja llega tal cual al test nuevo: sin recalibrar, no hay estrategia</p></div>
-    <div class="num"><span>{pct(d['ahorro_cal'], 1)}</span><p>de ahorro recalibrando ese umbral con lo reciente: la misma logística, el mismo techo que el modelo de la app</p></div>
+  <p class="capitulo">Capítulo 05</p>
+  <h2>El techo es <b>{pct(ahorro, 1)}</b> — y es de los datos, no del modelo</h2>
+  <p class="entradilla">Entrená con la época que entrenes, la misma logística llega al mismo lugar. Para romper el techo no hace
+  falta un modelo mejor: hace falta <b>otra información</b>. Esta es la demostración, y la carta de lo que falta.</p>
+  <figure class="figura">
+    <p class="titulo-f">Ahorro de llamadas por sí, según con qué época se entrenó <em>· la misma logística, el mismo test</em></p>
+    <div class="grafico" id="g-techo"></div>
+    <figcaption>Dos épocas de entrenamiento, el mismo techo. La roja muestra por qué la estrategia del banco no salió de los
+    datos viejos: la señal del cliente siempre estuvo, pero su umbral no viaja entre regímenes.</figcaption>
+  </figure>
+  <div class="carta">
+    <p class="rotulo-c">La carta de lo que falta · para romper el techo habría que recolectar</p>
+    <ul>
+      <li>
+        <p class="falta">Cuánto vale el cliente</p>
+        <p class="hoy">Ingresos, productos contratados, antigüedad. Hoy sólo hay <b>edad, ocupación y saldo</b> — nada que diga
+        si a este cliente le conviene un plazo fijo.</p>
+      </li>
+      <li>
+        <p class="falta">Un historial de campañas de verdad</p>
+        <p class="hoy">En los viejos casi nadie tenía contacto previo, y el resultado anterior casi siempre es <b>«Otro» o
+        desconocido</b>. La señal que más pesa es justamente la que menos registrada está.</p>
+      </li>
+      <li>
+        <p class="falta">Contexto que no sea fuga</p>
+        <p class="hoy">El mes explica mucho (η² 6,8&nbsp;%) pero no se puede asegurar que se conozca antes de llamar:
+        <b>queda afuera por fuga posible</b>, no por falta de señal.</p>
+      </li>
+    </ul>
+    <div class="palanca">
+      <p class="cifra">{pct(d['ahorro_r80'], 0)}</p>
+      <p>es el ahorro que se le puede exigir al mismo modelo con otra decisión: aceptando perder
+      <b>{num(100 * (1 - d['recall_r80']), 0)} de cada 100 sí</b> (en vez de 5). La única palanca que no es un dato: dónde
+      pararse lo decide el negocio — conviene sólo si un sí vale menos que las llamadas que ahorra.</p>
+    </div>
   </div>
-  <details><summary>Cómo lo sabemos</summary>
+  <details><summary>Cómo lo sabemos · qué se hizo, la era vieja por adentro y el empate del ranking</summary>
     <h4>Qué se hizo</h4>
     <p>La misma logística y el mismo pipeline del modelo de esta app, entrenados sólo con los {num(d['n'])} contactos que la app descarta
     ({d['desde']:%d/%m/%Y} – {d['hasta']:%d/%m/%Y}, {pct(d['tasa'], 1)} de sí), con el umbral fijado igual que en el modelo: el mejor con
@@ -523,15 +559,6 @@ def armar(df, r, pm, specs, h, sha, tablas):
     <p>Sobre el mismo test, el modelo viejo ordena igual que el reciente: AP {num(d['ap_viejo'], 3)} contra {num(d['ap_rec'], 3)},
     contra una tasa base de {pct(float(r['y_te'].mean()), 1)}. Lo que no viaja entre épocas es el umbral: la tasa de sí pasa de {pct(d['tasa'], 1)}
     en los viejos a {pct(float(r['y_te'].mean()), 1)} en el test, y las probabilidades quedan en otra escala.</p>
-    <h4>Qué le falta al dataset</h4>
-    <p>El techo de {pct(ahorro, 1)} no es una excusa: es lo que dejan estas columnas. Para romperlo habría que recolectar:</p>
-    <ul>
-      <li>El valor del cliente para el banco: ingresos, productos contratados, antigüedad. Hoy sólo hay edad, ocupación y saldo.</li>
-      <li>Un historial de campañas de verdad: en los viejos casi nadie tenía contacto previo, y el resultado anterior casi siempre es "Otro" o desconocido.</li>
-      <li>Contexto que no sea fuga: mes, tipo de contacto y duración quedaron afuera porque no se puede asegurar que se conozcan antes de decidir a quién llamar.</li>
-    </ul>
-    <p>La otra palanca no es un dato sino una decisión de negocio: aceptando perder {num(100 * (1 - d['recall_r80']), 0)} de cada 100 sí
-    (recall {num(d['recall_r80'], 2)}), el ahorro sube a {pct(d['ahorro_r80'], 1)}. Conviene sólo si un sí vale menos que las llamadas que ahorra.</p>
     <p class="nota">Honestidad: el test de esta app ya fue mirado en versiones anteriores del proyecto. El umbral de esta sección se calibró sólo
     con el entrenamiento reciente, sin mirar el test.</p>
   </details>
