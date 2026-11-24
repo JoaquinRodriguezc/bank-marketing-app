@@ -51,6 +51,7 @@ main h3{font-family:var(--serif);font-weight:400;font-size:23px;margin:30px 0 10
 h2 b{color:var(--acento);font-weight:400}
 .capitulo{float:right;font-family:var(--serif);font-size:15px;color:var(--gris);border:1px solid var(--linea);border-radius:999px;padding:6px 14px}
 .entradilla{font-size:16.5px;color:var(--tinta-2);max-width:64ch}
+.paso .entradilla{margin:12px 0 0}
 .figura{margin:34px 0 0;background:#fff;border:1px solid var(--linea);border-radius:14px;padding:24px 24px 14px}
 .figura .titulo-f{font-family:var(--serif);font-size:17.5px;margin:0 0 14px;color:var(--tinta)}
 .figura .titulo-f em{color:var(--gris)}
@@ -385,38 +386,51 @@ def armar(df, r, pm, specs, h, sha, tablas):
 
 <section id="modelo">
   <p class="etapa tallo">El modelo</p>
-  <h2>El modelo baja el costo de cada sí un {pct(ahorro, 1)} y deja escapar menos de 5 de cada 100 clientes</h2>
-  <p>Un aviso antes del número: el rival no es llamar a los {num(len(df))} clientes del dataset, sino la lista a la que el banco ya llama —
-  la que su estrategia elige desde 2009. En el test esa lista convierte a la mitad de los que llama: es un rival duro. Contra eso, cada sí
-  pasa de {num(todos, 2)} a {num(t['llamadas_por_si'], 2)} llamadas.</p>
-  <div class="nums dos versus">
-    <div class="num hoy">
+  <p class="capitulo">Capítulo 04</p>
+  <h2>El modelo baja el costo de cada sí un <b>{pct(ahorro, 1)}</b> y deja escapar menos de 5 de cada 100 clientes</h2>
+  <p class="entradilla">El rival no es llamar a los {num(len(df))} clientes del dataset, sino la lista a la que el banco ya llama —
+  la que su estrategia elige desde 2009. En el test esa lista convierte a la mitad de los que llama: es un rival duro. Contra eso:</p>
+  <div class="duelo">
+    <div class="lado hoy">
       <p class="rotulo">Llamar a toda la lista</p>
-      <span>{num(todos, 2)}</span>
-      <p>llamadas por cada sí, con el 100 % de los sí: es el rival</p>
+      <p class="cifra">{num(todos, 2)}</p>
+      <p class="detalle">llamadas por cada sí: {num(len(r['y_te']))} llamadas para los {num(t['si_totales'])} sí.</p>
     </div>
-    <div class="flecha" aria-hidden="true">→</div>
-    <div class="num conmodelo">
+    <div class="flecha">
+      <span class="delta">−{pct(ahorro, 0)}</span>
+      <span class="punta" aria-hidden="true">──▶</span>
+      <p class="nota-f">{num(menos)} llamadas menos, {num(perdidos)} sí que se escapan</p>
+    </div>
+    <div class="lado modelo">
       <p class="rotulo">Con el modelo</p>
-      <span>{num(t['llamadas_por_si'], 2)}</span>
-      <p>llamadas por cada sí, sin perder casi ningún sí</p>
+      <p class="cifra">{num(t['llamadas_por_si'], 2)}</p>
+      <p class="detalle">llamadas por cada sí: {num(t['llamadas'])} llamadas, {num(t['si_conseguidos'])} de {num(t['si_totales'])} sí ({pct(t['recall'], 0)}).</p>
     </div>
   </div>
-  <div class="nums dos">
-    <div class="num"><span>−{num(menos)}</span><p>llamadas de las {num(len(r['y_te']))} del test: un {pct(menos / len(r['y_te']), 1)} menos</p></div>
-    <div class="num"><span>{num(t['si_conseguidos'])} de {num(t['si_totales'])}</span><p>sí conseguidos: el compromiso de no perder más de {num(100 * (1 - m3.RECALL_MIN), 0)} de cada 100 se sostiene</p></div>
+  <div class="paso">
+    <p class="rotulo-paso">Acto 1 · Cómo se llegó: cuatro familias contra el piso</p>
+    <p class="entradilla">Ninguna familia le gana a la logística por más de un desvío — y la logística, además, es la que se puede
+    llevar a esta página. La regla se fijó antes de mirar el test.</p>
+    <figure class="figura">
+      <p class="titulo-f">Ahorro de llamadas por sí, por familia <em>· la misma validación temporal para todas</em></p>
+      <div class="grafico" id="g-familias"></div>
+      <figcaption>La regla de selección se fijó de antemano: si un modelo más complejo no le gana a la logística por más de un
+      desvío, se queda la logística. Ninguno le ganó.</figcaption>
+    </figure>
   </div>
-  <h3>Cómo se llegó: cuatro familias contra el piso</h3>
-  <p>Antes del resultado, el proceso. Cada barra es el ahorro del mejor de cada familia en la misma validación temporal, con su desvío;
-  la gris es llamar a todos. Ninguna familia le gana a la logística por más de un desvío — y la logística, además, es la que se puede
-  llevar a esta página: se elige por la regla fijada de antemano.</p>
-  <div class="grafico" id="g-familias"></div>
-  <h3>El resultado, medido una sola vez en el test</h3>
-  <p>La curva arranca en (0, 0) y muestra cuántas llamadas cuesta cada sí según cuántos sí se exige conseguir, desde exigirle poquísimos
-  hasta no perder ninguno. La distancia entre la curva y la línea gris —llamar a todos— es el ahorro real, del tamaño que es: un {pct(ahorro, 1)}.
-  El punto es el umbral fijado antes de mirar el test: exige al menos el {pct(m3.RECALL_MIN, 0)} de los sí. Aceptando perder más sí el ahorro
-  crecería, pero eso ya no lo decide el modelo sino el negocio.</p>
-  <div class="grafico" id="g-modelo"></div>
+  <div class="paso resultado">
+    <p class="rotulo-paso">Acto 2 · El resultado, medido una sola vez en el test</p>
+    <p class="entradilla">La curva arranca en (0, 0): cuánto cuesta cada sí según cuántos sí se exige conseguir, desde exigirle
+    poquísimos hasta no perder ninguno. El punto es el umbral fijado antes de mirar el test: exige al menos el
+    {pct(m3.RECALL_MIN, 0)} de los sí. La distancia a la línea gris es el ahorro real.</p>
+    <figure class="figura">
+      <p class="titulo-f">Llamadas por cada sí <em>· según cuántos sí se exige conseguir</em></p>
+      <div class="grafico" id="g-modelo"></div>
+      <figcaption>Del tamaño que es: entre el punto azul y la línea gris cabe todo el ahorro — {num(menos)} llamadas menos de
+      {num(len(r['y_te']))} a cambio de {num(perdidos)} sí de {num(t['si_totales'])}. Aceptando perder más sí el ahorro crecería;
+      dónde pararse es decisión del negocio, no del modelo.</figcaption>
+    </figure>
+  </div>
   <details><summary>Cómo lo sabemos</summary>
     <h4>La métrica y por qué</h4>
     <p>El banco quiere que cada depósito le cueste la menor cantidad de llamadas posible, sin perder a los que iban a decir que sí.
