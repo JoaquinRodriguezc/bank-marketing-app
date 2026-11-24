@@ -202,7 +202,7 @@ def grafico_hallazgo(df):
     t = t[t.n >= 30]
     t["rotulo"] = t.apply(lambda r: f"{pct(r.tasa)} de {num(r.n)}", axis=1)
     orden = t.anterior.tolist()
-    y = alt.Y("anterior:N", sort=orden, title=None)
+    y = alt.Y("anterior:N", sort=orden, title="Resultado del contacto previo")
     barras = alt.Chart(t).mark_bar(color=AZUL, height=26).encode(
         y=y, x=alt.X("tasa:Q", title="Tasa de sí", axis=alt.Axis(format="%"), scale=alt.Scale(domain=[0, 0.75])),
         tooltip=[alt.Tooltip("anterior:N", title="Resultado anterior"), alt.Tooltip("n:Q", title="Clientes", format=",d"),
@@ -511,7 +511,11 @@ def hipotesis(df):
     media = df.si.mean()
     estudiante = df[df.job.eq("student")].si.mean()
     return dict(media=media, exito=t.loc["Éxito", "tasa"], n_exito=int(t.loc["Éxito", "n"]), lift_exito=t.loc["Éxito", "tasa"] / media,
-                sin=t.loc["Sin contacto previo", "tasa"], estudiante=estudiante, lift_est=estudiante / media,
+                sin=t.loc["Sin contacto previo", "tasa"], n_sin=int(t.loc["Sin contacto previo", "n"]),
+                otro=t.loc["Otro", "tasa"], n_otro=int(t.loc["Otro", "n"]),
+                fracaso=t.loc["Fracaso", "tasa"], n_fracaso=int(t.loc["Fracaso", "n"]),
+                n_desc=int(t.loc["Desconocido (con contacto previo)", "n"]),
+                estudiante=estudiante, lift_est=estudiante / media,
                 n_est=int(df.job.eq("student").sum()))
 
 

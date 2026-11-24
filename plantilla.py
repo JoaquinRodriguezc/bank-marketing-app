@@ -189,23 +189,55 @@ def armar(df, r, pm, specs, h, sha, tablas):
 <section id="hallazgos">
   <p class="etapa tallo">Lo que encontramos</p>
   <h2>Quien ya dijo que sí en la campaña anterior vuelve a decir que sí {num(h['lift_exito'], 1)} veces más que el promedio</h2>
-  <p>Cada barra es la tasa de sí de los clientes según cómo terminó el contacto de la campaña anterior; la línea punteada es el promedio
-  de todos. De los {num(h['n_exito'])} clientes con un éxito previo, el {pct(h['exito'])} volvió a aceptar. La gran mayoría no tuvo
-  contacto previo, y ahí la tasa queda por debajo del promedio: para ellos el banco sabe muy poco.</p>
+  <p>Cómo se lee: cada barra es un grupo de clientes, agrupados por cómo terminó su <b>último contacto de la campaña anterior</b>.
+  La barra mide la <b>tasa de sí</b> de ese grupo —de cada 100 clientes que llegan con ese mismo pasado, cuántos aceptaron el depósito
+  esta vez—, no la cantidad de clientes: eso lo dice el rótulo del costado, porque los grupos no pesan lo mismo. La línea punteada es el
+  promedio de todos, {pct(h['media'], 1)}: una barra a la derecha del promedio dice que a ese grupo le va mejor que al cliente promedio;
+  una a la izquierda, que le va peor.</p>
+  <p>Lo que más separa es el éxito previo: de los {num(h['n_exito'])} clientes que en la campaña anterior dijeron que sí, el {pct(h['exito'], 1)}
+  volvió a aceptar, {num(h['lift_exito'], 1)} veces el promedio. En el otro extremo están los {num(h['n_sin'])} clientes que nunca habían
+  sido contactados: {pct(h['sin'], 1)}, por debajo del promedio. Para ellos el banco sabe muy poco.</p>
   <div class="grafico" id="g-hallazgo"></div>
+  <p><b>Qué es «Otro».</b> Es el grupo de {num(h['n_otro'])} clientes que <i>sí</i> tuvieron un contacto previo, pero cuyo resultado quedó
+  registrado como «Otro» (<code>poutcome</code> = <code>other</code>): ni Éxito ni Fracaso. No es un cliente sin historia ni un hueco del
+  gráfico: el contacto existió y el dataset no cuenta cómo terminó, así que no se puede saber si en esa llamada anterior dijo que sí o que
+  no. Por eso su barra no ayuda a decidir: {pct(h['otro'], 1)} de sí, entre el {pct(h['fracaso'], 1)} de los {num(h['n_fracaso'])} que
+  fracasaron y el {pct(h['exito'], 1)} del éxito, y muy por debajo del corte de lift. Existe y hay que mostrarlo, pero no sirve para elegir
+  a quién llamar. Aparte quedan {num(h['n_desc'])} clientes con contacto previo y resultado directamente desconocido, que no entran al gráfico.</p>
   <details><summary>Cómo lo sabemos</summary>
-    <p>Los números de esta sección son los del análisis exploratorio (Entrega 2), sobre los {num(len(df))} contactos del dataset.
-    Una hipótesis se sostiene si el <i>lift</i> —la tasa del grupo dividida por la tasa de todos— llega a 3,33, el corte que fijamos antes de mirar.</p>
+    <p>Los números del gráfico y de estos párrafos salen del mismo CSV que usa el modelo y se calculan al generar la página; los de las
+    hipótesis descartadas son resultados del análisis exploratorio (Entrega 2), sobre los {num(len(df))} contactos del dataset, y se citan
+    como tales. Una hipótesis se sostiene si el <i>lift</i> —la tasa del grupo dividida por la tasa de todos— llega a 3,33, el corte que
+    fijamos antes de mirar.</p>
     <h4>Una que se sostuvo: el éxito previo vale más que el perfil</h4>
     <p>Tasa de sí con éxito previo: {pct(h['exito'], 1)}, contra {pct(h['media'], 1)} de todos. Lift {num(h['lift_exito'], 2)}, por encima del corte:
     se sostiene, y el resultado anterior entra al modelo.</p>
     <h4>Una que no: no hay una ocupación que se lleve los sí</h4>
-    <p>La ocupación con más sí en proporción es estudiante: {pct(h['estudiante'], 1)} de {num(h['n_est'])} contactos. Lift {num(h['lift_est'], 2)},
-    por debajo del corte: hay sobrerrepresentación, pero no alcanza el tamaño que fijamos. La ocupación entra al modelo, pero no decide sola.</p>
+    <p>La ocupación con más sí en proporción es estudiante: {pct(h['estudiante'], 1)} de {num(h['n_est'])} contactos, el {pct(h['n_est'] / len(df), 1)}
+    del dataset. Lift {num(h['lift_est'], 2)}, por debajo del corte: hay sobrerrepresentación, pero no alcanza el tamaño que fijamos, y con un
+    volumen tan chico la tasa se mueve mucho de un período a otro. La ocupación entra al modelo, pero no decide sola.</p>
+    <h4>Otra que no: los casados aceptan menos</h4>
+    <p>La idea era razonable —un hogar con más obligaciones dice que no más seguido— y la dirección aparece: los solteros llegan a un lift de
+    1,28 y los casados quedan en 0,87, con el estado civil explicando menos del 0,5 % de la variación (η² 0,004). Pero 1,28 no llega a 3,33,
+    así que la hipótesis quedó refutada en la Entrega 2: es una diferencia de tres puntos sobre una base de doce, que existe en el promedio
+    y no distingue a un cliente de otro. El estado civil se conoce antes de llamar, pero no entra al modelo.</p>
+    <h4>Otra que quedó inconclusa: insistir con llamadas</h4>
+    <p>Si al cliente que va a decir que sí no hace falta llamarlo diez veces, la cantidad de llamadas de la campaña (<code>campaign</code>)
+    debería separar a los que aceptan. Separa, y en la dirección esperada, pero no lo suficiente: separación 0,266, que sube a 0,291 al pasarla
+    a logaritmo y vuelve a 0,239 al partir a los clientes con historial, siempre en la zona intermedia y nunca en la que decide. Quedó
+    <i>inconclusa</i> y como candidata débil en la Entrega 2. Además cuenta la llamada en curso, así que usarla honestamente pide restarle uno
+    y el dataset no permite reconstruir ese momento: <code>campaign</code> queda afuera del modelo.</p>
+    <h4>Dos que no llegaron a ser hipótesis: el mes y el día</h4>
+    <p>Con <code>month</code> y <code>day</code> no hay un resultado fallido sino un problema anterior: el dataset mezcla el calendario de la
+    campaña con la fecha en que se hizo cada llamada, así que no se puede asegurar que se conozcan al decidir a quién llamar. El mes, además,
+    es de las columnas que más explican el sí (η² 6,8 % en la Entrega 2): duele sacarlo, y por eso conviene decirlo. Quedan afuera por fuga
+    posible, no por falta de señal, y probar sumar el mes y el canal de contacto al modelo no mejoró el ahorro (nota de la versión V4).</p>
     <h4>Cómo se construyó el gráfico</h4>
-    <p>Datos: un contacto por fila. Transformación: se agrupa por el resultado de la campaña anterior y se calcula la proporción de sí
-    (los que no tuvieron contacto previo forman su propio grupo). Quedan fuera del gráfico los 5 contactos con contacto previo pero resultado desconocido: con 5 casos, su tasa no dice nada. Marca: barras, porque es una magnitud y el eje arranca en 0. Mapeo:
-    la tasa a la posición horizontal; el rótulo muestra también cuántos clientes hay en cada grupo, porque los tamaños son muy distintos.</p>
+    <p>Datos: un contacto por fila. Transformación: se agrupa por el resultado de la campaña anterior —<code>poutcome</code> limpio, con
+    «Otro» = <code>other</code>, «Fracaso» = <code>failure</code>, «Éxito» = <code>success</code> y «Sin contacto previo» para quien nunca fue
+    contactado— y se calcula la proporción de sí de cada grupo. Quedan fuera del gráfico los {num(h['n_desc'])} contactos con contacto previo
+    y resultado desconocido: con {num(h['n_desc'])} casos, su tasa no dice nada. Marca: barras, porque es una magnitud y el eje arranca en 0.
+    Mapeo: la tasa a la posición horizontal; el rótulo muestra también cuántos clientes hay en cada grupo, porque los tamaños son muy distintos.</p>
   </details>
 </section>
 
