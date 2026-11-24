@@ -36,3 +36,21 @@ Feature: aplicar las correcciones del profesor a la app de la Entrega 4 (copa de
 - L8 (estilo visual): el grupo eligió personalidad «revista de datos», paleta Okabe-Ito intacta en los gráficos, nav lateral y ritmo editorial con aire. Diseño de la portada en design/portada-revista/ (3 artboards: apertura editorial, cifras protagonistas, gancho del régimen). Pendiente: elegir dirección y aplicarla sección por sección a plantilla.py.
 - L9 (handoff de diseño): implementado design/portada-revista/04-cadena-versus.html (elegido por el grupo: cadena de dos versus — banco vs su pasado 7,1→45,5 %, luego banco hoy vs modelo 2,01→1,93). Base editorial global: papel #faf9f6, serif en títulos, hairlines. Artboards 01-03 quedan como alternativas. Pendiente por sección: datos, hallazgos, modelo, techo, copa.
 - L10 (handoff de diseño): implementado design/datos-revista/01-salto-senhalado.html (capítulo 02, figura enmarcada con epígrafe, anotación del salto dentro del g-datos real de Altair, rangos por época computados de los datos). Artboards 02-03 quedan como alternativas. Pendiente: secciones hallazgos, modelo, techo y copa.
+
+## Pendiente (lista de seguimiento, retomar acá)
+
+Restilo editorial sección por sección (personalidad «revista de datos» aprobada; base global ya aplicada: papel, serif, hairlines; gráficos en Okabe-Ito):
+
+- [ ] Sección «Lo que encontramos»: vestimenta editorial (figura enmarcada + epígrafe como en datos). Decisión de contenido pendiente: conectar el hallazgo con «qué sabe el banco de su lista» (el 49 % de la lista tiene contacto previo, y el historial es lo que más pesa en el modelo).
+- [ ] Sección «El modelo»: vestimenta editorial (el contenido ya está corregido; falta el estilo: nums/versus, figura enmarcada del gráfico de ahorro, capítulo 04).
+- [ ] Sección «Por qué no más»: vestimenta editorial (capítulo 05).
+- [ ] Copa «Explorá» y «Probá el modelo»: vestimenta editorial (fondo papel ya global; revisar los bindings de Vega a la nueva paleta).
+- [ ] Verificación en navegador real: nadie vio la página renderizada todavía (solo verificación estructural). Abrir index.html o `python -m http.server` y revisar sección por sección.
+
+Publicación y defensa (decisiones del grupo):
+
+- [ ] Publicar: push de `mejoras-entrega4` + merge a `main` para que GitHub Pages sirva la versión nueva; probar desde otra computadora (lo exige la consigna).
+- [ ] Reparto de la defensa oral (nota individual): cada gráfico con un dueño que lo sepa leer componente por componente.
+- [ ] Preparar el cruce V6-vs-techo: el informe V6 dice «lift máximo 1,24× desde los datos viejos» (aplica al umbral transplantado); la sección del techo muestra el empate con calibración (3,98 % vs 4,08 %). La diferencia es transplantar vs calibrar el umbral — pregunta probable de la devolución.
+
+Estado: 16 commits en `mejoras-entrega4`, rama local (nunca pusheada). El test del build imprime idéntico en cada regeneración: umbral 0,354462 · 1.003 llamadas · 519/542 sí.
