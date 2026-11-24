@@ -219,7 +219,7 @@ def grafico_familias(r):
     t = r["tabla"]
     mejor = t.loc[t.groupby("familia").ahorro_media.idxmax()].copy()
     elegida = r["eleccion"].familia
-    nombre = {"piso": "Piso: llamar a todos", "logistica": "Regresión logística", "arbol": "Árbol",
+    nombre = {"piso": "Piso: la lista que el banco ya llama", "logistica": "Regresión logística", "arbol": "Árbol",
               "bosque": "Bosque aleatorio", "boosting": "Gradient boosting"}
     mejor["modelo"] = mejor.familia.map(nombre)
     mejor["color"] = np.where(mejor.familia.eq("piso"), GRIS,
@@ -269,7 +269,7 @@ def grafico_modelo(r):
         x=x, y=y_axis, tooltip=[alt.Tooltip("recall:Q", title="Sí conseguidos", format=".1%"),
                                 alt.Tooltip("llamadas_por_si:Q", title="Llamadas por sí", format=".2f"),
                                 alt.Tooltip("llamadas:Q", title="Llamadas", format=",d")])
-    ref = pd.DataFrame({"y": [todos], "t": [f"Llamar a todos: {num(todos, 2)} llamadas por sí"]})
+    ref = pd.DataFrame({"y": [todos], "t": [f"Llamar a toda la lista del banco: {num(todos, 2)} llamadas por sí"]})
     regla = alt.Chart(ref).mark_rule(color=GRIS, strokeDash=[5, 4]).encode(y="y:Q")
     regla_t = alt.Chart(ref).mark_text(align="left", x=6, dy=-8, fontSize=13, color="#555").encode(y="y:Q", text="t:N")
     punto_df = pd.DataFrame({"recall": [elegido["recall"]], "llamadas_por_si": [elegido["llamadas_por_si"]],
@@ -286,7 +286,7 @@ def grafico_modelo(r):
 
 def etiqueta_candidato(fila):
     if fila.familia == "piso":
-        return "Piso: llamar a todos"
+        return "Piso: la lista que el banco ya llama"
     if fila.familia != "logistica":
         return NOMBRE_FAMILIA[fila.familia]
     p = ast.literal_eval(fila.params)
@@ -464,7 +464,7 @@ def grafico_explora(r):
     resumen_txt = ("datum.n == 0 ? 'Ningún cliente cumple el filtro' : format(datum.n, ',d') + ' clientes · el modelo llama a '"
                    " + format(datum.llamadas, ',d') + ' y consigue ' + format(datum.tp, ',d') + ' de ' + format(datum.sis, ',d') + ' sí ('"
                    " + format(datum.sis ? datum.tp / datum.sis : 0, '.0%') + ') · ' + (datum.tp ? format(datum.llamadas / datum.tp, '.2f') : '—')"
-                   " + ' llamadas por sí, contra ' + (datum.sis ? format(datum.n / datum.sis, '.2f') : '—') + ' si llama a todos'")
+                   " + ' llamadas por sí, contra ' + (datum.sis ? format(datum.n / datum.sis, '.2f') : '—') + ' si llama a toda la lista'")
     resumen = base.transform_filter("datum.en_filtro").transform_calculate(tp="datum.llamar * datum.exito").transform_aggregate(
         n="count()", llamadas="sum(llamar)", tp="sum(tp)", sis="sum(exito)").transform_calculate(t=resumen_txt).mark_text(
         align="left", fontSize=15, fontWeight="bold", color="#1a1a1a").encode(x=alt.value(0), y=alt.value(10), text="t:N").properties(width=760, height=20)
@@ -537,7 +537,7 @@ def tabla_html(df):
     return f'<div class="tabla"><table><thead><tr>{cab}</tr></thead><tbody>{filas}</tbody></table></div>'
 
 
-NOMBRE_FAMILIA = {"piso": "Piso (llamar a todos)", "logistica": "Regresión logística", "arbol": "Árbol de decisión",
+NOMBRE_FAMILIA = {"piso": "Piso (la lista del banco)", "logistica": "Regresión logística", "arbol": "Árbol de decisión",
                   "bosque": "Bosque aleatorio", "boosting": "HistGradientBoosting"}
 
 
