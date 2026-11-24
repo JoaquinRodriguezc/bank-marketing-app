@@ -283,10 +283,22 @@ def armar(df, r, pm, specs, h, sha, tablas):
   <p>Un aviso antes del número: el rival no es llamar a los {num(len(df))} clientes del dataset, sino la lista a la que el banco ya llama —
   la que su estrategia elige desde 2009. En el test esa lista convierte a la mitad de los que llama: es un rival duro. Contra eso, cada sí
   pasa de {num(todos, 2)} a {num(t['llamadas_por_si'], 2)} llamadas.</p>
-  <div class="nums">
+  <div class="nums dos versus">
+    <div class="num hoy">
+      <p class="rotulo">Llamar a toda la lista</p>
+      <span>{num(todos, 2)}</span>
+      <p>llamadas por cada sí, con el 100 % de los sí: es el rival</p>
+    </div>
+    <div class="flecha" aria-hidden="true">→</div>
+    <div class="num conmodelo">
+      <p class="rotulo">Con el modelo</p>
+      <span>{num(t['llamadas_por_si'], 2)}</span>
+      <p>llamadas por cada sí, sin perder casi ningún sí</p>
+    </div>
+  </div>
+  <div class="nums dos">
     <div class="num"><span>−{num(menos)}</span><p>llamadas de las {num(len(r['y_te']))} del test: un {pct(menos / len(r['y_te']), 1)} menos</p></div>
     <div class="num"><span>{num(t['si_conseguidos'])} de {num(t['si_totales'])}</span><p>sí conseguidos: el compromiso de no perder más de {num(100 * (1 - m3.RECALL_MIN), 0)} de cada 100 se sostiene</p></div>
-    <div class="num"><span>{num(t['llamadas_por_si'], 2)}</span><p>llamadas por cada sí, contra {num(todos, 2)} de llamar a toda la lista</p></div>
   </div>
   <h3>Cómo se llegó: cuatro familias contra el piso</h3>
   <p>Antes del resultado, el proceso. Cada barra es el ahorro del mejor de cada familia en la misma validación temporal, con su desvío;
@@ -294,9 +306,10 @@ def armar(df, r, pm, specs, h, sha, tablas):
   llevar a esta página: se elige por la regla fijada de antemano.</p>
   <div class="grafico" id="g-familias"></div>
   <h3>El resultado, medido una sola vez en el test</h3>
-  <p>La línea muestra cuántas llamadas cuesta cada sí según cuántos sí se exige conseguir; el eje arranca en cero, para que la distancia
-  a la línea gris —el ahorro real— se vea del tamaño que es. El punto es el umbral fijado antes de mirar el test: exige al menos el
-  {pct(m3.RECALL_MIN, 0)} de los sí. Aceptando perder más sí el ahorro crecería, pero eso ya no lo decide el modelo sino el negocio.</p>
+  <p>La curva arranca en (0, 0) y muestra cuántas llamadas cuesta cada sí según cuántos sí se exige conseguir, desde exigirle poquísimos
+  hasta no perder ninguno. La distancia entre la curva y la línea gris —llamar a todos— es el ahorro real, del tamaño que es: un {pct(ahorro, 1)}.
+  El punto es el umbral fijado antes de mirar el test: exige al menos el {pct(m3.RECALL_MIN, 0)} de los sí. Aceptando perder más sí el ahorro
+  crecería, pero eso ya no lo decide el modelo sino el negocio.</p>
   <div class="grafico" id="g-modelo"></div>
   <details><summary>Cómo lo sabemos</summary>
     <h4>La métrica y por qué</h4>
@@ -318,8 +331,10 @@ def armar(df, r, pm, specs, h, sha, tablas):
     como se va a usar el modelo. Imputar, escalar y codificar van adentro del pipeline, así que se ajustan dentro de cada pedazo.</p>
     {tabla_html(folds(r))}
     <h4>La comparación completa</h4>
-    <p>Ahorro medio ± desvío en los 5 pedazos, con recall ≥ 0,95. Regla fijada de antemano: si un modelo más complejo no le gana a la logística por más que el
-    desvío, se queda la logística, que además es la que se puede llevar a esta página. Ninguno le gana.</p>
+    <p>Cada punto es un candidato —las cuatro familias y cada combinación de C y pesos—, con su desvío, todos medidos igual: la misma validación
+    temporal y el mismo recall mínimo. La regla se fijó de antemano: si un modelo más complejo no le gana a la logística por más que el desvío,
+    se queda la logística, que además es la que se puede llevar a esta página. Ninguno le gana.</p>
+    <div class="grafico" id="g-comparacion"></div>
     {tablas['comparacion']}
     <h4>El ajuste del elegido</h4>
     <p>La grilla de C (0,1; 1; 10; 100) con pesos iguales y balanceados está en la tabla. Todas las logísticas quedan a menos de un desvío entre sí: el resultado no depende de afinar C.
@@ -329,12 +344,13 @@ def armar(df, r, pm, specs, h, sha, tablas):
     <p>{num(t['llamadas'])} llamadas en vez de {num(len(r['y_te']))}, {num(t['si_conseguidos'])} de {num(t['si_totales'])} sí (recall {num(t['recall'], 3)}):
     {num(t['llamadas_por_si'], 2)} llamadas por sí contra {num(todos, 2)}, un ahorro de {pct(ahorro, 1)}. La validación había anticipado {pct(e.ahorro_media, 1)}.</p>
     <h4>Dónde se equivoca</h4>
-    <p>Para no perder sí, el modelo llama a casi todos: la mayoría de sus errores son llamadas a quien dice que no.</p>
-    {tablas['confusion']}
+    <p>Para no perder sí, el modelo llama a casi todos: su error típico es una llamada a quien dice que no. Los colores son los mismos de
+    la sección Explorá: azul es lo que el modelo quiere ver; rojo, los sí que se escapan; gris, el ahorro real.</p>
+    <div class="grafico" id="g-confusion"></div>
     <h4>En qué se apoya</h4>
-    <p>Los coeficientes de la logística, sobre columnas estandarizadas. El que más pesa es haber dicho que sí en la campaña anterior: es lo que mostró el análisis,
-    y no es fuga, porque se conoce antes de llamar.</p>
-    {tablas['coef']}
+    <p>Los coeficientes de la logística sobre columnas estandarizadas, los 12 de mayor magnitud (el resto queda cerca de cero). Azul empuja hacia el sí,
+    rojo hacia el no. El que más pesa es haber dicho que sí en la campaña anterior: es lo que mostró el análisis, y no es fuga, porque se conoce antes de llamar.</p>
+    <div class="grafico" id="g-coef"></div>
   </details>
 </section>
 

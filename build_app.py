@@ -253,16 +253,22 @@ def curva_test(y, p):
 
 
 def grafico_modelo(r):
-    c = curva_test(r["y_te"], r["p_te"])
-    elegido = m3.medir(r["y_te"], r["p_te"], r["umbral"])
-    todos = len(r["y_te"]) / r["y_te"].sum()
-    escala_x = alt.Scale(domain=[0.8, 1])
+    y, p = r["y_te"], r["p_te"]
+    filas = []
+    for u in np.unique(p):
+        llamar = p >= u
+        tp = int((llamar & (y == 1)).sum())
+        filas.append(dict(umbral=u, recall=tp / y.sum(), llamadas_por_si=llamar.sum() / max(tp, 1), llamadas=int(llamar.sum())))
+    c = pd.DataFrame(filas).sort_values("recall")
+    elegido = m3.medir(y, p, r["umbral"])
+    todos = len(y) / y.sum()
+    escala_x = alt.Scale(domain=[0, 1])
     x = alt.X("recall:Q", title="Sí conseguidos (de cada 100 que había)", axis=alt.Axis(format="%"), scale=escala_x)
-    y = alt.Y("llamadas_por_si:Q", title="Llamadas por cada sí", scale=alt.Scale(zero=True))
+    y_axis = alt.Y("llamadas_por_si:Q", title="Llamadas por cada sí", scale=alt.Scale(zero=True))
     linea = alt.Chart(c).mark_line(color=AZUL, interpolate="step-after", clip=True).encode(
-        x=x, y=y, tooltip=[alt.Tooltip("recall:Q", title="Sí conseguidos", format=".1%"),
-                           alt.Tooltip("llamadas_por_si:Q", title="Llamadas por sí", format=".2f"),
-                           alt.Tooltip("llamadas:Q", title="Llamadas", format=",d")])
+        x=x, y=y_axis, tooltip=[alt.Tooltip("recall:Q", title="Sí conseguidos", format=".1%"),
+                                alt.Tooltip("llamadas_por_si:Q", title="Llamadas por sí", format=".2f"),
+                                alt.Tooltip("llamadas:Q", title="Llamadas", format=",d")])
     ref = pd.DataFrame({"y": [todos], "t": [f"Llamar a todos: {num(todos, 2)} llamadas por sí"]})
     regla = alt.Chart(ref).mark_rule(color=GRIS, strokeDash=[5, 4]).encode(y="y:Q")
     regla_t = alt.Chart(ref).mark_text(align="left", x=6, dy=-8, fontSize=13, color="#555").encode(y="y:Q", text="t:N")
@@ -275,7 +281,76 @@ def grafico_modelo(r):
     req = alt.Chart(minimo).mark_rule(color="#1a1a1a", strokeDash=[2, 3]).encode(x=alt.X("x:Q", scale=escala_x))
     req_t = alt.Chart(minimo).mark_text(align="right", dx=-4, y=12, fontSize=12.5, color="#1a1a1a").encode(
         x=alt.X("x:Q", scale=escala_x), text=alt.value("mínimo exigido: 95 %"))
-    return tema(alt.layer(regla, regla_t, req, req_t, linea, punto, punto_t).properties(width=720, height=320))
+    return tema(alt.layer(regla, regla_t, req, req_t, linea, punto, punto_t).properties(width=720, height=340))
+
+
+def etiqueta_candidato(fila):
+    if fila.familia == "piso":
+        return "Piso: llamar a todos"
+    if fila.familia != "logistica":
+        return NOMBRE_FAMILIA[fila.familia]
+    p = ast.literal_eval(fila.params)
+    return f"Logística, C = {p['C']:g}, pesos " + ("balanceados" if p["class_weight"] else "iguales")
+
+
+def grafico_comparacion(r):
+    t = r["tabla"].copy()
+    elegido = int(r["eleccion"].candidato)
+    t["etiqueta"] = t.apply(etiqueta_candidato, axis=1)
+    t["color"] = np.where(t.candidato.eq(elegido), AZUL, np.where(t.familia.eq("piso"), GRIS, "#9ec7e3"))
+    t["ahorro"] = t.ahorro_media * 100
+    t["desvio"] = t.ahorro_desvio * 100
+    t["lo"] = (t.ahorro - t.desvio).clip(lower=0)
+    t["hi"] = t.ahorro + t.desvio
+    t = t.sort_values("ahorro", ascending=True)
+    orden = t.etiqueta.tolist()
+    puntos = alt.Chart(t).mark_point(filled=True, size=130).encode(
+        alt.Y("etiqueta:N", sort=orden, title=None, axis=alt.Axis(labelFontSize=13.5)),
+        alt.X("ahorro:Q", title="Ahorro de llamadas por sí en la validación (%)", scale=alt.Scale(zero=True)),
+        alt.Color("color:N", scale=None, legend=None),
+        tooltip=[alt.Tooltip("ahorro:Q", title="Ahorro medio", format=".1f"),
+                 alt.Tooltip("desvio:Q", title="± desvío", format=".1f"),
+                 alt.Tooltip("precision_media:Q", title="Precision media", format=".3f"),
+                 alt.Tooltip("recall_media:Q", title="Recall medio", format=".3f")])
+    error = alt.Chart(t).mark_rule(size=2, color="#555").encode(
+        alt.Y("etiqueta:N", sort=orden), alt.X("lo:Q"), alt.X2("hi:Q"))
+    return tema(alt.layer(error, puntos).properties(width=720, height=len(t) * 26 + 60))
+
+
+def grafico_confusion(r):
+    pred = (r["p_te"] >= r["umbral"]).astype(int)
+    cm = confusion_matrix(r["y_te"], pred)
+    filas = [dict(decision="Llamar", real="Dijo sí", color=AZUL, tinta="#fff",
+                  texto=f"{num(cm[1, 1])} clientes · {pct(cm[1, 1] / cm[1].sum())} de los que dijeron sí"),
+             dict(decision="Llamar", real="Dijo no", color=NARANJA, tinta="#fff",
+                  texto=f"{num(cm[0, 1])} clientes · la mayoría de las llamadas"),
+             dict(decision="No llamar", real="Dijo sí", color=ROJO, tinta="#fff",
+                  texto=f"{num(cm[1, 0])} clientes · los sí que se escapan"),
+             dict(decision="No llamar", real="Dijo no", color="#c9c9c9", tinta="#1a1a1a",
+                  texto=f"{num(cm[0, 0])} clientes · el ahorro real")]
+    d = pd.DataFrame(filas)
+    celdas = alt.Chart(d).mark_rect(cornerRadius=6).encode(
+        alt.X("decision:N", sort=["Llamar", "No llamar"], title="Decisión del modelo", axis=alt.Axis(labelFontSize=14)),
+        alt.Y("real:N", sort=["Dijo sí", "Dijo no"], title=None, axis=alt.Axis(labelFontSize=14)),
+        alt.Color("color:N", scale=None, legend=None))
+    textos = alt.Chart(d).mark_text(fontSize=13.5, fontWeight="bold").encode(
+        alt.X("decision:N", sort=["Llamar", "No llamar"]), alt.Y("real:N", sort=["Dijo sí", "Dijo no"]),
+        alt.Color("tinta:N", scale=None), text="texto:N")
+    return tema(alt.layer(celdas, textos).properties(width=480, height=200))
+
+
+def grafico_coeficientes(pm):
+    s = pd.Series(pm["coef"], index=[nombre_coef(n, pm) for n in pm["nombres"]])
+    top = s.reindex(s.abs().sort_values(ascending=False).head(12).index).sort_values()
+    d = pd.DataFrame({"nombre": top.index, "coef": top.values})
+    d["color"] = np.where(d.coef > 0, AZUL, ROJO)
+    cero = alt.Chart(pd.DataFrame({"z": [0]})).mark_rule(color="#555", size=1).encode(x="z:Q")
+    barras = alt.Chart(d).mark_bar(size=16).encode(
+        alt.Y("nombre:N", sort=top.index.tolist(), title=None, axis=alt.Axis(labelFontSize=13.5)),
+        alt.X("coef:Q", title="Coeficiente sobre columnas estandarizadas (12 de mayor magnitud)"),
+        alt.Color("color:N", scale=None, legend=None),
+        tooltip=[alt.Tooltip("coef:Q", title="Coeficiente", format=".2f")])
+    return tema(alt.layer(cero, barras).properties(width=720, height=len(d) * 24 + 60))
 
 
 def analizar_descartados(df, r):
@@ -547,6 +622,9 @@ def construir():
     rango = rangos(r)
     r["descartados"] = analizar_descartados(df, r)
     graficos = {"g-datos": grafico_datos(df), "g-hallazgo": grafico_hallazgo(df), "g-modelo": grafico_modelo(r),
+                "g-comparacion": grafico_comparacion(r),
+                "g-confusion": grafico_confusion(r),
+                "g-coef": grafico_coeficientes(pm),
                 "g-familias": grafico_familias(r),
                 "g-techo": grafico_techo(r, r["descartados"]),
                 "g-explora": grafico_explora(r), "g-proba": grafico_proba(r, pm, rango)}
