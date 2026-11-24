@@ -7,7 +7,7 @@ from pathlib import Path
 import altair as alt
 import numpy as np
 import pandas as pd
-from sklearn.metrics import confusion_matrix
+from sklearn.metrics import average_precision_score, confusion_matrix
 from sklearn.model_selection import TimeSeriesSplit
 
 import modelado_v3 as m3
@@ -251,6 +251,76 @@ def grafico_modelo(r):
     return tema(alt.layer(regla, regla_t, req, req_t, linea, punto, punto_t).properties(width=720, height=320))
 
 
+def analizar_descartados(df, r):
+    """La idea extra del profesor: ¿la estrategia del banco salió de los datos viejos?
+
+    Misma logística y mismo pipeline que el modelo de la app, entrenados sólo con los
+    contactos que la app descarta (anteriores a INICIO). Tres miradas:
+      - su validación temporal interna (¿hay algo estable adentro de esa época?);
+      - su umbral transplantado al test de la app (¿la escala de probabilidad viaja?);
+      - su umbral recalibrado con el dev reciente (¿el ranking de los viejos sirve?).
+    """
+    desc = df[df.contact_date < INICIO].reset_index(drop=True)
+    X, y = desc[COLUMNAS], desc["si"]
+    corte = int(len(desc) * 0.8)
+    X_tr, y_tr = X.iloc[:corte], y.iloc[:corte]
+    cortes = list(TimeSeriesSplit(n_splits=5).split(X_tr))
+    params = r["params"] or dict(C=1.0, class_weight="balanced")
+
+    folds_viejos = m3.evaluar("logistica", "e2_deudas", params, X_tr, y_tr, cortes)
+    umbral_trans = float(folds_viejos.umbral.iloc[-1])
+
+    viejo = m3.construir("logistica", "e2_deudas", **params).fit(X, y)
+    X_int, y_int = X.iloc[corte:], y.iloc[corte:].to_numpy()
+    t_int = m3.medir(y_int, viejo.predict_proba(X_int)[:, 1], umbral_trans)
+
+    reciente = df[df.contact_date >= INICIO]
+    corte_r = int(len(reciente) * 0.8)
+    y_dev = reciente["si"].iloc[:corte_r].to_numpy()
+    p_dev = viejo.predict_proba(r["X_tr"])[:, 1]
+    _, _, umbral_cal = m3.precision_con_recall(y_dev, p_dev, m3.RECALL_MIN)
+
+    p_te = viejo.predict_proba(r["X_te"])[:, 1]
+    t_trans = m3.medir(r["y_te"], p_te, umbral_trans)
+    t_cal = m3.medir(r["y_te"], p_te, float(umbral_cal))
+    tasa_te = float(r["y_te"].mean())
+
+    curva = curva_test(r["y_te"], r["p_te"])
+    r80 = curva[curva.recall >= 0.8].sort_values("recall").iloc[0]
+    ahorro_r80 = 1 - r80.llamadas_por_si * tasa_te
+
+    return dict(n=len(desc), tasa=float(y.mean()), desde=desc.contact_date.min(), hasta=desc.contact_date.max(),
+                cv_media=float(folds_viejos.ahorro_llamadas.mean()), cv_desvio=float(folds_viejos.ahorro_llamadas.std(ddof=0)),
+                umbral_trans=umbral_trans, trans=t_trans, ahorro_trans=1 - tasa_te / t_trans["precision"],
+                umbral_cal=float(umbral_cal), cal=t_cal, ahorro_cal=1 - tasa_te / t_cal["precision"],
+                tasa_dev=float(y_dev.mean()),
+                n_int=len(X_int), t_int=t_int, ahorro_int=1 - float(y_int.mean()) / t_int["precision"],
+                ap_viejo=float(average_precision_score(r["y_te"], p_te)),
+                ap_rec=float(average_precision_score(r["y_te"], r["p_te"])),
+                ahorro_r80=float(ahorro_r80), recall_r80=float(r80.recall))
+
+
+def grafico_techo(r, d):
+    t_app = m3.medir(r["y_te"], r["p_te"], r["umbral"])
+    tasa_te = float(r["y_te"].mean())
+    filas = [("El modelo de esta app, entrenado con lo reciente", 1 - tasa_te / t_app["precision"], t_app, AZUL),
+             ("Entrenado con los viejos, umbral calibrado con lo reciente", d["ahorro_cal"], d["cal"], AZUL),
+             ("Entrenado con los viejos, umbral transplantado", d["ahorro_trans"], d["trans"], ROJO)]
+    barras = pd.DataFrame([dict(estrategia=e, ahorro=a * 100, llamadas=t["llamadas"], si_conseguidos=t["si_conseguidos"],
+                                por_si=t["llamadas_por_si"], color=c) for e, a, t, c in filas])
+    x = alt.X("ahorro:Q", title="Ahorro de llamadas por cada sí en el test (%)", scale=alt.Scale(zero=True))
+    base = alt.Chart(barras).encode(
+        alt.Y("estrategia:N", sort=barras.estrategia.tolist(), title=None, axis=alt.Axis(labelFontSize=15)),
+        tooltip=[alt.Tooltip("llamadas:Q", title="Llamadas", format=",d"),
+                 alt.Tooltip("si_conseguidos:Q", title="Sí conseguidos", format=",d"),
+                 alt.Tooltip("por_si:Q", title="Llamadas por sí", format=".2f")])
+    graf = base.mark_bar(size=30).encode(x, alt.Color("color:N", scale=None, legend=None))
+    texto = base.mark_text(align="left", dx=6, fontSize=14, fontWeight="bold").encode(
+        alt.X("ahorro:Q"), alt.Y("estrategia:N", sort=barras.estrategia.tolist()),
+        alt.Text("ahorro:Q", format=".1f"))
+    return tema(alt.layer(graf, texto).properties(width=720, height=210))
+
+
 def datos_explora(r):
     d = r["reciente"].dropna(subset=["prob"]).copy()
     saldo = d.balance.astype(float)
@@ -436,7 +506,9 @@ def construir():
     pm = pasos_del_modelo(r["final"])
     verificar(r, pm)
     rango = rangos(r)
+    r["descartados"] = analizar_descartados(df, r)
     graficos = {"g-datos": grafico_datos(df), "g-hallazgo": grafico_hallazgo(df), "g-modelo": grafico_modelo(r),
+                "g-techo": grafico_techo(r, r["descartados"]),
                 "g-explora": grafico_explora(r), "g-proba": grafico_proba(r, pm, rango)}
     html = pagina(df, r, pm, graficos)
     SALIDA.write_text(html, encoding="utf-8")

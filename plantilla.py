@@ -27,6 +27,8 @@ p,li{max-width:74ch}
 .lead{font-size:21px;color:var(--gris);max-width:64ch}
 .oracion{font-size:24px;line-height:1.4;border-left:5px solid var(--acento);padding:4px 0 4px 20px;margin:26px 0 34px;max-width:54ch}
 .nums{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:10px 0 18px}
+.nums.dos{grid-template-columns:repeat(2,1fr)}
+main h3{font-size:22px;margin:30px 0 10px}
 .num{background:var(--suave);border-radius:8px;padding:18px 20px}
 .num span{display:block;font-size:44px;font-weight:700;line-height:1.1;color:var(--acento)}
 .num p{margin:6px 0 0;font-size:15.5px;color:var(--gris)}
@@ -113,6 +115,7 @@ def armar(df, r, pm, specs, h, sha, tablas):
     menos = len(r["y_te"]) - t["llamadas"]
     perdidos = t["si_totales"] - t["si_conseguidos"]
     e = r["eleccion"]
+    d = r["descartados"]
     hasta = df.contact_date.max()
     oracion = (f"Con lo que el banco sabe antes de llamar, el modelo consigue el {pct(t['recall'])} de los sí con "
                f"{num(menos)} llamadas menos, y cada sí cuesta {num(t['llamadas_por_si'], 2)} llamadas en vez de {num(todos, 2)}.")
@@ -130,7 +133,8 @@ def armar(df, r, pm, specs, h, sha, tablas):
     <li><a href="#portada" class="activo">El proyecto</a></li>
     <li><a href="#datos">Los datos</a></li>
     <li><a href="#hallazgos">Lo que encontramos</a></li>
-    <li><a href="#modelo">El modelo</a></li></ol></div>
+    <li><a href="#modelo">El modelo</a></li>
+    <li><a href="#techo">Por qué no más</a></li></ol></div>
   <div class="copa"><h3>Tu turno</h3><ol>
     <li><a href="#explora">Explorá los clientes</a></li>
     <li><a href="#proba">Probá el modelo</a></li></ol></div>
@@ -240,6 +244,48 @@ def armar(df, r, pm, specs, h, sha, tablas):
     <p>Los coeficientes de la logística, sobre columnas estandarizadas. El que más pesa es haber dicho que sí en la campaña anterior: es lo que mostró el análisis,
     y no es fuga, porque se conoce antes de llamar.</p>
     {tablas['coef']}
+  </details>
+</section>
+
+<section id="techo">
+  <p class="etapa tallo">El techo</p>
+  <h2>Entrená con los datos viejos o con los nuevos: el ahorro de cada sí se topa en el {pct(ahorro, 1)}</h2>
+  <p>Cada barra mide el ahorro de llamadas por sí en el mismo test, según con qué época se entrenó la misma logística.
+  Las dos azules son entrenamientos con épocas disjuntas —los {num(d['n'])} contactos descartados y los recientes— y llegan al mismo techo.
+  La roja es el mismo modelo viejo con su umbral tal cual vino de su época. El límite no está en el modelo: está en lo que el dataset sabe de cada cliente.</p>
+  <div class="grafico" id="g-techo"></div>
+  <h3>¿La estrategia del banco salió de los datos viejos?</h3>
+  <p>No como regla para llamar. La señal del cliente siempre estuvo en esos datos —ordenan el test de hoy igual que el modelo reciente—
+  pero la escala de probabilidad quedó atada a la tasa de sí de su época, {pct(d['tasa'], 1)}, y los umbrales no viajan entre regímenes.
+  Lo que cambió en 2009 fue el régimen: menos llamadas, más elegidas, casi todas a clientes ya contactados.</p>
+  <div class="nums dos">
+    <div class="num"><span>{pct(d['ahorro_trans'], 1)}</span><p>de ahorro si el umbral de la era vieja llega tal cual al test nuevo: sin recalibrar, no hay estrategia</p></div>
+    <div class="num"><span>{pct(d['ahorro_cal'], 1)}</span><p>de ahorro recalibrando ese umbral con lo reciente: la misma logística, el mismo techo que el modelo de la app</p></div>
+  </div>
+  <details><summary>Cómo lo sabemos</summary>
+    <h4>Qué se hizo</h4>
+    <p>La misma logística y el mismo pipeline del modelo de esta app, entrenados sólo con los {num(d['n'])} contactos que la app descarta
+    ({d['desde']:%d/%m/%Y} – {d['hasta']:%d/%m/%Y}, {pct(d['tasa'], 1)} de sí), con el umbral fijado igual que en el modelo: el mejor con
+    recall ≥ {pct(m3.RECALL_MIN)} en el pedazo más reciente de su propia validación temporal.</p>
+    <h4>Adentro de la era vieja tampoco hay nada estable</h4>
+    <p>Validación cruzada temporal dentro de los viejos: ahorro de {pct(d['cv_media'], 1)} ± {pct(d['cv_desvio'], 1)} — el desvío se come la media.
+    En su test interno ({num(d['n_int'])} contactos) el ahorro llega a {pct(d['ahorro_int'], 1)}, pero el recall cae a {num(d['t_int']['recall'], 2)}:
+    el compromiso de {pct(m3.RECALL_MIN)} de sí conseguidos no se sostiene en esa época, donde el banco llamaba a casi todos.</p>
+    <h4>El empate del ranking</h4>
+    <p>Sobre el mismo test, el modelo viejo ordena igual que el reciente: AP {num(d['ap_viejo'], 3)} contra {num(d['ap_rec'], 3)},
+    contra una tasa base de {pct(float(r['y_te'].mean()), 1)}. Lo que no viaja entre épocas es el umbral: la tasa de sí pasa de {pct(d['tasa'], 1)}
+    en los viejos a {pct(float(r['y_te'].mean()), 1)} en el test, y las probabilidades quedan en otra escala.</p>
+    <h4>Qué le falta al dataset</h4>
+    <p>El techo de {pct(ahorro, 1)} no es una excusa: es lo que dejan estas columnas. Para romperlo habría que recolectar:</p>
+    <ul>
+      <li>El valor del cliente para el banco: ingresos, productos contratados, antigüedad. Hoy sólo hay edad, ocupación y saldo.</li>
+      <li>Un historial de campañas de verdad: en los viejos casi nadie tenía contacto previo, y el resultado anterior casi siempre es "Otro" o desconocido.</li>
+      <li>Contexto que no sea fuga: mes, tipo de contacto y duración quedaron afuera porque no se puede asegurar que se conozcan antes de decidir a quién llamar.</li>
+    </ul>
+    <p>La otra palanca no es un dato sino una decisión de negocio: aceptando perder {num(100 * (1 - d['recall_r80']), 0)} de cada 100 sí
+    (recall {num(d['recall_r80'], 2)}), el ahorro sube a {pct(d['ahorro_r80'], 1)}. Conviene sólo si un sí vale menos que las llamadas que ahorra.</p>
+    <p class="nota">Honestidad: el test de esta app ya fue mirado en versiones anteriores del proyecto. El umbral de esta sección se calibró sólo
+    con el entrenamiento reciente, sin mirar el test.</p>
   </details>
 </section>
 
