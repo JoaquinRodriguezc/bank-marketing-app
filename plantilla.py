@@ -385,6 +385,9 @@ def armar(df, r, pm, specs, h, sha, tablas):
   <h2>Los clientes, según la probabilidad de sí que les da el modelo</h2>
   <p>Cada punto es un contacto; a la derecha de la línea punteada, el modelo dice que hay que llamarlo. En rojo, los sí que se escapan.
   Empezá por el panorama, después achicá con los menús o mové el umbral, y pasá el mouse por un cliente para ver sus datos y qué dijo el modelo.</p>
+  <p class="nota">La vertical es el <strong>saldo</strong>: el dinero en la cuenta del cliente en este banco. Va en escala logarítmica con signo,
+  para que los saldos chicos y los descubiertos (los negativos) queden legibles en el mismo eje; pasá el mouse por un punto para ver el monto
+  exacto en euros. Con el menú «Eje vertical» podés cambiar la vertical por la edad o por los contactos anteriores.</p>
   <div class="grafico" id="g-explora"></div>
   <p class="nota">Cada contacto lo predice un modelo que no lo vio: los del entrenamiento salen de la validación cruzada, y los del test, del modelo final.
   Los primeros {num(r['cortes'][0][0].size)} contactos del entrenamiento no tienen predicción, porque ningún pedazo los valida.</p>

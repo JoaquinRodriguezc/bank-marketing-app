@@ -348,12 +348,18 @@ def grafico_techo(r, d):
     return tema(alt.layer(graf, texto).properties(width=720, height=210))
 
 
+# El eje vertical de g-explora se elige por nombre de columna: la opción del menú y la columna del
+# DataFrame tienen que ser el mismo string para que `datum[eje_y]` resuelva.
+SALDO_LOG = "Saldo en la cuenta (log con signo)"
+EJE_Y = ("Edad", SALDO_LOG, "Contactos anteriores")
+
+
 def datos_explora(r):
     d = r["reciente"].dropna(subset=["prob"]).copy()
     saldo = d.balance.astype(float)
     out = pd.DataFrame({
         "Fecha": d.contact_date.dt.strftime("%d/%m/%Y"),
-        "Edad": d.age, "Saldo (log con signo)": np.round(np.sign(saldo) * np.log1p(np.abs(saldo)), 3),
+        "Edad": d.age, SALDO_LOG: np.round(np.sign(saldo) * np.log1p(np.abs(saldo)), 3),
         "Contactos anteriores": d.previous, "saldo": d.balance,
         "ocupacion": d.job.fillna("desconocido").map(OCUPACION), "educacion": d.education.fillna("desconocido").map(EDUCACION),
         "hipoteca": d.housing.map(SI_NO), "prestamo": d.loan.map(SI_NO), "anterior": poutcome_limpio(d).map(ANTERIOR),
@@ -366,11 +372,13 @@ def datos_explora(r):
 
 def grafico_explora(r):
     d = datos_explora(r)
+    faltan = [c for c in EJE_Y if c not in d.columns]
+    assert not faltan, f"el selector de eje vertical apunta a columnas que no existen: {faltan}"
     umbral = alt.param(name="umbral", value=round(r["umbral"], 4),
                        bind=alt.binding_range(min=0.05, max=0.9, step=0.005, name="Umbral para llamar "))
     ocup = alt.param(name="ocup_sel", value="Todas", bind=alt.binding_select(options=["Todas"] + sorted(d.ocupacion.unique()), name="Ocupación "))
     ant = alt.param(name="ant_sel", value="Todos", bind=alt.binding_select(options=["Todos"] + sorted(d.anterior.unique()), name="Resultado anterior "))
-    eje = alt.param(name="eje_y", value="Edad", bind=alt.binding_select(options=["Edad", "Saldo (log con signo)", "Contactos anteriores"], name="Eje vertical "))
+    eje = alt.param(name="eje_y", value=EJE_Y[0], bind=alt.binding_select(options=list(EJE_Y), name="Eje vertical "))
     parte = alt.param(name="parte_sel", value="Todas", bind=alt.binding_radio(options=["Todas", "Entrenamiento (validación cruzada)", "Test"], name="Llamadas "))
     filtro = ("(ocup_sel == 'Todas' || datum.ocupacion == ocup_sel) && (ant_sel == 'Todos' || datum.anterior == ant_sel)"
               " && (parte_sel == 'Todas' || datum.parte == parte_sel)")
@@ -386,7 +394,7 @@ def grafico_explora(r):
         n="count()", llamadas="sum(llamar)", tp="sum(tp)", sis="sum(exito)").transform_calculate(t=resumen_txt).mark_text(
         align="left", fontSize=15, fontWeight="bold", color="#1a1a1a").encode(x=alt.value(0), y=alt.value(10), text="t:N").properties(width=760, height=20)
     tooltip = [alt.Tooltip("Fecha:N"), alt.Tooltip("Edad:Q"), alt.Tooltip("ocupacion:N", title="Ocupación"),
-               alt.Tooltip("educacion:N", title="Educación"), alt.Tooltip("saldo:Q", title="Saldo (€)", format=",d"),
+               alt.Tooltip("educacion:N", title="Educación"), alt.Tooltip("saldo:Q", title="Saldo en la cuenta (€)", format=",d"),
                alt.Tooltip("hipoteca:N", title="Hipoteca"), alt.Tooltip("prestamo:N", title="Préstamo"),
                alt.Tooltip("Contactos anteriores:Q"), alt.Tooltip("anterior:N", title="Resultado anterior"),
                alt.Tooltip("prob:Q", title="Probabilidad de sí (modelo)", format=".1%"),

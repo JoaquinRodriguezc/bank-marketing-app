@@ -19,7 +19,7 @@ Feature: aplicar las correcciones del profesor a la app de la Entrega 4 (copa de
 | T1 | S6 | Sección nueva del tallo «Por qué no se puede ahorrar más»: análisis de descartados dentro de `build_app.py`, gráfico de ahorro por época de entrenamiento, subsección transplant-vs-calibración, «Cómo lo sabemos» | 2823cd1 |
 | T2 | S4 | Revamp de El modelo: gráfico de familias (ahorro ± desvío), curva recall vs llamadas con 0,95 y 0,80, ahorro desde (0,0), número protagonista (89 llamadas menos de 1.092 por 23 de 542 sí), baseline = estrategia del banco | 6b0773e |
 | T3 | S3 | Hallazgos: qué es OTRO, etiqueta eje Y, hipótesis fallidas | 1c6c159 |
-| T4 | S2 | Portada/intro: oración central honesta, tres números, caja versus, contexto, CSS renovado | pendiente |
+| T4 | S2 | Portada/intro: oración honesta, caja versus, contexto, CSS renovado | e904795 |
 | T5 | S5 | Copa: aclarar Saldo; selector eje Y si hay tiempo | pendiente |
 | T6 | S7 | Cierre: README, coherencia con notebook, reparto de explicación | pendiente |
 
