@@ -20,7 +20,7 @@ Feature: aplicar las correcciones del profesor a la app de la Entrega 4 (copa de
 | T2 | S4 | Revamp de El modelo: gráfico de familias (ahorro ± desvío), curva recall vs llamadas con 0,95 y 0,80, ahorro desde (0,0), número protagonista (89 llamadas menos de 1.092 por 23 de 542 sí), baseline = estrategia del banco | 6b0773e |
 | T3 | S3 | Hallazgos: qué es OTRO, etiqueta eje Y, hipótesis fallidas | 1c6c159 |
 | T4 | S2 | Portada/intro: oración honesta, caja versus, contexto, CSS renovado | e904795 |
-| T5 | S5 | Copa: aclarar Saldo; selector eje Y si hay tiempo | pendiente |
+| T5 | S5 | Copa: aclarar Saldo; selector eje Y verificado y con guard | b182bfb |
 | T6 | S7 | Cierre: README, coherencia con notebook, reparto de explicación | pendiente |
 
 ## Log
@@ -29,4 +29,5 @@ Feature: aplicar las correcciones del profesor a la app de la Entrega 4 (copa de
 - L2 (usuario, decisiones): idea extra del profesor incluida; sección nueva del tallo para el techo; CSS + portada renovada (sin reestructura); leer todas las versiones de la Entrega 3 antes de arrancar.
 - L3 (usuario): elegir ángulo narrativo "Las dos historias en capas" para la sección del techo.
 - L4 (evidencia, análisis descartados, semilla 42, código de la app): dentro de la era vieja CV ahorro 4,1% ± 3,8% (ruido; un shot 10% con recall 0,93); transplant del umbral al test nuevo: 0,4% de ahorro; descartados + calibración en dev: 1.004 llamadas, 519/542, 1,93 llamadas/sí, 3,98%; V4: 1.003, 519/542, 4,08%. AP 0,685 (viejo) vs 0,680 (V4) en el mismo test. El techo ~4% queda demostrado con dos épocas disjuntas de entrenamiento. Script scratch: /tmp/analisis_descartados.py.
-- L5 (límite de slice): 412 líneas autoradas en 3 commits (2823cd1, 6b0773e, 1c6c159) al cerrar T3; el resto del feature se entrega como slices adicionales sobre la misma rama.
+- L5 (límite de slice): 412 líneas autoradas en 3 commits (2823cd1, 6b0773e, 1c6c159) al cerrar T3.
+- L6 (límite de slice): 535 líneas autoradas en 5 commits al cerrar T5 (último: b182bfb). La forma de entrega al publicar la decide el grupo (push/merge de la rama).

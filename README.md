@@ -22,8 +22,9 @@ python build_app.py
 1. Lee `datos/_bank_marketing_silver.csv`, el CSV que produce el pipeline.
 2. Reconstruye la fecha de cada contacto, toma los contactos desde junio de 2009 y los parte 80/20 por tiempo.
 3. Repite la comparación de modelos de la Entrega 3 con validación cruzada temporal, elige el modelo y fija el umbral.
-4. Comprueba que la fórmula que viaja a la página da la misma probabilidad que el modelo de scikit-learn en todo el test.
-5. Arma los gráficos con Altair y escribe `index.html`.
+4. Entrena la misma logística con los contactos descartados (los previos a junio de 2009) para la sección «Por qué no se puede ahorrar más»: transplant del umbral, recalibración con lo reciente y validación interna de esa época.
+5. Comprueba que la fórmula que viaja a la página da la misma probabilidad que el modelo de scikit-learn en todo el test.
+6. Arma los gráficos con Altair y escribe `index.html`.
 
 Si los datos cambian, se reemplaza el CSV y se vuelve a correr `python build_app.py`.
 
@@ -50,3 +51,5 @@ Para correr `notebooks/v4.ipynb`, tienen que estar en la misma carpeta el CSV y 
 ## Qué coincide con el notebook
 
 El modelo, el umbral y el resultado en el test son los de `notebooks/v4.ipynb`: logística con C = 1 y pesos balanceados, umbral 0,3545, y en el test 1.003 llamadas, 519 de 542 sí, 1,93 llamadas por sí contra 2,01 de llamar a todos.
+
+La sección «Por qué no se puede ahorrar más» la calcula el propio `build_app.py` (`analizar_descartados`): no hay números pegados a mano. Los resultados citados del análisis exploratorio (el lift 1,28 de los solteros, las separaciones de `campaign`, el η² del mes) son los documentados en la Entrega 2.
