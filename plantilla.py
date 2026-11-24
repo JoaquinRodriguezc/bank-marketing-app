@@ -48,6 +48,13 @@ p,li{max-width:74ch}
 .nums.versus .num p:not(.rotulo){margin:4px 0 0;font-size:15px;color:var(--gris)}
 .nums.versus .flecha{font-size:32px;font-weight:700;line-height:1;color:var(--acento);justify-self:center}
 main h3{font-family:var(--serif);font-weight:400;font-size:23px;margin:30px 0 10px}
+h2 b{color:var(--acento);font-weight:400}
+.capitulo{float:right;font-family:var(--serif);font-size:15px;color:var(--gris);border:1px solid var(--linea);border-radius:999px;padding:6px 14px}
+.entradilla{font-size:16.5px;color:var(--tinta-2);max-width:64ch}
+.figura{margin:34px 0 0;background:#fff;border:1px solid var(--linea);border-radius:14px;padding:24px 24px 14px}
+.figura .titulo-f{font-family:var(--serif);font-size:17.5px;margin:0 0 14px;color:var(--tinta)}
+.figura .titulo-f em{color:var(--gris)}
+.figura figcaption{font-size:13.5px;color:var(--gris);margin:10px 0 0;border-top:1px solid var(--linea);padding-top:10px;max-width:74ch}
 .num{background:var(--suave);border-radius:8px;padding:18px 20px}
 .num span{display:block;font-size:44px;font-weight:700;line-height:1.1;color:var(--acento)}
 .num p{margin:6px 0 0;font-size:15.5px;color:var(--gris)}
@@ -243,11 +250,18 @@ def armar(df, r, pm, specs, h, sha, tablas):
 
 <section id="datos">
   <p class="etapa tallo">Los datos</p>
-  <h2>La tasa de sí cambió con el tiempo: {pct(df[df.contact_date < INICIO].si.mean())} en las campañas viejas, {pct(r['reciente'].si.mean())} en las recientes</h2>
-  <p>Arriba, qué parte de los contactos de cada mes terminó en un depósito; abajo, cuántos contactos hubo. En 2008 el banco hacía
+  <p class="capitulo">Capítulo 02</p>
+  <h2>La tasa de sí cambió con el tiempo: <b>{pct(df[df.contact_date < INICIO].si.mean())}</b> en las campañas viejas, <b>{pct(r['reciente'].si.mean())}</b> en las recientes</h2>
+  <p class="entradilla">Arriba, qué parte de los contactos de cada mes terminó en un depósito; abajo, cuántos contactos hubo. En 2008 el banco hacía
   miles de llamadas por mes y muy pocos aceptaban. Desde mediados de 2009 llamó a mucha menos gente y casi la mitad dijo que sí.
   El modelo se entrena y se prueba en el período sombreado, que es el que se parece al uso actual.</p>
-  <div class="grafico" id="g-datos"></div>
+  <figure class="figura">
+    <p class="titulo-f">La tasa de sí, mes a mes <em>· y el salto de la estrategia del banco</em></p>
+    <div class="grafico" id="g-datos"></div>
+    <figcaption>Los dos paneles se leen juntos: cuando las barras de abajo se achican, la línea de arriba se dispara. No es un cambio
+    de los clientes — es un cambio de estrategia del banco, que pasó de llamar a casi todos a llamar a una lista elegida.
+    Esa lista es el rival del modelo.</figcaption>
+  </figure>
   <details><summary>Cómo lo sabemos</summary>
     <h4>De dónde salen</h4>
     <p>Del dataset <b>Bank Marketing</b> de UCI (Moro, Cortez y Rita, 2014), versión <code>bank-full</code>: {num(len(df))} contactos

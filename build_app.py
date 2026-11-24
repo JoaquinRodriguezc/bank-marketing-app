@@ -186,8 +186,25 @@ def grafico_datos(df):
                alt.Tooltip("tasa:Q", title="Tasa de sí", format=".1%")]
     tasa = base.mark_line(color=AZUL, point=alt.OverlayMarkDef(color=AZUL, size=40)).encode(
         y=alt.Y("tasa:Q", title="Tasa de sí", axis=alt.Axis(format="%"), scale=alt.Scale(domain=[0, 0.7])), tooltip=tooltip)
+    viejos = mensual[mensual.mes < pd.Timestamp("2009-01-01")]
+    recientes = mensual[mensual.mes >= pd.Timestamp(INICIO)]
+    ventana = mensual[(mensual.mes >= pd.Timestamp(INICIO) - pd.offsets.MonthBegin(3)) & (mensual.mes <= pd.Timestamp(INICIO) + pd.offsets.MonthBegin(5))]
+    salto = mensual.loc[[ventana.tasa.diff().idxmax()]]
+    punto_salto = alt.Chart(salto).mark_point(color=AZUL, filled=True, size=180).encode(x="mes:T", y="tasa:Q")
+    rotulo_salto = alt.Chart(salto.assign(t=[f"el salto · {salto.mes.dt.year.iloc[0]}"])).mark_text(
+        align="left", dx=12, dy=-12, fontSize=13, fontWeight="bold", color="#141310").encode(x="mes:T", y="tasa:Q", text="t:N")
+    notas = pd.DataFrame([
+        dict(mes=viejos.mes.iloc[len(viejos) // 2], tasa=0.10,
+             t=f"≈ {pct(viejos.tasa.min(), 0)}–{pct(viejos.tasa.max(), 0)} de sí en 2008"),
+        dict(mes=recientes.mes.max(), tasa=0.65,
+             t=f"{pct(recientes.tasa.min(), 0)}–{pct(recientes.tasa.max(), 0)} de sí desde 2009"),
+    ])
+    nota_vieja = alt.Chart(notas.iloc[[0]]).mark_text(fontSize=13, color="#6b6459", align="center").encode(
+        x="mes:T", y="tasa:Q", text="t:N")
+    nota_reciente = alt.Chart(notas.iloc[[1]]).mark_text(fontSize=13, color=AZUL, align="right", dx=-6).encode(
+        x="mes:T", y="tasa:Q", text="t:N")
     llamadas = base.mark_bar(color=GRIS, width=8).encode(y=alt.Y("llamadas:Q", title="Llamadas en el mes"), tooltip=tooltip)
-    arriba = alt.layer(sombra, rotulo, tasa).properties(width=760, height=230)
+    arriba = alt.layer(sombra, rotulo, tasa, punto_salto, rotulo_salto, nota_vieja, nota_reciente).properties(width=760, height=230)
     abajo = alt.layer(sombra, llamadas).properties(width=760, height=130)
     return tema(alt.vconcat(arriba, abajo, spacing=8).resolve_scale(x="shared"))
 
