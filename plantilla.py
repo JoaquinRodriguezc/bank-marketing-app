@@ -88,15 +88,15 @@ code{font-size:.9em;background:#eef1f4;padding:1px 5px;border-radius:4px}
 .vega-bind-radio label{margin-right:10px}
 .probar{display:grid;grid-template-columns:minmax(0,1fr) 480px;gap:24px;align-items:start}
 .entradas{display:grid;grid-template-columns:1fr;gap:10px}
-fieldset{border:1px solid var(--linea);border-radius:8px;padding:6px 12px 10px;margin:0}
-legend{font-weight:600;font-size:14px;color:var(--gris);padding:0 4px}
+fieldset{border:1px solid var(--linea);border-radius:12px;padding:8px 14px 12px;margin:0 0 12px;background:#fff}
+legend{font-weight:600;font-size:12.5px;color:var(--copa);text-transform:uppercase;letter-spacing:.06em;padding:0 6px}
 .slot .vega-bind{margin:4px 0}
 .slot .vega-bind label{display:grid;grid-template-columns:170px minmax(80px,1fr) 64px;align-items:center;gap:8px;font-size:14.5px}
 .slot .vega-bind-name{font-weight:500}
 .slot input[type=range]{width:100%;margin:0;accent-color:var(--copa)}
 .slot select{font-size:14.5px;padding:3px 6px}
 .slot .vega-bind-radio{display:flex;gap:10px;align-items:center}
-.fijo{position:sticky;top:16px}
+.fijo{position:sticky;top:16px;border:1px solid var(--linea);border-radius:14px;background:#fff;padding:16px 16px 10px}
 footer{max-width:980px;margin:0 auto;padding:30px 0;color:var(--gris);font-size:14px}
 @media (max-width:1150px){.probar{grid-template-columns:1fr}.fijo{position:static}}
 .paso{margin:44px 0 0}
@@ -120,6 +120,11 @@ footer{max-width:980px;margin:0 auto;padding:30px 0;color:var(--gris);font-size:
 .remate{font-family:var(--serif);font-size:19px;color:var(--tinta-2);margin:18px 0 0;max-width:54ch}
 .remate b{color:var(--acento);font-weight:400}
 .pie-portada{margin-top:36px;border-top:3px double var(--linea);padding-top:14px}
+.pasos-tu{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:26px 0 0}
+.paso-chip{display:flex;align-items:center;gap:10px;border:1px solid var(--linea);border-radius:999px;
+  background:#fff;padding:10px 16px;font-size:14px;color:var(--tinta-2);margin:0}
+.paso-chip b{width:24px;height:24px;border-radius:999px;background:var(--copa);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-size:13px;flex:none}
 .carta{margin:38px 0 0}
 .rotulo-c{font-size:11.5px;letter-spacing:.15em;text-transform:uppercase;font-weight:700;color:var(--gris);
   display:flex;align-items:center;gap:12px;margin:0 0 14px}
@@ -129,7 +134,7 @@ footer{max-width:980px;margin:0 auto;padding:30px 0;color:var(--gris);font-size:
 .carta li .falta{font-family:var(--serif);font-size:18px;color:var(--tinta);margin:0 0 6px}
 .carta li .hoy{font-size:13.5px;color:var(--gris);line-height:1.5;margin:0}
 .carta li .hoy b{color:var(--tinta-2)}
-@media (max-width:860px){.carta ul{grid-template-columns:1fr}.morgue ul{grid-template-columns:1fr}.duelo{grid-template-columns:1fr}.duelo .flecha{flex-direction:row;min-height:64px}
+@media (max-width:860px){.pasos-tu{grid-template-columns:1fr}.carta ul{grid-template-columns:1fr}.morgue ul{grid-template-columns:1fr}.duelo{grid-template-columns:1fr}.duelo .flecha{flex-direction:row;min-height:64px}
 nav{display:none}main{margin-left:0;padding:0 16px 60px}.nums{grid-template-columns:1fr}h1{font-size:32px}
 #portada{padding:28px 20px 18px;border-radius:12px}.nums.versus{grid-template-columns:1fr}.nums.versus .flecha{transform:rotate(90deg)}}
 """
@@ -556,22 +561,33 @@ def armar(df, r, pm, specs, h, sha, tablas):
 
 <section id="explora">
   <p class="etapa copa">Tu turno · Explorá</p>
+  <p class="capitulo">Tu turno · 01</p>
   <h2>Los clientes, según la probabilidad de sí que les da el modelo</h2>
-  <p>Cada punto es un contacto; a la derecha de la línea punteada, el modelo dice que hay que llamarlo. En rojo, los sí que se escapan.
-  Empezá por el panorama, después achicá con los menús o mové el umbral, y pasá el mouse por un cliente para ver sus datos y qué dijo el modelo.</p>
-  <p class="nota">La vertical es el <strong>saldo</strong>: el dinero en la cuenta del cliente en este banco. Va en escala logarítmica con signo,
-  para que los saldos chicos y los descubiertos (los negativos) queden legibles en el mismo eje; pasá el mouse por un punto para ver el monto
-  exacto en euros. Con el menú «Eje vertical» podés cambiar la vertical por la edad o por los contactos anteriores.</p>
-  <div class="grafico" id="g-explora"></div>
-  <p class="nota">Cada contacto lo predice un modelo que no lo vio: los del entrenamiento salen de la validación cruzada, y los del test, del modelo final.
-  Los primeros {num(r['cortes'][0][0].size)} contactos del entrenamiento no tienen predicción, porque ningún pedazo los valida.</p>
+  <p class="entradilla">Cada punto es un contacto; a la derecha de la línea punteada, el modelo dice que hay que llamarlo. En rojo,
+  los sí que se escapan. La vertical es el <b>saldo</b>: el dinero en la cuenta del cliente en este banco, en escala logarítmica con
+  signo para que los saldos chicos y los descubiertos queden legibles — con el menú «Eje vertical» la cambiás por la edad o por los
+  contactos anteriores.</p>
+  <div class="pasos-tu">
+    <p class="paso-chip"><b>1</b> achicá el universo con los menús</p>
+    <p class="paso-chip"><b>2</b> mové el umbral y mirá cómo cambia la lista</p>
+    <p class="paso-chip"><b>3</b> pasá el mouse por un cliente para verlo entero</p>
+  </div>
+  <figure class="figura">
+    <p class="titulo-f">El panorama, con filtros <em>· cada punto lleva la probabilidad del modelo y su resultado real</em></p>
+    <div class="grafico" id="g-explora"></div>
+    <figcaption>Cada contacto lo predice un modelo que no lo vio: los del entrenamiento salen de la validación cruzada, y los del
+    test, del modelo final. Los primeros {num(r['cortes'][0][0].size)} contactos del entrenamiento no tienen predicción, porque
+    ningún pedazo los valida. El monto exacto en euros aparece al pasar el mouse.</figcaption>
+  </figure>
 </section>
 
 <section id="proba">
   <p class="etapa copa">Tu turno · Probá el modelo</p>
+  <p class="capitulo">Tu turno · 02</p>
   <h2>Armá un cliente y mirá si el modelo lo llamaría</h2>
-  <p>La probabilidad se calcula dentro de la página con los coeficientes de la logística entrenada: nada se reentrena. Los deslizadores van del mínimo
-  al máximo que vio el entrenamiento y los menús sólo ofrecen categorías que el modelo conoce, así que no se puede cargar un valor que nunca vio.</p>
+  <p class="entradilla">La probabilidad se calcula dentro de la página con los coeficientes de la logística entrenada: nada se
+  reentrena. Los deslizadores van del mínimo al máximo que vio el entrenamiento y los menús sólo ofrecen categorías que el modelo
+  conoce, así que no se puede cargar un valor que nunca vio.</p>
   <div class="probar">
     <div class="entradas">
       <fieldset><legend>El cliente</legend>
@@ -585,6 +601,8 @@ def armar(df, r, pm, specs, h, sha, tablas):
     <p class="nota">Valores de partida: la mediana del entrenamiento. Con 0 contactos anteriores, el cliente cuenta como «sin contacto previo».
     El umbral es el mismo que en el test: {num(r['umbral'], 4)}.</p></div>
   </div>
+  <p class="nota pie-portada"><b>Probalo vos:</b> subí la edad a 70 o cambiá el resultado anterior a Fracaso, y mirá cómo cae la
+  probabilidad. Después de probar un caso raro, volvé a la sección de arriba y buscalo en el panorama.</p>
 </section>
 
 <footer>Ciencia de Datos · UTN FRM · 2026 · Grupo 5K09-04 · Datos: Bank Marketing (UCI, bank-full), contactos hasta el {hasta:%d/%m/%Y}.
