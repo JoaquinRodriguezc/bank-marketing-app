@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Modelo · 02 La curva del umbral</title>
+<style>
+  :root{
+    --papel:#faf9f6; --tinta:#141310; --tinta-2:#3d3831; --apagado:#6b6459;
+    --linea:#e4dfd5; --acento:#0072B2; --acento-suave:#eff4f9; --serif:Georgia,"Times New Roman",serif;
+    --sans:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0}
+  body{display:flex;min-height:100vh;background:var(--papel);color:var(--tinta);font-family:var(--sans);font-size:17px;line-height:1.6}
+  a{color:inherit;text-decoration:none}
+  nav{width:230px;flex:none;border-right:1px solid var(--linea);padding:32px 22px;position:sticky;top:0;height:100vh}
+  nav .marca{font-family:var(--serif);font-size:13.5px;color:var(--apagado);line-height:1.45;margin-bottom:34px}
+  nav h3{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--apagado);margin:26px 0 8px;font-weight:600}
+  nav ol{list-style:none;padding-left:10px;border-left:2px solid var(--linea)}
+  nav li a{display:block;padding:6px 0 6px 12px;font-size:14.5px;color:var(--tinta-2)}
+  nav li a.activo{color:var(--acento);font-weight:600;border-left:2px solid var(--acento);margin-left:-2px}
+  main{flex:1;max-width:880px;margin:0 auto;padding:64px 64px 90px}
+  .etapa{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--apagado);font-weight:600}
+  .capitulo{float:right;font-family:var(--serif);font-size:15px;color:var(--apagado);border:1px solid var(--linea);
+    border-radius:999px;padding:6px 14px}
+  h2{font-family:var(--serif);font-weight:400;font-size:31px;line-height:1.22;margin:18px 0 12px;max-width:26ch}
+  h2 b{color:var(--acento);font-weight:400}
+  .entradilla{font-size:16.5px;color:var(--tinta-2);max-width:64ch}
+  figure{margin:30px 0 0;background:#fff;border:1px solid var(--linea);border-radius:14px;padding:26px 24px 14px}
+  figure .titulo-f{font-family:var(--serif);font-size:18.5px;margin-bottom:16px}
+  figure .titulo-f em{color:var(--apagado)}
+  figcaption{font-size:13.5px;color:var(--apagado);margin-top:10px;border-top:1px solid var(--linea);padding-top:10px;max-width:76ch}
+  .bajo-la-curva{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:24px 0 0}
+  .bajo{border:1px solid var(--linea);border-radius:12px;background:#fff;padding:16px 18px}
+  .bajo.elegido{border:2px solid var(--acento);background:var(--acento-suave)}
+  .bajo .rotulo{font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--apagado);margin:0 0 6px}
+  .bajo.elegido .rotulo{color:var(--acento)}
+  .bajo .cifra{font-family:var(--serif);font-size:34px;color:var(--tinta-2)}
+  .bajo.elegido .cifra{color:var(--acento)}
+  .bajo p.detalle{font-size:13px;color:var(--apagado);margin:6px 0 0}
+  .proceso{margin:46px 0 0}
+  .rotulo-paso{font-size:11.5px;letter-spacing:.15em;text-transform:uppercase;font-weight:700;color:var(--apagado);
+    display:flex;align-items:center;gap:12px;margin:0 0 12px}
+  .rotulo-paso::after{content:"";flex:1;border-top:1px solid var(--linea)}
+  details{background:#f4f1ea;border-radius:12px;padding:0 22px;margin:40px 0 0}
+  summary{cursor:pointer;font-weight:600;padding:16px 0;color:var(--acento);font-size:16.5px}
+  @media (max-width:900px){main{padding:48px 24px}nav{display:none}.bajo-la-curva{grid-template-columns:1fr}figure svg{width:100%;height:auto}}
+</style>
+</head>
+<body>
+<nav aria-label="Índice">
+  <p class="marca">Ciencia de Datos · UTN FRM · 2026<br>Grupo 5K09-04</p>
+  <h3>La historia</h3>
+  <ol>
+    <li><a href="#">El proyecto</a></li>
+    <li><a href="#">Los datos</a></li>
+    <li><a href="#">Lo que encontramos</a></li>
+    <li><a class="activo" href="#">El modelo</a></li>
+    <li><a href="#">Por qué no más</a></li>
+  </ol>
+  <h3>Tu turno</h3>
+  <ol>
+    <li><a href="#">Explorá los clientes</a></li>
+    <li><a href="#">Probá el modelo</a></li>
+  </ol>
+</nav>
+<main>
+  <section>
+    <p class="etapa">El modelo</p>
+    <p class="capitulo">Capítulo 04</p>
+    <h2>El umbral que elegimos: <b>95&nbsp;% de los sí</b>, y cada sí cuesta 1,93 llamadas en vez de 2,01</h2>
+    <p class="entradilla">Toda la decisión del modelo está en una curva: cuánto cuesta cada sí según cuántos sí se exige conseguir.
+    Fijamos el mínimo en el 95&nbsp;% — no perder más de 5 de cada 100 clientes que iban a aceptar — y buscamos el punto más barato
+    que lo cumpliera, antes de mirar el test. Esta es esa curva, anotada:</p>
+
+    <figure>
+      <p class="titulo-f">La curva del umbral <em>· la decisión completa, en un gráfico</em></p>
+      <svg viewBox="0 0 700 260" role="img" aria-label="Curva de llamadas por sí contra sí conseguidos, anotada: punto elegido en 95,8% y 1,93; mínimo exigido 95%; opción de negocio al 80% con 1,76; línea del banco en 2,01">
+        <line x1="40" y1="215" x2="680" y2="215" stroke="#e4dfd5"/>
+        <line x1="40" y1="215" x2="40" y2="20" stroke="#e4dfd5"/>
+        <g font-family="-apple-system,Segoe UI,sans-serif" font-size="11" fill="#6b6459">
+          <text x="40" y="235">0 %</text><text x="350" y="235">50 %</text><text x="655" y="235">100 %</text>
+          <text x="46" y="229">0</text><text x="46" y="40">2,0</text>
+        </g>
+        <line x1="40" y1="35" x2="680" y2="35" stroke="#9a9a9a" stroke-dasharray="5 4"/>
+        <text x="470" y="29" font-family="-apple-system,Segoe UI,sans-serif" font-size="12" fill="#6b6459">la lista del banco, entera: 2,01 llamadas por sí</text>
+        <path d="M40,211 C300,205 420,140 680,39" fill="none" stroke="#0072B2" stroke-width="2.5"/>
+        <line x1="646" y1="25" x2="646" y2="215" stroke="#1a1a1a" stroke-dasharray="2 3"/>
+        <text x="642" y="252" font-family="-apple-system,Segoe UI,sans-serif" font-size="11" fill="#1a1a1a" text-anchor="end">mínimo exigido: 95 %</text>
+        <circle cx="652" cy="47" r="5.5" fill="#0072B2"/>
+        <text x="644" y="64" font-family="-apple-system,Segoe UI,sans-serif" font-size="12.5" fill="#0072B2" font-weight="700" text-anchor="end">elegido: 1,93 · 96 % de los sí</text>
+        <circle cx="558" cy="72" r="4" fill="#9a9a9a"/>
+        <text x="552" y="90" font-family="-apple-system,Segoe UI,sans-serif" font-size="11.5" fill="#6b6459" text-anchor="end">si el negocio aceptara 80 %: 1,76 · 10 % de ahorro</text>
+      </svg>
+      <figcaption>El punto azul es el compromiso que elegimos: 95&nbsp;% de los sí por 1,93 llamadas cada uno. El punto gris muestra la
+      otra punta de la negociación: aceptando perder 20 de cada 100 sí, cada sí costaría 1,76 (10&nbsp;% menos que el banco) — dónde
+      pararse lo decide el negocio, no el modelo.</figcaption>
+    </figure>
+
+    <div class="bajo-la-curva">
+      <div class="bajo elegido">
+        <p class="rotulo">Con el umbral elegido</p>
+        <p class="cifra">−89</p>
+        <p class="detalle">llamadas de las 1.092 de la lista · un 8,2&nbsp;% menos</p>
+      </div>
+      <div class="bajo elegido">
+        <p class="rotulo">Sí conseguidos</p>
+        <p class="cifra">519 de 542</p>
+        <p class="detalle">el compromiso de no perder más de 5 de cada 100 se sostiene</p>
+      </div>
+      <div class="bajo">
+        <p class="rotulo">Cómo se llegó</p>
+        <p class="cifra">12 candidatos</p>
+        <p class="detalle">cuatro familias con la misma validación: ninguna le ganó a la logística por más de un desvío</p>
+      </div>
+    </div>
+
+    <details>
+      <summary>Cómo lo sabemos · la métrica, la validación, las correcciones y dónde se equivoca</summary>
+      <p style="font-size:15.5px;color:#3d3831;margin:12px 0">La métrica y por qué · el piso: la estrategia del banco · las correcciones V1→V3→V4
+      (mayo de 2009: 3.584 llamadas al 10,3&nbsp;%) · la validación temporal en 5 pedazos · la comparación completa de los 12 candidatos ·
+      el ajuste del elegido (C&nbsp;=&nbsp;1, balanceado) · dónde se equivoca (la matriz del test) · en qué se apoya (los coeficientes).</p>
+    </details>
+  </section>
+</main>
+</body>
+</html>

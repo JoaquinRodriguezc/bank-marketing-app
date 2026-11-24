@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Techo · 02 Dos preguntas</title>
+<style>
+  :root{
+    --papel:#faf9f6; --tinta:#141310; --tinta-2:#3d3831; --apagado:#6b6459;
+    --linea:#e4dfd5; --acento:#0072B2; --acento-suave:#eff4f9; --serif:Georgia,"Times New Roman",serif;
+    --sans:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0}
+  body{display:flex;min-height:100vh;background:var(--papel);color:var(--tinta);font-family:var(--sans);font-size:17px;line-height:1.6}
+  a{color:inherit;text-decoration:none}
+  nav{width:230px;flex:none;border-right:1px solid var(--linea);padding:32px 22px;position:sticky;top:0;height:100vh}
+  nav .marca{font-family:var(--serif);font-size:13.5px;color:var(--apagado);line-height:1.45;margin-bottom:34px}
+  nav h3{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--apagado);margin:26px 0 8px;font-weight:600}
+  nav ol{list-style:none;padding-left:10px;border-left:2px solid var(--linea)}
+  nav li a{display:block;padding:6px 0 6px 12px;font-size:14.5px;color:var(--tinta-2)}
+  nav li a.activo{color:var(--acento);font-weight:600;border-left:2px solid var(--acento);margin-left:-2px}
+  main{flex:1;max-width:880px;margin:0 auto;padding:64px 64px 90px}
+  .etapa{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--apagado);font-weight:600}
+  .capitulo{float:right;font-family:var(--serif);font-size:15px;color:var(--apagado);border:1px solid var(--linea);
+    border-radius:999px;padding:6px 14px}
+  h2{font-family:var(--serif);font-weight:400;font-size:31px;line-height:1.22;margin:18px 0 12px;max-width:28ch}
+  h2 b{color:var(--acento);font-weight:400}
+  .entradilla{font-size:16.5px;color:var(--tinta-2);max-width:64ch}
+  .paso{margin:44px 0 0}
+  .rotulo-paso{font-size:11.5px;letter-spacing:.15em;text-transform:uppercase;font-weight:700;color:var(--apagado);
+    display:flex;align-items:center;gap:12px;margin:0}
+  .rotulo-paso::after{content:"";flex:1;border-top:1px solid var(--linea)}
+  .paso.resultado .rotulo-paso{color:var(--acento)}
+  .paso .entradilla{margin:12px 0 0}
+  figure{margin:16px 0 0;background:#fff;border:1px solid var(--linea);border-radius:14px;padding:24px 24px 14px}
+  figure .titulo-f{font-family:var(--serif);font-size:17.5px;margin-bottom:14px}
+  figure .titulo-f em{color:var(--apagado)}
+  figcaption{font-size:13.5px;color:var(--apagado);margin-top:10px;border-top:1px solid var(--linea);padding-top:10px;max-width:74ch}
+  .duelo{display:grid;grid-template-columns:1fr auto 1fr;gap:18px;align-items:stretch;margin:26px 0 0}
+  .duelo .lado{border-radius:12px;padding:18px 22px}
+  .duelo .hoy{background:#fff;border:1px dashed #c3c9d0}
+  .duelo .modelo{background:var(--acento-suave);border:2px solid var(--acento)}
+  .duelo .rotulo{font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--apagado);margin:0 0 8px}
+  .duelo .modelo .rotulo{color:var(--acento)}
+  .duelo .cifra{font-family:var(--serif);font-size:46px;line-height:1;color:var(--tinta-2)}
+  .duelo .modelo .cifra{color:var(--acento)}
+  .duelo .detalle{font-size:14px;color:var(--apagado);margin:8px 0 0}
+  .duelo .flecha{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-width:90px}
+  .duelo .punta{font-size:24px;color:var(--apagado)}
+  .duelo .nota-f{font-size:11.5px;color:var(--apagado);text-align:center;max-width:18ch;margin:0}
+  details{background:#f4f1ea;border-radius:12px;padding:0 22px;margin:40px 0 0}
+  summary{cursor:pointer;font-weight:600;padding:16px 0;color:var(--acento);font-size:16.5px}
+  @media (max-width:900px){main{padding:48px 24px}nav{display:none}.duelo{grid-template-columns:1fr}
+    .duelo .flecha{flex-direction:row;min-height:64px}figure svg{width:100%;height:auto}}
+</style>
+</head>
+<body>
+<nav aria-label="Índice">
+  <p class="marca">Ciencia de Datos · UTN FRM · 2026<br>Grupo 5K09-04</p>
+  <h3>La historia</h3>
+  <ol>
+    <li><a href="#">El proyecto</a></li>
+    <li><a href="#">Los datos</a></li>
+    <li><a href="#">Lo que encontramos</a></li>
+    <li><a href="#">El modelo</a></li>
+    <li><a class="activo" href="#">Por qué no más</a></li>
+  </ol>
+  <h3>Tu turno</h3>
+  <ol>
+    <li><a href="#">Explorá los clientes</a></li>
+    <li><a href="#">Probá el modelo</a></li>
+  </ol>
+</nav>
+<main>
+  <section>
+    <p class="etapa">El techo</p>
+    <p class="capitulo">Capítulo 05</p>
+    <h2>Por qué no se puede ahorrar más: <b>dos preguntas</b>, la misma respuesta</h2>
+    <p class="entradilla">El techo de 4,1&nbsp;% no es una excusa: es un resultado, y esta sección lo demuestra respondiendo las dos
+    preguntas que quedaron abiertas.</p>
+
+    <div class="paso">
+      <p class="rotulo-paso">Pregunta 1 · ¿la estrategia del banco salió de los datos viejos?</p>
+      <p class="entradilla">Entrenamos la misma logística sólo con los 39.752 contactos descartados y la mandamos al test de hoy.
+      La señal del cliente siempre estuvo — pero la escala de probabilidad quedó atada a la tasa de sí de su época, y los
+      umbrales no viajan entre regímenes:</p>
+      <div class="duelo">
+        <div class="lado hoy">
+          <p class="rotulo">Umbral transplantado</p>
+          <p class="cifra">0,4&nbsp;%</p>
+          <p class="detalle">de ahorro si llega tal cual de la era vieja: sin recalibrar, no hay estrategia.</p>
+        </div>
+        <div class="flecha">
+          <span class="punta" aria-hidden="true">──▶</span>
+          <p class="nota-f">recalibrar el umbral con lo reciente</p>
+        </div>
+        <div class="lado modelo">
+          <p class="rotulo">Umbral recalibrado</p>
+          <p class="cifra">4,0&nbsp;%</p>
+          <p class="detalle">de ahorro: la misma logística vieja, el mismo techo que el modelo de la app.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="paso resultado">
+      <p class="rotulo-paso">Pregunta 2 · ¿cuánto más se puede estirar?</p>
+      <p class="entradilla">La misma logística, entrenada en épocas disjuntas, llega al mismo lugar. El límite no está en el
+      modelo: está en lo que el dataset sabe de cada cliente.</p>
+      <figure>
+        <p class="titulo-f">Ahorro por sí en el mismo test <em>· según con qué época se entrenó</em></p>
+        <svg viewBox="0 0 700 150" role="img" aria-label="Ahorro en el test: el modelo de la app 4,1 por ciento; entrenado con los viejos y umbral recalibrado 4,0; umbral transplantado 0,4">
+          <g font-family="-apple-system,Segoe UI,sans-serif" font-size="13" fill="#3d3831">
+            <text x="0" y="30">El modelo de esta app (lo reciente)</text>
+            <rect x="330" y="16" width="256" height="22" rx="4" fill="#0072B2"/><text x="594" y="32">4,1 %</text>
+            <text x="0" y="72">Entrenado con los viejos, umbral recalibrado</text>
+            <rect x="330" y="58" width="250" height="22" rx="4" fill="#0072B2"/><text x="588" y="74">4,0 %</text>
+            <text x="0" y="114">Entrenado con los viejos, umbral transplantado</text>
+            <rect x="330" y="100" width="25" height="22" rx="4" fill="#D55E00"/><text x="363" y="116">0,4 %</text>
+          </g>
+          <text x="330" y="10" font-family="-apple-system,Segoe UI,sans-serif" font-size="10.5" fill="#6b6459">ahorro (%)</text>
+        </svg>
+        <figcaption>Dos épocas de entrenamiento, el mismo techo. Y la única palanca que no es un dato: aceptando perder 20 de
+        cada 100 sí, el ahorro sube a 10&nbsp;% — dónde pararse lo decide el negocio.</figcaption>
+      </figure>
+    </div>
+
+    <details>
+      <summary>Cómo lo sabemos · la era vieja por adentro, el empate del ranking y qué le falta al dataset</summary>
+      <p style="font-size:15.5px;color:#3d3831;margin:12px 0">Qué se hizo (misma logística, 39.752 descartados, umbral por fold) ·
+      adentro de la era vieja no hay nada estable (ahorro 4,1&nbsp;% ± 3,8&nbsp;%) · el empate del ranking (AP 0,685 contra 0,680) ·
+      qué le falta al dataset y qué habría que recolectar · aviso de honestidad.</p>
+    </details>
+  </section>
+</main>
+</body>
+</html>

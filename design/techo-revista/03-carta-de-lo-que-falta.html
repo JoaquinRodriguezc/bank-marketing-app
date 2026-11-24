@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Techo · 03 La carta de lo que falta</title>
+<style>
+  :root{
+    --papel:#faf9f6; --tinta:#141310; --tinta-2:#3d3831; --apagado:#6b6459;
+    --linea:#e4dfd5; --acento:#0072B2; --acento-suave:#eff4f9; --serif:Georgia,"Times New Roman",serif;
+    --sans:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0}
+  body{display:flex;min-height:100vh;background:var(--papel);color:var(--tinta);font-family:var(--sans);font-size:17px;line-height:1.6}
+  a{color:inherit;text-decoration:none}
+  nav{width:230px;flex:none;border-right:1px solid var(--linea);padding:32px 22px;position:sticky;top:0;height:100vh}
+  nav .marca{font-family:var(--serif);font-size:13.5px;color:var(--apagado);line-height:1.45;margin-bottom:34px}
+  nav h3{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--apagado);margin:26px 0 8px;font-weight:600}
+  nav ol{list-style:none;padding-left:10px;border-left:2px solid var(--linea)}
+  nav li a{display:block;padding:6px 0 6px 12px;font-size:14.5px;color:var(--tinta-2)}
+  nav li a.activo{color:var(--acento);font-weight:600;border-left:2px solid var(--acento);margin-left:-2px}
+  main{flex:1;max-width:880px;margin:0 auto;padding:64px 64px 90px}
+  .etapa{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--apagado);font-weight:600}
+  .capitulo{float:right;font-family:var(--serif);font-size:15px;color:var(--apagado);border:1px solid var(--linea);
+    border-radius:999px;padding:6px 14px}
+  h2{font-family:var(--serif);font-weight:400;font-size:31px;line-height:1.22;margin:18px 0 12px;max-width:27ch}
+  h2 b{color:var(--acento);font-weight:400}
+  .entradilla{font-size:16.5px;color:var(--tinta-2);max-width:64ch}
+  figure{margin:34px 0 0;background:#fff;border:1px solid var(--linea);border-radius:14px;padding:24px 24px 14px}
+  figure .titulo-f{font-family:var(--serif);font-size:17.5px;margin-bottom:14px}
+  figure .titulo-f em{color:var(--apagado)}
+  figcaption{font-size:13.5px;color:var(--apagado);margin-top:10px;border-top:1px solid var(--linea);padding-top:10px;max-width:74ch}
+  .carta{margin:38px 0 0}
+  .rotulo-c{font-size:11.5px;letter-spacing:.15em;text-transform:uppercase;font-weight:700;color:var(--apagado);
+    display:flex;align-items:center;gap:12px;margin:0 0 14px}
+  .rotulo-c::after{content:"";flex:1;border-top:1px solid var(--linea)}
+  .carta ul{list-style:none;display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;padding:0;margin:0}
+  .carta li{border:1px solid var(--linea);border-radius:12px;background:#fff;padding:18px 18px 16px}
+  .carta li .falta{font-family:var(--serif);font-size:18px;color:var(--tinta);margin:0 0 6px}
+  .carta li .hoy{font-size:13.5px;color:var(--apagado);line-height:1.5;margin:0}
+  .carta li .hoy b{color:var(--tinta-2)}
+  .palanca{margin:24px 0 0;display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center;
+    border:2px solid var(--acento);background:var(--acento-suave);border-radius:12px;padding:16px 20px}
+  .palanca .cifra{font-family:var(--serif);font-size:34px;color:var(--acento);line-height:1}
+  .palanca p{font-size:14.5px;color:var(--tinta-2);margin:0;max-width:56ch}
+  details{background:#f4f1ea;border-radius:12px;padding:0 22px;margin:40px 0 0}
+  summary{cursor:pointer;font-weight:600;padding:16px 0;color:var(--acento);font-size:16.5px}
+  @media (max-width:900px){main{padding:48px 24px}nav{display:none}.carta ul{grid-template-columns:1fr}figure svg{width:100%;height:auto}}
+</style>
+</head>
+<body>
+<nav aria-label="Índice">
+  <p class="marca">Ciencia de Datos · UTN FRM · 2026<br>Grupo 5K09-04</p>
+  <h3>La historia</h3>
+  <ol>
+    <li><a href="#">El proyecto</a></li>
+    <li><a href="#">Los datos</a></li>
+    <li><a href="#">Lo que encontramos</a></li>
+    <li><a href="#">El modelo</a></li>
+    <li><a class="activo" href="#">Por qué no más</a></li>
+  </ol>
+  <h3>Tu turno</h3>
+  <ol>
+    <li><a href="#">Explorá los clientes</a></li>
+    <li><a href="#">Probá el modelo</a></li>
+  </ol>
+</nav>
+<main>
+  <section>
+    <p class="etapa">El techo</p>
+    <p class="capitulo">Capítulo 05</p>
+    <h2>El techo es <b>4,1&nbsp;%</b> — y es de los datos, no del modelo</h2>
+    <p class="entradilla">Entrená con la época que entrenes, la misma logística llega al mismo lugar. Para romper el techo no hace
+    falta un modelo mejor: hace falta <b>otra información</b>. Esta es la demostración, y la carta de lo que falta.</p>
+    <figure>
+      <p class="titulo-f">Ahorro de llamadas por sí, según con qué época se entrenó <em>· la misma logística, el mismo test</em></p>
+      <svg viewBox="0 0 700 150" role="img" aria-label="Ahorro en el test: el modelo de la app 4,1 por ciento; entrenado con los viejos y umbral recalibrado 4,0; umbral transplantado 0,4">
+        <g font-family="-apple-system,Segoe UI,sans-serif" font-size="13" fill="#3d3831">
+          <text x="0" y="30">El modelo de esta app (lo reciente)</text>
+          <rect x="330" y="16" width="256" height="22" rx="4" fill="#0072B2"/><text x="594" y="32">4,1 %</text>
+          <text x="0" y="72">Entrenado con los viejos, umbral recalibrado</text>
+          <rect x="330" y="58" width="250" height="22" rx="4" fill="#0072B2"/><text x="588" y="74">4,0 %</text>
+          <text x="0" y="114">Entrenado con los viejos, umbral transplantado</text>
+          <rect x="330" y="100" width="25" height="22" rx="4" fill="#D55E00"/><text x="363" y="116">0,4 %</text>
+        </g>
+        <text x="330" y="10" font-family="-apple-system,Segoe UI,sans-serif" font-size="10.5" fill="#6b6459">ahorro (%)</text>
+      </svg>
+      <figcaption>Dos épocas de entrenamiento, el mismo techo. La roja muestra por qué la estrategia del banco no salió de los
+      datos viejos: la señal estaba, pero su umbral no viaja entre regímenes.</figcaption>
+    </figure>
+
+    <div class="carta">
+      <p class="rotulo-c">La carta de lo que falta · para romper el techo habría que recolectar</p>
+      <ul>
+        <li>
+          <p class="falta">Cuánto vale el cliente</p>
+          <p class="hoy">Ingresos, productos contratados, antigüedad. Hoy sólo hay <b>edad, ocupación y saldo</b> — nada que
+          diga si a este cliente le conviene un plazo fijo.</p>
+        </li>
+        <li>
+          <p class="falta">Un historial de campañas de verdad</p>
+          <p class="hoy">En la era vieja casi nadie tenía contacto previo, y el resultado anterior casi siempre es
+          <b>«Otro» o desconocido</b>. La señal que más pesa es justamente la que menos registrada está.</p>
+        </li>
+        <li>
+          <p class="falta">Contexto que no sea fuga</p>
+          <p class="hoy">El mes explica mucho (η² 6,8&nbsp;%) pero no se puede asegurar que se conozca antes de llamar:
+          <b>queda afuera por fuga posible</b>, no por falta de señal.</p>
+        </li>
+      </ul>
+      <div class="palanca">
+        <p class="cifra">10&nbsp;%</p>
+        <p>es el ahorro que se le puede exigir al mismo modelo con otra decisión: aceptando perder <b>20 de cada 100 sí</b>
+        (en vez de 5), cada sí cuesta 1,76 llamadas. La única palanca que no es un dato: dónde pararse lo decide el negocio.</p>
+      </div>
+    </div>
+
+    <details>
+      <summary>Cómo lo sabemos · qué se hizo, la era vieja por adentro y el empate del ranking</summary>
+      <p style="font-size:15.5px;color:#3d3831;margin:12px 0">Qué se hizo (misma logística, 39.752 descartados, umbral por fold,
+      transplantado vs recalibrado) · adentro de la era vieja no hay nada estable (ahorro 4,1&nbsp;% ± 3,8&nbsp;%) · el empate del
+      ranking (AP 0,685 contra 0,680) · aviso de honestidad.</p>
+    </details>
+  </section>
+</main>
+</body>
+</html>

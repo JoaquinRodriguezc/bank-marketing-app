@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "chosen": "04-radiografia.html",
+  "handoffs": {
+    "01-tres-actos.html": {
+      "status": "implemented",
+      "queued": false,
+      "sentAt": "2026-11-24T15:28:01.300Z",
+      "startedAt": "2026-11-24T15:29:06.248Z",
+      "implementedAt": "2026-11-24T15:31:44.786Z",
+      "feature": "odd/tasks/mejoras-entrega4.md",
+      "note": "Tres actos implemented: chapter 04, duelo versus with delta chip, both figures framed with epigrafe. Cómo lo sabemos left untouched per the group's explicit request. Build identical; 11/11 specs compile with the real Vega-Lite.",
+      "previewUrl": "http://127.0.0.1:8424/index.html"
+    },
+    "04-radiografia.html": {
+      "status": "implemented",
+      "queued": false,
+      "sentAt": "2026-11-24T15:51:29.055Z",
+      "startedAt": "2026-11-24T15:51:48.039Z",
+      "implementedAt": "2026-11-24T15:52:37.238Z",
+      "feature": "odd/tasks/mejoras-entrega4.md",
+      "note": "Acto 3 delivered: confusion matrix and coefficients promoted to the section body as framed figures, removed from the details drawer which keeps metrica/piso/correcciones/validacion/comparacion/ajuste. Build identical; 11/11 specs compile.",
+      "previewUrl": "http://127.0.0.1:8424/index.html"
+    }
+  }
+}

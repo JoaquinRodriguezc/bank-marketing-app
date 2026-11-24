@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Copa · 03 El veredicto grande</title>
+<style>
+  :root{
+    --papel:#faf9f6; --tinta:#141310; --tinta-2:#3d3831; --apagado:#6b6459;
+    --linea:#e4dfd5; --acento:#0072B2; --acento-suave:#eff4f9; --copa:#8a4b0f;
+    --serif:Georgia,"Times New Roman",serif; --sans:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0}
+  body{display:flex;min-height:100vh;background:var(--papel);color:var(--tinta);font-family:var(--sans);font-size:17px;line-height:1.6}
+  a{color:inherit;text-decoration:none}
+  nav{width:230px;flex:none;border-right:1px solid var(--linea);padding:32px 22px;position:sticky;top:0;height:100vh}
+  nav .marca{font-family:var(--serif);font-size:13.5px;color:var(--apagado);line-height:1.45;margin-bottom:34px}
+  nav h3{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--apagado);margin:26px 0 8px;font-weight:600}
+  nav .tallo h3{color:var(--acento)} nav .copa h3{color:var(--copa)}
+  nav ol{list-style:none;padding-left:10px 30px}
+  nav .tallo ol{border-left:2px solid var(--linea)} nav .copa ol{border-left:2px solid var(--copa)}
+  nav li a{display:block;padding:6px 0 6px 10px;font-size:14.5px;color:var(--tinta-2)}
+  nav .copa li a.activo{color:var(--copa);font-weight:600}
+  main{flex:1;max-width:880px;margin:0 auto;padding:64px 64px 90px}
+  .etapa{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--copa);font-weight:600}
+  .capitulo{float:right;font-family:var(--serif);font-size:15px;color:var(--apagado);border:1px solid var(--linea);
+    border-radius:999px;padding:6px 14px}
+  h2{font-family:var(--serif);font-weight:400;font-size:31px;line-height:1.22;margin:18px 0 12px;max-width:26ch}
+  h2 b{color:var(--acento);font-weight:400}
+  .entradilla{font-size:16.5px;color:var(--tinta-2);max-width:64ch}
+  figure{margin:34px 0 0;background:#fff;border:1px solid var(--linea);border-radius:14px;padding:24px 24px 14px}
+  figure .titulo-f{font-family:var(--serif);font-size:17.5px;margin-bottom:14px}
+  figure .titulo-f em{color:var(--apagado)}
+  figcaption{font-size:13.5px;color:var(--apagado);margin-top:10px;border-top:1px solid var(--linea);padding-top:10px;max-width:74ch}
+  .controles{display:flex;flex-wrap:wrap;gap:10px 24px;margin:14px 0 0;font-size:14.5px;
+    padding:12px 16px;background:var(--papel);border:1px solid var(--linea);border-radius:10px}
+  .control{display:flex;align-items:center;gap:8px}
+  .control label{font-weight:600;color:var(--tinta-2)}
+  .control select,.control input[type=range]{accent-color:var(--copa)}
+  .control select{font-size:14.5px;padding:3px 6px;border:1px solid var(--linea);border-radius:6px;background:#fff}
+  .resumen{font-size:15px;font-weight:600;color:var(--tinta);margin:14px 0 0}
+  .resumen b{color:var(--acento)}
+  .probar{display:grid;grid-template-columns:minmax(0,1fr) 420px;gap:24px;align-items:start;margin-top:34px}
+  fieldset{border:1px solid var(--linea);border-radius:12px;padding:8px 14px 12px;margin:0 0 12px;background:#fff}
+  legend{font-weight:600;font-size:13px;color:var(--copa);padding:0 6px;text-transform:uppercase;letter-spacing:.06em}
+  .slot{display:grid;grid-template-columns:150px minmax(90px,1fr) 60px;align-items:center;gap:10px;font-size:14.5px;margin:10px 0}
+  .slot input[type=range]{width:100%;accent-color:var(--copa)}
+  .slot select{font-size:14.5px;padding:3px 6px;border:1px solid var(--linea);border-radius:6px;background:#fff;width:100%}
+  .veredicto{position:sticky;top:16px;border:1px solid var(--linea);border-radius:14px;background:#fff;padding:18px 18px 14px}
+  .veredicto .titulo-f{font-family:var(--serif);font-size:16.5px;margin-bottom:12px}
+  .barra{height:40px;border-radius:8px;background:#eef1f4;position:relative;overflow:hidden}
+  .barra .llama{position:absolute;inset:0 61% 0 0;background:var(--acento)}
+  .barra .regla{position:absolute;top:-6px;bottom:-6px;left:61%;border-left:2px dashed var(--tinta)}
+  .cifra-veredicto{font-family:var(--serif);font-size:72px;line-height:1;color:var(--acento);margin:14px 0 10px}
+  .chip-veredicto{display:inline-block;border-radius:999px;padding:6px 16px;font-size:14px;font-weight:700;margin:0}
+  .chip-veredicto.llama{background:var(--acento);color:#fff}
+  .chip-veredicto.no-llama{background:#eef1f4;color:var(--apagado)}
+  .veredicto p.nota-v{font-size:13px;color:var(--apagado);margin:0}
+  .nota{font-size:13.5px;color:var(--apagado);margin-top:14px}
+  .nota b{color:var(--tinta-2)}
+  @media (max-width:1100px){.probar{grid-template-columns:1fr}.veredicto{position:static}}
+  @media (max-width:900px){main{padding:48px 24px}nav{display:none}figure svg{width:100%;height:auto}}
+</style>
+</head>
+<body>
+<nav aria-label="Índice">
+  <p class="marca">Ciencia de Datos · UTN FRM · 2026<br>Grupo 5K09-04</p>
+  <div class="tallo"><h3>La historia</h3>
+    <ol>
+      <li><a href="#">El proyecto</a></li>
+      <li><a href="#">Los datos</a></li>
+      <li><a href="#">Lo que encontramos</a></li>
+      <li><a href="#">El modelo</a></li>
+      <li><a href="#">Por qué no más</a></li>
+    </ol>
+  </div>
+  <div class="copa"><h3>Tu turno</h3>
+    <ol>
+      <li><a class="activo" href="#">Explorá los clientes</a></li>
+      <li><a href="#">Probá el modelo</a></li>
+    </ol>
+  </div>
+</nav>
+<main>
+  <section>
+    <p class="etapa">Tu turno · Explorá</p>
+    <p class="capitulo">Tu turno · 01</p>
+    <h2>Los clientes, según la probabilidad de sí que les da el modelo</h2>
+    <p class="entradilla">Cada punto es un contacto; a la derecha de la línea punteada, el modelo dice que hay que llamarlo. En
+    rojo, los sí que se escapan. El <b>saldo</b> es el dinero que el cliente tiene en su cuenta (escala logarítmica con
+    signo, para que los descubiertos queden legibles). Pasá el mouse por un punto para ver el cliente entero.</p>
+    <figure>
+      <p class="titulo-f">El panorama, con filtros <em>· 4.728 clientes con su probabilidad</em></p>
+      <div class="controles">
+        <div class="control"><label>Umbral</label><input type="range" min="0" max="100" value="35"></div>
+        <div class="control"><label>Ocupación</label><select><option>Todas</option><option>Administrativo</option><option>Obrero</option></select></div>
+        <div class="control"><label>Resultado anterior</label><select><option>Todos</option><option>Éxito</option><option>Fracaso</option></select></div>
+        <div class="control"><label>Eje vertical</label><select><option>Saldo en la cuenta (log con signo)</option><option>Edad</option></select></div>
+        <div class="control"><label>Predicho en</label><select><option>Todos</option><option>Entrenamiento</option><option>Test</option></select></div>
+      </div>
+      <svg viewBox="0 0 760 300" role="img" aria-label="Dispersión de clientes por probabilidad; línea de umbral; puntos rojos para sí que se escapan">
+        <line x1="452" y1="10" x2="452" y2="280" stroke="#1a1a1a" stroke-dasharray="5 4"/>
+        <text x="460" y="28" font-family="-apple-system,Segoe UI,sans-serif" font-size="12" fill="#1a1a1a">llama desde acá →</text>
+        <text x="12" y="20" font-family="-apple-system,Segoe UI,sans-serif" font-size="13" fill="#6b6459">↑ eje vertical elegido</text>
+        <g>
+          <circle cx="80" cy="60" r="4" fill="#9ec7e3"/><circle cx="120" cy="120" r="4" fill="#9ec7e3"/><circle cx="150" cy="200" r="4" fill="#9ec7e3"/>
+          <circle cx="190" cy="90" r="4" fill="#9ec7e3"/><circle cx="210" cy="250" r="4" fill="#9ec7e3"/><circle cx="240" cy="40" r="4" fill="#9ec7e3"/>
+          <circle cx="280" cy="160" r="4" fill="#9ec7e3"/><circle cx="310" cy="110" r="4" fill="#9ec7e3"/><circle cx="330" cy="230" r="4" fill="#9ec7e3"/>
+          <circle cx="370" cy="70" r="4" fill="#9ec7e3"/><circle cx="390" cy="190" r="4" fill="#9ec7e3"/><circle cx="420" cy="130" r="4" fill="#9ec7e3"/>
+          <circle cx="100" cy="170" r="4" fill="#E69F00"/><circle cx="220" cy="80" r="4" fill="#E69F00"/><circle cx="260" cy="220" r="4" fill="#E69F00"/>
+          <circle cx="340" cy="50" r="4" fill="#E69F00"/><circle cx="430" cy="90" r="4" fill="#E69F00"/>
+          <circle cx="480" cy="60" r="4" fill="#0072B2"/><circle cx="500" cy="140" r="4" fill="#0072B2"/><circle cx="520" cy="40" r="4" fill="#0072B2"/>
+          <circle cx="540" cy="200" r="4" fill="#0072B2"/><circle cx="560" cy="100" r="4" fill="#0072B2"/><circle cx="580" cy="160" r="4" fill="#0072B2"/>
+          <circle cx="600" cy="70" r="4" fill="#0072B2"/><circle cx="620" cy="230" r="4" fill="#0072B2"/><circle cx="640" cy="110" r="4" fill="#0072B2"/>
+          <circle cx="660" cy="180" r="4" fill="#0072B2"/><circle cx="680" cy="50" r="4" fill="#0072B2"/><circle cx="700" cy="140" r="4" fill="#0072B2"/>
+          <circle cx="470" cy="250" r="5" fill="#D55E00"/><circle cx="610" cy="260" r="5" fill="#D55E00"/>
+        </g>
+      </svg>
+      <p class="resumen">4.728 clientes · el modelo llama a <b>1.003</b> y consigue <b>519</b> de <b>542</b> sí (96 %) ·
+      <b>1,93</b> llamadas por sí, contra 2,01 si llama a todos</p>
+      <figcaption>Cada contacto lo predice un modelo que no lo vio: los del entrenamiento salen de la validación cruzada,
+      los del test, del modelo final. Los primeros 873 del entrenamiento no tienen predicción, porque ningún pedazo los valida.</figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <p class="etapa">Tu turno · Probá el modelo</p>
+    <p class="capitulo">Tu turno · 02</p>
+    <h2>Armá un cliente y mirá si el modelo lo llamaría</h2>
+    <p class="entradilla">La probabilidad se calcula dentro de la página con los coeficientes de la logística entrenada: nada
+    se reentrena. Los deslizadores van del mínimo al máximo que vio el entrenamiento y los menús sólo ofrecen categorías que
+    el modelo conoce, así que no se puede cargar un valor que nunca vio.</p>
+    <div class="probar">
+      <div class="entradas">
+        <fieldset><legend>El cliente</legend>
+          <div class="slot"><span>Edad</span><input type="range" min="18" max="95" value="40"><span>40</span></div>
+          <div class="slot"><span>Ocupación</span><select><option>Gerencial</option><option>Administrativo</option><option>Obrero</option></select><span></span></div>
+          <div class="slot"><span>Educación</span><select><option>Secundaria</option><option>Terciaria</option></select><span></span></div>
+        </fieldset>
+        <fieldset><legend>Su situación con el banco</legend>
+          <div class="slot"><span>Saldo (€)</span><input type="range" min="-8019" max="102127" value="448"><span>448</span></div>
+          <div class="slot"><span>Hipoteca</span><select><option>No</option><option>Sí</option></select><span></span></div>
+          <div class="slot"><span>Préstamo</span><select><option>No</option><option>Sí</option></select><span></span></div>
+        </fieldset>
+        <fieldset><legend>La campaña anterior</legend>
+          <div class="slot"><span>Contactos anteriores</span><input type="range" min="0" max="275" value="0"><span>0</span></div>
+          <div class="slot"><span>Días desde el anterior</span><input type="range" min="1" max="871" value="70"><span>70</span></div>
+          <div class="slot"><span>Resultado anterior</span><select><option>Éxito</option><option>Fracaso</option><option>Otro</option></select><span></span></div>
+        </fieldset>
+      </div>
+      <div class="veredicto">
+        <p class="titulo-f">El veredicto del modelo</p>
+        <p class="cifra-veredicto">65,4&nbsp;%</p>
+        <p class="chip-veredicto llama">El modelo lo llama</p>
+        <div class="barra"><div class="llama"></div><div class="regla"></div></div>
+        <p class="nota-v">El umbral es el mismo que en el test: 0,3545. Con 0 contactos anteriores, el cliente cuenta como
+        «sin contacto previo».</p>
+      </div>
+    </div>
+    <p class="nota">Valores de partida: la mediana del entrenamiento. <b>Probalo vos</b>: subí la edad a 70 o cambiá el
+    resultado anterior a Fracaso, y mirá cómo cae la probabilidad.</p>
+  </section>
+</main>
+</body>
+</html>

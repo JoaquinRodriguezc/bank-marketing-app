@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "chosen": "05-escala-del-corte.html",
+  "handoffs": {
+    "02-morgue-de-hipotesis.html": {
+      "status": "implemented",
+      "queued": false,
+      "sentAt": "2026-11-24T14:28:20.552Z",
+      "startedAt": "2026-11-24T14:29:06.556Z",
+      "implementedAt": "2026-11-24T14:30:28.061Z",
+      "feature": "odd/tasks/mejoras-entrega4.md",
+      "note": "Morgue grid implemented with computed numbers where the build provides them; 'Otro' keeps a full aside per the professor's requirement; details remain the evidence layer. Build line identical.",
+      "previewUrl": "http://127.0.0.1:8424/index.html"
+    },
+    "05-escala-del-corte.html": {
+      "status": "implemented",
+      "queued": false,
+      "sentAt": "2026-11-24T14:48:17.231Z",
+      "startedAt": "2026-11-24T14:48:50.978Z",
+      "implementedAt": "2026-11-24T14:50:44.780Z",
+      "feature": "odd/tasks/mejoras-entrega4.md",
+      "note": "Lift-scale delivered as a real Altair chart inside the morgue: dots per hypothesis on a 0-6 axis, dashed cutoff at 3.33, exito previo (5.53) accented and bold; marital values cite Entrega 2 like the cards. Build line identical.",
+      "previewUrl": "http://127.0.0.1:8424/index.html"
+    }
+  }
+}
