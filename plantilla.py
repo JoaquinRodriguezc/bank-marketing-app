@@ -564,9 +564,8 @@ def armar(df, r, pm, specs, h, sha, tablas):
   <p class="capitulo">Tu turno · 01</p>
   <h2>Los clientes, según la probabilidad de sí que les da el modelo</h2>
   <p class="entradilla">Cada punto es un contacto; a la derecha de la línea punteada, el modelo dice que hay que llamarlo. En rojo,
-  los sí que se escapan. La vertical es el <b>saldo</b>: el dinero en la cuenta del cliente en este banco, en escala logarítmica con
-  signo para que los saldos chicos y los descubiertos queden legibles — con el menú «Eje vertical» la cambiás por la edad o por los
-  contactos anteriores.</p>
+  los sí que se escapan. La vertical la elegís vos con el menú «Eje vertical»; el eje horizontal es siempre la probabilidad de sí
+  según el modelo.</p>
   <div class="pasos-tu">
     <p class="paso-chip"><b>1</b> achicá el universo con los menús</p>
     <p class="paso-chip"><b>2</b> mové el umbral y mirá cómo cambia la lista</p>

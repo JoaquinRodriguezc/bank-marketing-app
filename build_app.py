@@ -600,7 +600,8 @@ def grafico_proba(r, pm, rango):
     base = alt.Chart(pd.DataFrame({"k": [0]})).transform_calculate(z=expresion_logit(pm)).transform_calculate(
         p="1 / (1 + exp(-datum.z))").transform_calculate(
         decision=f"datum.p >= {umbral} ? 'Llamar' : 'No llamar'",
-        t="format(datum.p, '.1%') + ' de probabilidad de sí → ' + datum.decision",
+        t_grande="format(datum.p, '.1%')",
+        t_decision="datum.decision == 'Llamar' ? 'de probabilidad de sí → el modelo lo llama' : 'de probabilidad de sí → el modelo no lo llama'",
         nota="previos == 0 ? 'Sin contacto previo: los días y el resultado anterior no se usan' : ''")
     x = alt.X("p:Q", title=None, axis=alt.Axis(format="%"), scale=alt.Scale(domain=[0, 1]))
     fondo = alt.Chart(pd.DataFrame({"a": [0], "b": [1]})).mark_bar(color="#eef1f4", height=46).encode(x="a:Q", x2="b:Q")
@@ -608,9 +609,14 @@ def grafico_proba(r, pm, rango):
     regla = alt.Chart(pd.DataFrame({"u": [umbral]})).mark_rule(color="#1a1a1a", strokeDash=[5, 4], size=2).encode(x="u:Q")
     regla_t = alt.Chart(pd.DataFrame({"u": [umbral]})).mark_text(align="left", dx=4, y=-14, fontSize=12.5, color="#1a1a1a").encode(
         x="u:Q", text=alt.value(f"umbral {pct(umbral, 1)}"))
-    texto = base.mark_text(align="left", fontSize=18, fontWeight="bold", color="#1a1a1a").encode(x=alt.value(0), y=alt.value(-52), text="t:N")
+    grande = base.mark_text(align="left", fontSize=46, fontWeight="bold").encode(
+        x=alt.value(0), y=alt.value(-92), text="t_grande:N",
+        color=alt.condition("datum.decision == 'Llamar'", alt.value(AZUL), alt.value("#9a9a9a")))
+    decision_t = base.mark_text(align="left", fontSize=15.5, fontWeight="bold").encode(
+        x=alt.value(0), y=alt.value(-46), text="t_decision:N",
+        color=alt.condition("datum.decision == 'Llamar'", alt.value(AZUL), alt.value("#9a9a9a")))
     nota = base.mark_text(align="left", fontSize=13, color="#555").encode(x=alt.value(0), y=alt.value(84), text="nota:N")
-    chart = alt.layer(fondo, barra, regla, regla_t, texto, nota).properties(width=420, height=46, padding={"top": 70, "bottom": 40, "left": 10, "right": 20})
+    chart = alt.layer(fondo, barra, regla, regla_t, grande, decision_t, nota).properties(width=420, height=46, padding={"top": 136, "bottom": 40, "left": 10, "right": 20})
     return tema(chart.add_params(*params))
 
 
