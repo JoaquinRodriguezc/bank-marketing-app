@@ -55,3 +55,4 @@ Publicación y defensa (decisiones del grupo):
 
 Estado: 16 commits en `mejoras-entrega4`, rama local (nunca pusheada). El test del build imprime idéntico en cada regeneración: umbral 0,354462 · 1.003 llamadas · 519/542 sí.
 - L11 (handoff de diseño): implementado design/hallazgos-revista/02-morgue-de-hipotesis.html (capítulo 03, figura enmarcada, grilla visible de hipótesis fallidas con números, aparte «Otro» completo, details como capa de evidencia). Artboards 01 y 03 quedan como alternativas.
+- L12 (corrección del usuario): fuera el aparte «¿Y qué es «Otro»?» (queda documentado en el desplegable) y al principio de hallazgos el versus del historial de la alternativa 3 (2008 llamaba a casi todos → desde 2009 la lista elegida), con porcentajes computados en hipotesis(): 13,4 % / 53,9 % sobre los cortes propios de la app.
