@@ -490,19 +490,19 @@ def grafico_versiones(r):
 def grafico_techo(r, d):
     t_app = m3.medir(r["y_te"], r["p_te"], r["umbral"])
     tasa_te = float(r["y_te"].mean())
-    filas = [("Lo reciente · esta app", "La logística del modelo oficial de la página, entrenada con los contactos recientes.",
+    filas = [("Esta app · lo reciente", "La logística del modelo oficial de la página, entrenada con los contactos recientes.",
               1 - tasa_te / t_app["precision"], t_app, AZUL),
-             ("Los viejos · umbral recalibrado", "Entrenada sólo con los contactos descartados; el umbral se volvió a elegir con los datos recientes.",
+             ("Los viejos · recalibrado", "Entrenada sólo con los contactos descartados; el umbral se volvió a elegir con los datos recientes.",
               d["ahorro_cal"], d["cal"], AZUL),
-             ("Los viejos · umbral transplantado", "Entrenada sólo con los contactos descartados, con su umbral de época tal cual vino.",
+             ("Los viejos · transplantado", "Entrenada sólo con los contactos descartados, con su umbral de época tal cual vino.",
               d["ahorro_trans"], d["trans"], ROJO)]
     barras = pd.DataFrame([dict(estrategia=e, detalle=det, ahorro=a * 100, llamadas=t["llamadas"],
                                 si_conseguidos=t["si_conseguidos"], por_si=t["llamadas_por_si"], color=c)
                            for e, det, a, t, c in filas])
     orden = barras.estrategia.tolist()
     x = alt.X("ahorro:Q", title="Ahorro de llamadas por cada sí en el test (%)", scale=alt.Scale(zero=True))
-    y = lambda: alt.Y("estrategia:N", sort=orden, title="Con qué época se entrenó",
-                      axis=alt.Axis(labelFontSize=14.5, labelLimit=250, titleX=-280))
+    y = lambda: alt.Y("estrategia:N", sort=orden, title=None,
+                      axis=alt.Axis(labelFontSize=14.5, labelLimit=200))
     base = alt.Chart(barras).encode(
         y(),
         tooltip=[alt.Tooltip("estrategia:N", title="Versión"),
@@ -513,7 +513,7 @@ def grafico_techo(r, d):
     graf = base.mark_bar(size=30).encode(x, alt.Color("color:N", scale=None, legend=None))
     texto = base.mark_text(align="left", dx=6, fontSize=14, fontWeight="bold").encode(
         alt.X("ahorro:Q", scale=alt.Scale(zero=True)), y(), alt.Text("ahorro:Q", format=".1f"))
-    return tema(alt.layer(graf, texto).properties(width=720, height=210))
+    return tema(alt.layer(graf, texto).properties(width=640, height=210))
 
 
 SALDO_LOG = "Saldo en la cuenta (log con signo)"
