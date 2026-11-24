@@ -2,6 +2,13 @@ import modelado_v3 as m3
 from build_app import num, pct, INICIO, tabla_html
 import pandas as pd
 
+MESES = "enero febrero marzo abril mayo junio julio agosto septiembre octubre noviembre diciembre".split()
+
+
+def fecha_larga(ts):
+    return f"{MESES[ts.month - 1]} de {ts.year}"
+
+
 CSS = """
 :root{--tinta:#1a1a1a;--gris:#555;--suave:#f4f5f6;--linea:#dcdfe3;--acento:#0072B2;--copa:#8a4b0f;--fondo:#fff}
 *{box-sizing:border-box}
@@ -24,10 +31,22 @@ section:last-of-type{border-bottom:none}
 h1{font-size:40px;line-height:1.15;margin:0 0 18px;max-width:24ch}
 h2{font-size:28px;line-height:1.25;margin:0 0 14px;max-width:46ch}
 p,li{max-width:74ch}
-.lead{font-size:21px;color:var(--gris);max-width:64ch}
+.lead{font-size:22px;line-height:1.5;color:#3f4750;max-width:66ch}
 .oracion{font-size:24px;line-height:1.4;border-left:5px solid var(--acento);padding:4px 0 4px 20px;margin:26px 0 34px;max-width:54ch}
 .nums{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:10px 0 18px}
 .nums.dos{grid-template-columns:repeat(2,1fr)}
+#portada{margin-top:26px;padding:46px 40px 26px;border:1px solid var(--linea);border-top:4px solid var(--acento);border-radius:14px;background:linear-gradient(180deg,#f7f9fb 0%,#fff 72%)}
+#portada h1{margin-bottom:20px}
+.nums.versus{grid-template-columns:1fr auto 1fr;gap:16px;align-items:center;margin:4px 0 22px}
+.nums.versus .num{background:#fff;padding:20px 22px;border-radius:10px}
+.nums.versus .num.hoy{border:1px dashed #c3c9d0}
+.nums.versus .num.conmodelo{border:2px solid var(--acento);background:#eff6fb}
+.nums.versus .num span{font-size:46px}
+.nums.versus .num.hoy span{color:var(--gris)}
+.nums.versus .rotulo{margin:0;font-size:12.5px;letter-spacing:.09em;text-transform:uppercase;font-weight:700;color:var(--gris)}
+.nums.versus .conmodelo .rotulo{color:var(--acento)}
+.nums.versus .num p:not(.rotulo){margin:4px 0 0;font-size:15px;color:var(--gris)}
+.nums.versus .flecha{font-size:32px;font-weight:700;line-height:1;color:var(--acento);justify-self:center}
 main h3{font-size:22px;margin:30px 0 10px}
 .num{background:var(--suave);border-radius:8px;padding:18px 20px}
 .num span{display:block;font-size:44px;font-weight:700;line-height:1.1;color:var(--acento)}
@@ -63,7 +82,8 @@ legend{font-weight:600;font-size:14px;color:var(--gris);padding:0 4px}
 .fijo{position:sticky;top:16px}
 footer{max-width:980px;margin:0 auto;padding:30px 0;color:var(--gris);font-size:14px}
 @media (max-width:1150px){.probar{grid-template-columns:1fr}.fijo{position:static}}
-@media (max-width:860px){nav{display:none}main{margin-left:0;padding:0 16px 60px}.nums{grid-template-columns:1fr}h1{font-size:32px}}
+@media (max-width:860px){nav{display:none}main{margin-left:0;padding:0 16px 60px}.nums{grid-template-columns:1fr}h1{font-size:32px}
+#portada{padding:28px 20px 18px;border-radius:12px}.nums.versus{grid-template-columns:1fr}.nums.versus .flecha{transform:rotate(90deg)}}
 """
 
 JS = """
@@ -119,8 +139,9 @@ def armar(df, r, pm, specs, h, sha, tablas):
     may09 = df[df.contact_date.dt.strftime("%Y-%m").eq("2009-05")]
     n_may, tasa_may = len(may09), float(may09.si.mean())
     hasta = df.contact_date.max()
-    oracion = (f"Con lo que el banco sabe antes de llamar, el modelo consigue el {pct(t['recall'])} de los sí con "
-               f"{num(menos)} llamadas menos, y cada sí cuesta {num(t['llamadas_por_si'], 2)} llamadas en vez de {num(todos, 2)}.")
+    oracion = (f"Con lo que el banco ya sabe antes de llamar, el modelo hace que cada sí cueste un {pct(ahorro)} menos "
+               f"llamadas y deja escapar {num(perdidos)} de los {num(t['si_totales'])} clientes que igual iban a decir que sí "
+               f"— y esa es toda la distancia que estos datos permiten recorrer.")
     return f"""<!DOCTYPE html>
 <html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>¿A quién conviene llamar?</title>
@@ -146,14 +167,29 @@ def armar(df, r, pm, specs, h, sha, tablas):
 <section id="portada">
   <p class="etapa tallo">El proyecto</p>
   <h1>¿A quién conviene llamar para que cada depósito cueste menos llamadas?</h1>
-  <p class="lead">Un banco portugués llamó a sus clientes para ofrecerles un depósito a plazo. Cada llamada cuesta tiempo de un operador.
-  La pregunta es si, con lo que el banco ya sabe de un cliente antes de llamarlo, se puede dejar de llamar a algunos
-  sin perder a los que iban a decir que sí.</p>
+  <p class="lead">Un banco portugués llamó a sus clientes para ofrecerles un depósito a plazo.
+  Son las campañas de telemarketing del dataset público Bank Marketing (UCI, bank-full): {num(len(df))} contactos
+  entre {fecha_larga(df.contact_date.min())} y {fecha_larga(hasta)}.
+  Cada llamada le cuesta minutos de operador al banco, y las llamadas son justamente lo que este proyecto intenta bajar.
+  La pregunta es si, con lo que el banco ya sabe de un cliente antes de llamarlo, se puede llamar a menos gente sin perder a los que iban a aceptar.</p>
   <p class="oracion">{oracion}</p>
+  <div class="nums dos versus">
+    <div class="num hoy">
+      <p class="rotulo">Banco hoy</p>
+      <span>{num(todos, 2)}</span>
+      <p>llamadas por cada sí si llama a toda su lista, la que ya elige desde 2009</p>
+    </div>
+    <div class="flecha" aria-hidden="true">→</div>
+    <div class="num conmodelo">
+      <p class="rotulo">Con el modelo</p>
+      <span>{num(t['llamadas_por_si'], 2)}</span>
+      <p>llamadas por cada sí, y {num(menos)} llamadas menos que esas {num(len(r['y_te']))}</p>
+    </div>
+  </div>
   <div class="nums">
-    <div class="num"><span>{num(t['llamadas_por_si'], 2)}</span><p>llamadas por cada sí en el test, contra {num(todos, 2)} si se llama a todos</p></div>
-    <div class="num"><span>{pct(t['recall'])}</span><p>de los {num(t['si_totales'])} sí del test, conseguidos: se escapan {num(perdidos)}</p></div>
-    <div class="num"><span>−{pct(menos / len(r['y_te']))}</span><p>de llamadas: {num(t['llamadas'])} en vez de {num(len(r['y_te']))}</p></div>
+    <div class="num"><span>{num(t['llamadas'])}</span><p>llamadas en el test, de las {num(len(r['y_te']))} de esa lista</p></div>
+    <div class="num"><span>{pct(t['recall'])}</span><p>de los {num(t['si_totales'])} sí conseguidos: se escapan {num(perdidos)} clientes</p></div>
+    <div class="num"><span>{pct(float(r['y_te'].mean()), 1)}</span><p>de la lista que el banco ya llama termina en sí: el rival a batir ya es alto</p></div>
   </div>
   <p class="nota">Medido sobre los {num(len(r['y_te']))} contactos más recientes (julio a noviembre de 2010) del dataset Bank Marketing,
   que el modelo no vio. La mejora es modesta, y la aplicación cuenta por qué.</p>
