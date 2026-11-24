@@ -129,10 +129,6 @@ footer{max-width:980px;margin:0 auto;padding:30px 0;color:var(--gris);font-size:
 .carta li .falta{font-family:var(--serif);font-size:18px;color:var(--tinta);margin:0 0 6px}
 .carta li .hoy{font-size:13.5px;color:var(--gris);line-height:1.5;margin:0}
 .carta li .hoy b{color:var(--tinta-2)}
-.palanca{margin:24px 0 0;display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center;
-  border:2px solid var(--acento);background:var(--acento-suave);border-radius:12px;padding:16px 20px}
-.palanca .cifra{font-family:var(--serif);font-size:34px;color:var(--acento);line-height:1}
-.palanca p{font-size:14.5px;color:var(--tinta-2);margin:0;max-width:56ch}
 @media (max-width:860px){.carta ul{grid-template-columns:1fr}.morgue ul{grid-template-columns:1fr}.duelo{grid-template-columns:1fr}.duelo .flecha{flex-direction:row;min-height:64px}
 nav{display:none}main{margin-left:0;padding:0 16px 60px}.nums{grid-template-columns:1fr}h1{font-size:32px}
 #portada{padding:28px 20px 18px;border-radius:12px}.nums.versus{grid-template-columns:1fr}.nums.versus .flecha{transform:rotate(90deg)}}
@@ -539,12 +535,6 @@ def armar(df, r, pm, specs, h, sha, tablas):
         <b>queda afuera por fuga posible</b>, no por falta de señal.</p>
       </li>
     </ul>
-    <div class="palanca">
-      <p class="cifra">{pct(d['ahorro_r80'], 0)}</p>
-      <p>es el ahorro que se le puede exigir al mismo modelo con otra decisión: aceptando perder
-      <b>{num(100 * (1 - d['recall_r80']), 0)} de cada 100 sí</b> (en vez de 5). La única palanca que no es un dato: dónde
-      pararse lo decide el negocio — conviene sólo si un sí vale menos que las llamadas que ahorra.</p>
-    </div>
   </div>
   <details><summary>Cómo lo sabemos · qué se hizo, la era vieja por adentro y el empate del ranking</summary>
     <h4>Qué se hizo</h4>
