@@ -455,6 +455,38 @@ def analizar_descartados(df, r):
                 ahorro_r80=float(ahorro_r80), recall_r80=float(r80.recall))
 
 
+def grafico_versiones(r):
+    """Las versiones anteriores contra la vigente: ahorro por sí vs sí conseguidos, en su propio test.
+    V1 y V6 son resultados documentados de los notebooks de la Entrega 3; V4 se computa acá."""
+    t = m3.medir(r["y_te"], r["p_te"], r["umbral"])
+    tasa_te = float(r["y_te"].mean())
+    v4_ahorro = (1 - tasa_te / t["precision"]) * 100
+    filas = [dict(recall=0.773, ahorro=18.6, etiqueta="V1 · mezcla de épocas", color=GRIS, lado="izq"),
+             dict(recall=0.8347, ahorro=19.13, etiqueta="V6 · su test interno", color=GRIS, lado="der"),
+             dict(recall=0.9206, ahorro=4.81, etiqueta="V6 · validación: ruido", color=GRIS, lado="izq"),
+             dict(recall=t["recall"], ahorro=v4_ahorro, etiqueta="V4 · la vigente", color=AZUL, lado="der")]
+    d = pd.DataFrame(filas)
+    escala_x = alt.Scale(domain=[0.7, 1])
+    X = lambda: alt.X("recall:Q", title="Sí conseguidos (de cada 100 que había)", axis=alt.Axis(format="%"), scale=escala_x)
+    Y = lambda: alt.Y("ahorro:Q", title="Ahorro de llamadas por sí en su propio test (%)", scale=alt.Scale(zero=True, domain=[0, 25]))
+    puntos = alt.Chart(d).mark_point(filled=True, size=170).encode(
+        X(), Y(), color=alt.Color("color:N", scale=None, legend=None),
+        tooltip=[alt.Tooltip("etiqueta:N", title="Versión"), alt.Tooltip("ahorro:Q", title="Ahorro por sí", format=".1f"),
+                 alt.Tooltip("recall:Q", title="Sí conseguidos", format=".1%")])
+    textos_izq = alt.Chart(d).transform_filter(alt.datum.lado == "izq").mark_text(align="right", dx=-14, dy=4, fontSize=13, color="#6b6459").encode(
+        X(), Y(), text="etiqueta:N")
+    textos_der = alt.Chart(d).transform_filter(alt.datum.lado == "der").mark_text(align="left", dx=14, dy=4, fontSize=13).encode(
+        X(), Y(), text="etiqueta:N", color=alt.Color("color:N", scale=None))
+    ruido = alt.Chart(pd.DataFrame(dict(recall=[0.9206], lo=[4.81 - 1.70], hi=[4.81 + 1.70]))).mark_rule(size=2, color="#555").encode(
+        alt.X("recall:Q", scale=escala_x), alt.Y("lo:Q", scale=alt.Scale(zero=True, domain=[0, 25])), y2="hi:Q")
+    compromiso = alt.Chart(pd.DataFrame(dict(x=[0.95], y0=[0.0], y1=[23.5]))).mark_rule(color="#1a1a1a", strokeDash=[2, 3]).encode(
+        alt.X("x:Q", scale=escala_x), alt.Y("y0:Q", scale=alt.Scale(zero=True, domain=[0, 25])), y2="y1:Q")
+    compromiso_t = alt.Chart(pd.DataFrame(dict(x=[0.95], y=[23.5], t=["el compromiso: 95 % de los sí"]))).mark_text(
+        align="right", dx=-8, dy=-6, fontSize=12.5, color="#1a1a1a").encode(
+        alt.X("x:Q", scale=escala_x), alt.Y("y:Q", scale=alt.Scale(zero=True, domain=[0, 25])), text="t:N")
+    return tema(alt.layer(ruido, compromiso, compromiso_t, puntos, textos_izq, textos_der).properties(width=720, height=380))
+
+
 def grafico_techo(r, d):
     t_app = m3.medir(r["y_te"], r["p_te"], r["umbral"])
     tasa_te = float(r["y_te"].mean())
@@ -681,6 +713,7 @@ def construir():
                 "g-comparacion": grafico_comparacion(r),
                 "g-confusion": grafico_confusion(r),
                 "g-coef": grafico_coeficientes(pm),
+                "g-versiones": grafico_versiones(r),
                 "g-familias": grafico_familias(r),
                 "g-techo": grafico_techo(r, r["descartados"]),
                 "g-explora": grafico_explora(r), "g-proba": grafico_proba(r, pm, rango)}

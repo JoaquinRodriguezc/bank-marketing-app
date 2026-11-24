@@ -461,6 +461,20 @@ def armar(df, r, pm, specs, h, sha, tablas):
     daban números más lindos que falsos. V3 fijó la métrica de negocio y el umbral por pedazo. V4 sacó mayo de 2009: {num(n_may)} llamadas
     con {pct(tasa_may, 1)} de sí, la cola del régimen viejo que quedaba en el corte; sin ese mes, el ahorro de validación sube en los
     cuatro pedazos (1,5 % → 5,0 %).</p>
+    <h4>Las versiones que hubo antes, y por qué el modelo es lo que es</h4>
+    <p>Cada punto es una versión medida en su propio test: cuántos sí consigue (horizontal) contra cuánto ahorra por sí
+    (vertical). Las viejas sólo ahorraban dejando clientes escaparse; la vigente fija primero el compromiso — no perder más de
+    5 de cada 100 sí — y recién ahí mide el ahorro.</p>
+    <div class="grafico" id="g-versiones"></div>
+    <p>V1 mezclaba épocas: entrenada con las campañas viejas y medida con f1, ahorraba un 18,6 % por sí en su test — pero
+    perdiendo 23 de cada 100 clientes que iban a aceptar, con una validación (f1 0,158 ± 0,092) que no anticipaba nada.
+    V6 probó si la era vieja escondía una estrategia: su mejor ahorro interno es ruido (4,8 % ± 1,7 % en validación, la
+    rayita vertical) y su único test decente (19,1 %) vuelve a caer en el mismo vicio — ahorra perdiendo 17 de cada 100 sí.
+    V4, la vigente, mide 4,1 % con la validación anticipándolo (4,5 % ± 1,6 %). <b>No cambiamos el modelo: cambiamos la
+    pregunta.</b></p>
+    <p class="nota">Los números de V1 y V6 son los documentados en los notebooks de la Entrega 3 (V1 con umbral 0,5 y pesos
+    balanceados, sobre su test de 9.043 contactos; V6 sobre su test interno de 7.234); los de V4 los computa esta página al
+    generarla.</p>
     <h4>La validación</h4>
     <p>Validación cruzada temporal (<code>TimeSeriesSplit</code>, 5 pedazos) sobre el entrenamiento: cada pedazo se entrena con el pasado y se valida con lo que viene después,
     como se va a usar el modelo. Imputar, escalar y codificar van adentro del pipeline, así que se ajustan dentro de cada pedazo.</p>
