@@ -56,10 +56,10 @@ h2 b{color:var(--acento);font-weight:400}
 .figura .titulo-f em{color:var(--gris)}
 .figura figcaption{font-size:13.5px;color:var(--gris);margin:10px 0 0;border-top:1px solid var(--linea);padding-top:10px;max-width:74ch}
 .aparte{margin:26px 0 0;background:var(--suave);border-left:4px solid var(--gris);border-radius:0 12px 12px 0;padding:18px 22px;font-size:15.5px;color:var(--tinta-2);max-width:74ch}
-.morgue{margin:30px 0 0}
+.morgue{margin:52px 0 0}
 .rotulo-m{font-size:11.5px;letter-spacing:.15em;text-transform:uppercase;font-weight:700;color:var(--gris);display:flex;align-items:center;gap:12px;margin:0 0 14px}
 .rotulo-m::after{content:"";flex:1;border-top:1px solid var(--linea)}
-.morgue ul{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:0;margin:0}
+.morgue ul{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:0;margin:24px 0 0}
 .morgue li{border:1px solid var(--linea);border-radius:12px;background:#fff;padding:16px 18px}
 .morgue li .h{font-family:var(--serif);font-size:17px;color:var(--tinta-2);margin:0 0 4px}
 .morgue li .v{font-size:13.5px;color:var(--gris);line-height:1.5;margin:0}
