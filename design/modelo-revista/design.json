@@ -1,0 +1,49 @@
+{
+  "title": "Sección «El modelo» — revista de datos",
+  "brief": "Cuarta sección del restilo editorial sección por sección de la app de la Entrega 4 (bank marketing). Es la sección más cargada: versus, números duros, cinco gráficos (familias, curva desde (0,0), comparación de 12 candidatos, confusión, coeficientes) y un desplegable extenso. Contenido ya corregido según el profesor; la decisión de diseño es cómo agrupar y jerarquizar todo eso en la vestimenta editorial.",
+  "feature": "odd/tasks/mejoras-entrega4.md",
+  "artboards": [
+    {
+      "file": "01-tres-actos.html",
+      "title": "Tres actos",
+      "tradeoff": "El sistema editorial aplicado con el patrón de pasos de la portada: «Acto 1 · cómo se llegó» y «Acto 2 · el resultado», cada uno con su figura enmarcada y epígrafe. Mantiene el orden que pidió el profesor (proceso antes de la torta) con la misma estructura actual; es el de menor riesgo pero suma poca novedad visual.",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "02-curva-del-umbral.html",
+      "title": "La curva del umbral",
+      "tradeoff": "La curva anotada es la protagonista absoluta: marca el punto elegido, el mínimo exigido de 95 % y la opción de negocio del 80 % (1,76 · 10 % de ahorro) en un solo gráfico que cuenta la decisión completa. Reangula el título hacia el umbral y deja el proceso reducido a una tarjeta; riesgo: el título ya no afirma el resultado (4,1 %) sino la regla.",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "03-proceso-en-una-figura.html",
+      "title": "El proceso en una figura",
+      "tradeoff": "Une las dos vistas de modelos (mejor por familia + los 12 candidatos con desvío) en una sola figura ancha de dos paneles, y la curva del resultado en su propia figura debajo. El proceso se lee de una mirada sin sacrificar el detalle; pierde el versus protagonista arriba (queda igual que la portada, ya visto por el lector).",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "04-radiografia.html",
+      "title": "Acto 3 · radiografía apilada",
+      "tradeoff": "Promueve matriz de confusión y coeficientes como un tercer acto completo: dos figuras apiladas de ancho completo con sus epígrafes. Máxima legibilidad de cada gráfico; la sección gana bastante altura vertical.",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "05-dos-columnas.html",
+      "title": "Acto 3 · radiografía en dos columnas",
+      "tradeoff": "Lo mismo pero compacto: la matriz a la izquierda y los coeficientes a la derecha en un solo bloque de dos paneles. La radiografía se lee de una mirada sin apenas sumar altura; los dos gráficos quedan más chicos.",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "06-cierre-narrativo.html",
+      "title": "Confusión en el Acto 2 + cierre narrativo",
+      "tradeoff": "La matriz entra al Acto 2 (el resultado Y su costo, juntos) y los coeficientes cierran la sección con el círculo narrativo: la señal que sostiene al modelo es el hallazgo del capítulo 03. La mejor historia; el coeficiente se queda con menos aire protagonista.",
+      "width": 1440,
+      "height": 900
+    }
+  ]
+}

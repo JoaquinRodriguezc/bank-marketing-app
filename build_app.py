@@ -214,6 +214,42 @@ def tasa_por_anterior(df):
     return t.sort_values("tasa", ascending=False)
 
 
+def grafico_lift(h):
+    """La escala del corte: un punto por hipótesis sobre la línea de lift, el corte en 3,33."""
+    puntos_df = pd.DataFrame([dict(lift=0.87, color=GRIS), dict(lift=1.28, color=GRIS),
+                              dict(lift=float(h["lift_est"]), color=GRIS)])
+    etiquetas_df = pd.DataFrame([
+        dict(lift=0.87, y=0.5, etiqueta=f"casados · {num(0.87, 2)}"),
+        dict(lift=1.28, y=-0.52, etiqueta=f"solteros · {num(1.28, 2)}"),
+        dict(lift=float(h["lift_est"]), y=0.5, etiqueta=f"estudiantes · {num(h['lift_est'], 2)}")])
+    exito_df = pd.DataFrame([dict(lift=float(h["lift_exito"]), y=0.0)])
+    exito_t_df = pd.DataFrame([dict(lift=float(h["lift_exito"]), y=0.55, etiqueta=f"éxito previo · {num(h['lift_exito'], 2)}")])
+    base_df = pd.DataFrame({"lift": [0.0, 6.0], "y": [0.0, 0.0]})
+    extremos_df = pd.DataFrame([dict(lift=0.0, y=-0.6, t="lift 0"), dict(lift=6.0, y=-0.6, t="lift 6")])
+    corte_df = pd.DataFrame({"lift": [3.33], "y0": [-0.38], "y1": [0.38]})
+    corte_t_df = pd.DataFrame([dict(lift=3.33, y=-0.66, t="el corte: 3,33")])
+
+    base = alt.Chart(base_df).mark_line(color="#e4dfd5", strokeWidth=2).encode(
+        alt.X("lift:Q", scale=alt.Scale(domain=[0, 6]), axis=None),
+        alt.Y("y:Q", scale=alt.Scale(domain=[-0.75, 0.75]), axis=None))
+    corte = alt.Chart(corte_df).mark_rule(color="#555", strokeDash=[5, 4]).encode(
+        alt.X("lift:Q", scale=alt.Scale(domain=[0, 6]), axis=None), alt.Y("y0:Q", scale=alt.Scale(domain=[-0.75, 0.75]), axis=None), y2="y1:Q")
+    corte_t = alt.Chart(corte_t_df).mark_text(fontSize=12.5, color="#555", align="center").encode(
+        alt.X("lift:Q", scale=alt.Scale(domain=[0, 6]), axis=None), alt.Y("y:Q", scale=alt.Scale(domain=[-0.75, 0.75]), axis=None), text="t:N")
+    extremos = alt.Chart(extremos_df).mark_text(fontSize=11.5, color="#9a9a9a", align="center").encode(
+        alt.X("lift:Q", scale=alt.Scale(domain=[0, 6]), axis=None), alt.Y("y:Q", scale=alt.Scale(domain=[-0.75, 0.75]), axis=None), text="t:N")
+    puntos = alt.Chart(puntos_df.assign(y=0.0)).mark_point(filled=True, size=150).encode(
+        alt.X("lift:Q", scale=alt.Scale(domain=[0, 6]), axis=None), alt.Y("y:Q", scale=alt.Scale(domain=[-0.75, 0.75]), axis=None),
+        color=alt.Color("color:N", scale=None, legend=None))
+    etiquetas = alt.Chart(etiquetas_df).mark_text(fontSize=13, align="center", color="#6b6459").encode(
+        alt.X("lift:Q", scale=alt.Scale(domain=[0, 6]), axis=None), alt.Y("y:Q", scale=alt.Scale(domain=[-0.75, 0.75]), axis=None), text="etiqueta:N")
+    e = alt.Chart(exito_df).mark_point(filled=True, size=170, color=AZUL).encode(
+        alt.X("lift:Q", scale=alt.Scale(domain=[0, 6]), axis=None), alt.Y("y:Q", scale=alt.Scale(domain=[-0.75, 0.75]), axis=None))
+    e_t = alt.Chart(exito_t_df).mark_text(fontSize=13.5, fontWeight="bold", align="center", color=AZUL).encode(
+        alt.X("lift:Q", scale=alt.Scale(domain=[0, 6]), axis=None), alt.Y("y:Q", scale=alt.Scale(domain=[-0.75, 0.75]), axis=None), text="etiqueta:N")
+    return tema(alt.layer(base, extremos, corte, puntos, e, etiquetas, e_t, corte_t).properties(width=720, height=150))
+
+
 def grafico_hallazgo(df):
     t = tasa_por_anterior(df)
     t = t[t.n >= 30]
@@ -419,29 +455,67 @@ def analizar_descartados(df, r):
                 ahorro_r80=float(ahorro_r80), recall_r80=float(r80.recall))
 
 
+def grafico_versiones(r):
+    """Las versiones anteriores contra la vigente: ahorro por sí vs sí conseguidos, en su propio test.
+    V1 y V6 son resultados documentados de los notebooks de la Entrega 3; V4 se computa acá."""
+    t = m3.medir(r["y_te"], r["p_te"], r["umbral"])
+    tasa_te = float(r["y_te"].mean())
+    v4_ahorro = (1 - tasa_te / t["precision"]) * 100
+    filas = [dict(recall=0.773, ahorro=18.6, etiqueta="V1 · mezcla de épocas", color=GRIS, lado="izq"),
+             dict(recall=0.8347, ahorro=19.13, etiqueta="V6 · su test interno", color=GRIS, lado="der"),
+             dict(recall=0.9206, ahorro=4.81, etiqueta="V6 · validación: ruido", color=GRIS, lado="izq"),
+             dict(recall=t["recall"], ahorro=v4_ahorro, etiqueta="V4 · la vigente", color=AZUL, lado="der")]
+    d = pd.DataFrame(filas)
+    escala_x = alt.Scale(domain=[0.7, 1])
+    X = lambda: alt.X("recall:Q", title="Sí conseguidos (de cada 100 que había)", axis=alt.Axis(format="%"), scale=escala_x)
+    Y = lambda: alt.Y("ahorro:Q", title="Ahorro de llamadas por sí en su propio test (%)", scale=alt.Scale(zero=True, domain=[0, 25]))
+    puntos = alt.Chart(d).mark_point(filled=True, size=170).encode(
+        X(), Y(), color=alt.Color("color:N", scale=None, legend=None),
+        tooltip=[alt.Tooltip("etiqueta:N", title="Versión"), alt.Tooltip("ahorro:Q", title="Ahorro por sí", format=".1f"),
+                 alt.Tooltip("recall:Q", title="Sí conseguidos", format=".1%")])
+    textos_izq = alt.Chart(d).transform_filter(alt.datum.lado == "izq").mark_text(align="right", dx=-14, dy=4, fontSize=13, color="#6b6459").encode(
+        X(), Y(), text="etiqueta:N")
+    textos_der = alt.Chart(d).transform_filter(alt.datum.lado == "der").mark_text(align="left", dx=14, dy=4, fontSize=13).encode(
+        X(), Y(), text="etiqueta:N", color=alt.Color("color:N", scale=None))
+    ruido = alt.Chart(pd.DataFrame(dict(recall=[0.9206], lo=[4.81 - 1.70], hi=[4.81 + 1.70]))).mark_rule(size=2, color="#555").encode(
+        alt.X("recall:Q", scale=escala_x), alt.Y("lo:Q", scale=alt.Scale(zero=True, domain=[0, 25])), y2="hi:Q")
+    compromiso = alt.Chart(pd.DataFrame(dict(x=[0.95], y0=[0.0], y1=[23.5]))).mark_rule(color="#1a1a1a", strokeDash=[2, 3]).encode(
+        alt.X("x:Q", scale=escala_x), alt.Y("y0:Q", scale=alt.Scale(zero=True, domain=[0, 25])), y2="y1:Q")
+    compromiso_t = alt.Chart(pd.DataFrame(dict(x=[0.95], y=[23.5], t=["el compromiso: 95 % de los sí"]))).mark_text(
+        align="right", dx=-8, dy=-6, fontSize=12.5, color="#1a1a1a").encode(
+        alt.X("x:Q", scale=escala_x), alt.Y("y:Q", scale=alt.Scale(zero=True, domain=[0, 25])), text="t:N")
+    return tema(alt.layer(ruido, compromiso, compromiso_t, puntos, textos_izq, textos_der).properties(width=720, height=380))
+
+
 def grafico_techo(r, d):
     t_app = m3.medir(r["y_te"], r["p_te"], r["umbral"])
     tasa_te = float(r["y_te"].mean())
-    filas = [("El modelo de esta app, entrenado con lo reciente", 1 - tasa_te / t_app["precision"], t_app, AZUL),
-             ("Entrenado con los viejos, umbral calibrado con lo reciente", d["ahorro_cal"], d["cal"], AZUL),
-             ("Entrenado con los viejos, umbral transplantado", d["ahorro_trans"], d["trans"], ROJO)]
-    barras = pd.DataFrame([dict(estrategia=e, ahorro=a * 100, llamadas=t["llamadas"], si_conseguidos=t["si_conseguidos"],
-                                por_si=t["llamadas_por_si"], color=c) for e, a, t, c in filas])
+    filas = [("Esta app · lo reciente", "La logística del modelo oficial de la página, entrenada con los contactos recientes.",
+              1 - tasa_te / t_app["precision"], t_app, AZUL),
+             ("Los viejos · recalibrado", "Entrenada sólo con los contactos descartados; el umbral se volvió a elegir con los datos recientes.",
+              d["ahorro_cal"], d["cal"], AZUL),
+             ("Los viejos · transplantado", "Entrenada sólo con los contactos descartados, con su umbral de época tal cual vino.",
+              d["ahorro_trans"], d["trans"], ROJO)]
+    barras = pd.DataFrame([dict(estrategia=e, detalle=det, ahorro=a * 100, llamadas=t["llamadas"],
+                                si_conseguidos=t["si_conseguidos"], por_si=t["llamadas_por_si"], color=c)
+                           for e, det, a, t, c in filas])
+    orden = barras.estrategia.tolist()
     x = alt.X("ahorro:Q", title="Ahorro de llamadas por cada sí en el test (%)", scale=alt.Scale(zero=True))
+    y = lambda: alt.Y("estrategia:N", sort=orden, title="Con qué época se entrenó",
+                      axis=alt.Axis(labelFontSize=14.5, labelLimit=200))
     base = alt.Chart(barras).encode(
-        alt.Y("estrategia:N", sort=barras.estrategia.tolist(), title=None, axis=alt.Axis(labelFontSize=15)),
-        tooltip=[alt.Tooltip("llamadas:Q", title="Llamadas", format=",d"),
+        y(),
+        tooltip=[alt.Tooltip("estrategia:N", title="Versión"),
+                 alt.Tooltip("detalle:N", title="Detalle"),
+                 alt.Tooltip("llamadas:Q", title="Llamadas", format=",d"),
                  alt.Tooltip("si_conseguidos:Q", title="Sí conseguidos", format=",d"),
                  alt.Tooltip("por_si:Q", title="Llamadas por sí", format=".2f")])
     graf = base.mark_bar(size=30).encode(x, alt.Color("color:N", scale=None, legend=None))
     texto = base.mark_text(align="left", dx=6, fontSize=14, fontWeight="bold").encode(
-        alt.X("ahorro:Q"), alt.Y("estrategia:N", sort=barras.estrategia.tolist()),
-        alt.Text("ahorro:Q", format=".1f"))
-    return tema(alt.layer(graf, texto).properties(width=720, height=210))
+        alt.X("ahorro:Q", scale=alt.Scale(zero=True)), y(), alt.Text("ahorro:Q", format=".1f"))
+    return tema(alt.layer(graf, texto).properties(width=632, height=210))
 
 
-# El eje vertical de g-explora se elige por nombre de columna: la opción del menú y la columna del
-# DataFrame tienen que ser el mismo string para que `datum[eje_y]` resuelva.
 SALDO_LOG = "Saldo en la cuenta (log con signo)"
 EJE_Y = ("Edad", SALDO_LOG, "Contactos anteriores")
 
@@ -526,17 +600,24 @@ def grafico_proba(r, pm, rango):
     base = alt.Chart(pd.DataFrame({"k": [0]})).transform_calculate(z=expresion_logit(pm)).transform_calculate(
         p="1 / (1 + exp(-datum.z))").transform_calculate(
         decision=f"datum.p >= {umbral} ? 'Llamar' : 'No llamar'",
-        t="format(datum.p, '.1%') + ' de probabilidad de sí → ' + datum.decision",
+        t_grande="format(datum.p, '.1%')",
+        t_decision="datum.decision == 'Llamar' ? 'de probabilidad de sí → el modelo lo llama' : 'de probabilidad de sí → el modelo no lo llama'",
         nota="previos == 0 ? 'Sin contacto previo: los días y el resultado anterior no se usan' : ''")
+    color_decision = lambda: alt.condition("datum.decision == 'Llamar'", alt.value(AZUL), alt.value("#9a9a9a"))
+    grande = base.mark_text(align="left", fontSize=46, fontWeight="bold").encode(
+        x=alt.value(0), y=alt.value(40), text="t_grande:N", color=color_decision())
+    decision_t = base.mark_text(align="left", fontSize=15.5, fontWeight="bold").encode(
+        x=alt.value(0), y=alt.value(76), text="t_decision:N", color=color_decision())
+    encabezado = alt.layer(grande, decision_t).properties(width=420, height=86)
     x = alt.X("p:Q", title=None, axis=alt.Axis(format="%"), scale=alt.Scale(domain=[0, 1]))
     fondo = alt.Chart(pd.DataFrame({"a": [0], "b": [1]})).mark_bar(color="#eef1f4", height=46).encode(x="a:Q", x2="b:Q")
     barra = base.mark_bar(height=46).encode(x=x, color=alt.Color("decision:N", scale=alt.Scale(domain=["Llamar", "No llamar"], range=[AZUL, GRIS]), legend=None))
     regla = alt.Chart(pd.DataFrame({"u": [umbral]})).mark_rule(color="#1a1a1a", strokeDash=[5, 4], size=2).encode(x="u:Q")
-    regla_t = alt.Chart(pd.DataFrame({"u": [umbral]})).mark_text(align="left", dx=4, y=-14, fontSize=12.5, color="#1a1a1a").encode(
-        x="u:Q", text=alt.value(f"umbral {pct(umbral, 1)}"))
-    texto = base.mark_text(align="left", fontSize=18, fontWeight="bold", color="#1a1a1a").encode(x=alt.value(0), y=alt.value(-52), text="t:N")
-    nota = base.mark_text(align="left", fontSize=13, color="#555").encode(x=alt.value(0), y=alt.value(84), text="nota:N")
-    chart = alt.layer(fondo, barra, regla, regla_t, texto, nota).properties(width=420, height=46, padding={"top": 70, "bottom": 40, "left": 10, "right": 20})
+    cuerpo = alt.layer(fondo, barra, regla).properties(width=420, height=46)
+    nota = base.mark_text(align="left", fontSize=13, color="#555").encode(x=alt.value(0), y=alt.value(15), text="nota:N")
+    pie = nota.properties(width=420, height=20)
+    chart = alt.vconcat(encabezado, cuerpo, pie, spacing=6).properties(
+        padding={"top": 6, "bottom": 8, "left": 10, "right": 20})
     return tema(chart.add_params(*params))
 
 
@@ -616,7 +697,9 @@ def hipotesis(df):
                 fracaso=t.loc["Fracaso", "tasa"], n_fracaso=int(t.loc["Fracaso", "n"]),
                 n_desc=int(t.loc["Desconocido (con contacto previo)", "n"]),
                 estudiante=estudiante, lift_est=estudiante / media,
-                n_est=int(df.job.eq("student").sum()))
+                n_est=int(df.job.eq("student").sum()),
+                hist_viejos=float(df.loc[df.contact_date < INICIO, "previous"].gt(0).mean()),
+                hist_rec=float(df.loc[df.contact_date >= INICIO, "previous"].gt(0).mean()))
 
 
 def specs_json(graficos):
@@ -638,10 +721,12 @@ def construir():
     verificar(r, pm)
     rango = rangos(r)
     r["descartados"] = analizar_descartados(df, r)
-    graficos = {"g-datos": grafico_datos(df), "g-hallazgo": grafico_hallazgo(df), "g-modelo": grafico_modelo(r),
+    h = hipotesis(df)
+    graficos = {"g-datos": grafico_datos(df), "g-hallazgo": grafico_hallazgo(df), "g-lift": grafico_lift(h), "g-modelo": grafico_modelo(r),
                 "g-comparacion": grafico_comparacion(r),
                 "g-confusion": grafico_confusion(r),
                 "g-coef": grafico_coeficientes(pm),
+                "g-versiones": grafico_versiones(r),
                 "g-familias": grafico_familias(r),
                 "g-techo": grafico_techo(r, r["descartados"]),
                 "g-explora": grafico_explora(r), "g-proba": grafico_proba(r, pm, rango)}

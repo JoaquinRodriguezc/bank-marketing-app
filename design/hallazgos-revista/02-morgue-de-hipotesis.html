@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hallazgos · 02 La morgue de hipótesis</title>
+<style>
+  :root{
+    --papel:#faf9f6; --tinta:#141310; --tinta-2:#3d3831; --apagado:#6b6459;
+    --linea:#e4dfd5; --acento:#0072B2; --acento-suave:#eff4f9; --serif:Georgia,"Times New Roman",serif;
+    --sans:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0}
+  body{display:flex;min-height:100vh;background:var(--papel);color:var(--tinta);font-family:var(--sans);font-size:17px;line-height:1.6}
+  a{color:inherit;text-decoration:none}
+  nav{width:230px;flex:none;border-right:1px solid var(--linea);padding:32px 22px;position:sticky;top:0;height:100vh}
+  nav .marca{font-family:var(--serif);font-size:13.5px;color:var(--apagado);line-height:1.45;margin-bottom:34px}
+  nav h3{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--apagado);margin:26px 0 8px;font-weight:600}
+  nav ol{list-style:none;padding-left:10px;border-left:2px solid var(--linea)}
+  nav li a{display:block;padding:6px 0 6px 12px;font-size:14.5px;color:var(--tinta-2)}
+  nav li a.activo{color:var(--acento);font-weight:600;border-left:2px solid var(--acento);margin-left:-2px}
+  main{flex:1;max-width:880px;margin:0 auto;padding:64px 64px 90px}
+  .etapa{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--apagado);font-weight:600}
+  .capitulo{float:right;font-family:var(--serif);font-size:15px;color:var(--apagado);border:1px solid var(--linea);
+    border-radius:999px;padding:6px 14px}
+  h2{font-family:var(--serif);font-weight:400;font-size:31px;line-height:1.22;margin:18px 0 12px;max-width:26ch}
+  h2 b{color:var(--acento);font-weight:400}
+  .entradilla{font-size:16.5px;color:var(--tinta-2);max-width:64ch}
+  figure{margin:34px 0 0;background:#fff;border:1px solid var(--linea);border-radius:14px;padding:24px 24px 14px}
+  figure .titulo-f{font-family:var(--serif);font-size:17.5px;margin-bottom:14px}
+  figure .titulo-f em{color:var(--apagado)}
+  figcaption{font-size:13.5px;color:var(--apagado);margin-top:10px;border-top:1px solid var(--linea);padding-top:10px;max-width:74ch}
+  .morgue{margin:30px 0 0}
+  .morgue .rotulo-m{font-size:11.5px;letter-spacing:.15em;text-transform:uppercase;font-weight:700;color:var(--apagado);
+    display:flex;align-items:center;gap:12px;margin:0 0 14px}
+  .morgue .rotulo-m::after{content:"";flex:1;border-top:1px solid var(--linea)}
+  .morgue ul{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:0;margin:0}
+  .morgue li{border:1px solid var(--linea);border-radius:12px;background:#fff;padding:16px 18px}
+  .morgue li .h{font-family:var(--serif);font-size:17px;color:var(--tinta-2);margin-bottom:4px}
+  .morgue li .v{font-size:13.5px;color:var(--apagado);line-height:1.5}
+  .morgue li .v b{color:var(--tinta-2)}
+  details{background:#f4f1ea;border-radius:12px;padding:0 22px;margin:34px 0 0}
+  summary{cursor:pointer;font-weight:600;padding:16px 0;color:var(--acento);font-size:16.5px}
+  details h4{margin:14px 0 6px;font-size:17px;font-family:var(--serif);font-weight:400}
+  details p{font-size:15.5px;color:var(--tinta-2);max-width:70ch}
+  details code{font-size:.9em;background:#eef1f4;padding:1px 5px;border-radius:4px}
+  @media (max-width:900px){main{padding:48px 24px}nav{display:none}.morgue ul{grid-template-columns:1fr}figure svg{width:100%;height:auto}}
+</style>
+</head>
+<body>
+<nav aria-label="Índice">
+  <p class="marca">Ciencia de Datos · UTN FRM · 2026<br>Grupo 5K09-04</p>
+  <h3>La historia</h3>
+  <ol>
+    <li><a href="#">El proyecto</a></li>
+    <li><a href="#">Los datos</a></li>
+    <li><a class="activo" href="#">Lo que encontramos</a></li>
+    <li><a href="#">El modelo</a></li>
+    <li><a href="#">Por qué no más</a></li>
+  </ol>
+  <h3>Tu turno</h3>
+  <ol>
+    <li><a href="#">Explorá los clientes</a></li>
+    <li><a href="#">Probá el modelo</a></li>
+  </ol>
+</nav>
+<main>
+  <section>
+    <p class="etapa">Lo que encontramos</p>
+    <p class="capitulo">Capítulo 03</p>
+    <h2>Quien ya dijo que sí en la campaña anterior vuelve a decir que sí <b>5,5&nbsp;veces</b> más que el promedio</h2>
+    <p class="entradilla">Cada barra agrupa a los clientes por cómo terminó su contacto anterior y mide su tasa de sí; el rótulo
+    del costado dice cuántos hay. La línea punteada es el promedio de todos, 11,7&nbsp;%. El grupo de «Otro» son clientes con
+    contacto previo cuyo resultado quedó registrado ni Éxito ni Fracaso: el dataset no cuenta cómo terminó.</p>
+
+    <figure>
+      <p class="titulo-f">La tasa de sí según el contacto anterior <em>· Éxito, Fracaso, Otro o ninguno</em></p>
+      <svg viewBox="0 0 700 300" role="img" aria-label="Tasa de sí por resultado del contacto anterior">
+        <g font-family="-apple-system,Segoe UI,sans-serif" font-size="13" fill="#3d3831">
+          <text x="0" y="34">Éxito</text>
+          <rect x="170" y="18" width="453" height="24" rx="4" fill="#0072B2"/>
+          <text x="633" y="35" fill="#141310" font-weight="600">64,7 % · 1.511</text>
+          <text x="0" y="94">Otro</text>
+          <rect x="170" y="78" width="117" height="24" rx="4" fill="#9ec7e3"/>
+          <text x="297" y="95">16,7 % · 1.840</text>
+          <text x="0" y="154">Fracaso</text>
+          <rect x="170" y="138" width="88" height="24" rx="4" fill="#9ec7e3"/>
+          <text x="268" y="155">12,6 % · 4.901</text>
+          <text x="0" y="214">Sin contacto previo</text>
+          <rect x="170" y="198" width="64" height="24" rx="4" fill="#9ec7e3"/>
+          <text x="244" y="215">9,2 % · 36.954</text>
+        </g>
+        <line x1="241" y1="8" x2="241" y2="240" stroke="#6b6459" stroke-dasharray="5 4"/>
+        <text x="241" y="262" font-family="-apple-system,Segoe UI,sans-serif" font-size="12" fill="#6b6459" text-anchor="middle">promedio: 11,7 %</text>
+      </svg>
+      <figcaption>El hallazgo que sostiene el modelo: el pasado del cliente manda más que su perfil. A los casi 37&nbsp;mil sin
+      contacto previo el banco apenas los distingue.</figcaption>
+    </figure>
+
+    <div class="morgue">
+      <p class="rotulo-m">Lo que probamos y no llegó · el corte de lift era 3,33</p>
+      <ul>
+        <li><p class="h">Los estudiantes aceptan más</p><p class="v">28,7&nbsp;% de sí, lift <b>2,45</b> — pero son 938 contactos, el 2,1&nbsp;% del dataset: el volumen no alcanza.</p></li>
+        <li><p class="h">Los casados aceptan menos</p><p class="v">Solteros lift <b>1,28</b>, casados <b>0,87</b>, η² 0,004 — refutada: no distingue cliente por cliente.</p></li>
+        <li><p class="h">Insistir con llamadas separa</p><p class="v">Separación <b>0,27 → 0,29 → 0,24</b> — inconclusa, y cuenta la llamada en curso: afuera del modelo.</p></li>
+        <li><p class="h">El mes y el día</p><p class="v">El mes explica mucho (η² 6,8&nbsp;%) pero no se puede asegurar que se conozcan antes de llamar: <b>fuga posible</b>.</p></li>
+      </ul>
+    </div>
+
+    <details>
+      <summary>Cómo lo sabemos · el detalle de cada hipótesis</summary>
+      <h4>Una que se sostuvo: el éxito previo vale más que el perfil</h4>
+      <p>Tasa de sí con éxito previo: 64,7&nbsp;%, contra 11,7&nbsp;% de todos. Lift 5,53, por encima del corte de 3,33 fijado antes de mirar: se sostiene, y el resultado anterior entra al modelo.</p>
+      <h4>Cómo se construyó el gráfico</h4>
+      <p>Datos: un contacto por fila. Transformación: agrupar por el resultado de la campaña anterior (<code>poutcome</code> limpio, con «Otro» = <code>other</code>) y calcular la tasa de sí de cada grupo. Quedan fuera los 5 contactos con resultado desconocido. Marca: barras, magnitud con eje desde 0. Mapeo: la tasa a la posición horizontal; el rótulo lleva el tamaño de cada grupo.</p>
+    </details>
+  </section>
+</main>
+</body>
+</html>

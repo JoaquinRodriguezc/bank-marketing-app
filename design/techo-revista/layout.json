@@ -1,0 +1,17 @@
+{
+  "arrangement": "free",
+  "positions": {
+    "01-techo-enmarcado.html": {
+      "x": 0,
+      "y": 27
+    },
+    "02-dos-preguntas.html": {
+      "x": 1520,
+      "y": 27
+    },
+    "03-carta-de-lo-que-falta.html": {
+      "x": 3066,
+      "y": 0
+    }
+  }
+}

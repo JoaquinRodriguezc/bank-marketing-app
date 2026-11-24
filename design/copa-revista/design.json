@@ -1,0 +1,28 @@
+{
+  "title": "La copa (Explorá + Probá el modelo) — revista de datos",
+  "brief": "Último tramo del restilo editorial de la app de la Entrega 4. La funcionalidad de la copa está aprobada y no se toca (saldo aclarado, selector de eje Y, bindings de Vega): las tres direcciones son pura vestimenta sobre el estilo editorial elegido (papel, serif, acento cálido «copa» para «Tu turno»).",
+  "feature": "odd/tasks/mejoras-entrega4.md",
+  "artboards": [
+    {
+      "file": "01-copa-enmarcada.html",
+      "title": "Copa enmarcada",
+      "tradeoff": "El sistema editorial uniforme aplicado a la copa: chip «Tu turno · 01/02», ambas secciones como figuras enmarcadas, los filtros de Vega sobre una banda de papel, el resumen de filtros como línea destacada, y en Probá los fieldsets como tarjetas blancas con leyenda en color copa. Cero cambio funcional; el de menor riesgo.",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "02-mesa-del-operador.html",
+      "title": "La mesa del operador",
+      "tradeoff": "Suma una tira de tres instrucciones numeradas («1 achicá el universo · 2 mové el umbral · 3 pasá el mouse») antes del tablero — enseña a usar la copa en una mirada, útil si el docente toma el mouse sin leer. La sección gana una fila más de altura.",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "03-veredicto-grande.html",
+      "title": "El veredicto grande",
+      "tradeoff": "En Probá, la probabilidad pasa a ser una cifra serif gigante con chip de decisión («El modelo lo llama» en azul) por encima de la barra. Máximo impacto al probar el modelo; cambia el spec de g-proba (el número grande reemplaza la línea de texto actual).",
+      "width": 1440,
+      "height": 900
+    }
+  ]
+}

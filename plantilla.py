@@ -51,10 +51,20 @@ main h3{font-family:var(--serif);font-weight:400;font-size:23px;margin:30px 0 10
 h2 b{color:var(--acento);font-weight:400}
 .capitulo{float:right;font-family:var(--serif);font-size:15px;color:var(--gris);border:1px solid var(--linea);border-radius:999px;padding:6px 14px}
 .entradilla{font-size:16.5px;color:var(--tinta-2);max-width:64ch}
+.paso .entradilla{margin:12px 0 0}
 .figura{margin:34px 0 0;background:#fff;border:1px solid var(--linea);border-radius:14px;padding:24px 24px 14px}
 .figura .titulo-f{font-family:var(--serif);font-size:17.5px;margin:0 0 14px;color:var(--tinta)}
 .figura .titulo-f em{color:var(--gris)}
 .figura figcaption{font-size:13.5px;color:var(--gris);margin:10px 0 0;border-top:1px solid var(--linea);padding-top:10px;max-width:74ch}
+.aparte{margin:26px 0 0;background:var(--suave);border-left:4px solid var(--gris);border-radius:0 12px 12px 0;padding:18px 22px;font-size:15.5px;color:var(--tinta-2);max-width:74ch}
+.morgue{margin:52px 0 0}
+.rotulo-m{font-size:11.5px;letter-spacing:.15em;text-transform:uppercase;font-weight:700;color:var(--gris);display:flex;align-items:center;gap:12px;margin:0 0 14px}
+.rotulo-m::after{content:"";flex:1;border-top:1px solid var(--linea)}
+.morgue ul{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:0;margin:24px 0 0}
+.morgue li{border:1px solid var(--linea);border-radius:12px;background:#fff;padding:16px 18px}
+.morgue li .h{font-family:var(--serif);font-size:17px;color:var(--tinta-2);margin:0 0 4px}
+.morgue li .v{font-size:13.5px;color:var(--gris);line-height:1.5;margin:0}
+.morgue li .v b{color:var(--tinta-2)}
 .num{background:var(--suave);border-radius:8px;padding:18px 20px}
 .num span{display:block;font-size:44px;font-weight:700;line-height:1.1;color:var(--acento)}
 .num p{margin:6px 0 0;font-size:15.5px;color:var(--gris)}
@@ -78,15 +88,15 @@ code{font-size:.9em;background:#eef1f4;padding:1px 5px;border-radius:4px}
 .vega-bind-radio label{margin-right:10px}
 .probar{display:grid;grid-template-columns:minmax(0,1fr) 480px;gap:24px;align-items:start}
 .entradas{display:grid;grid-template-columns:1fr;gap:10px}
-fieldset{border:1px solid var(--linea);border-radius:8px;padding:6px 12px 10px;margin:0}
-legend{font-weight:600;font-size:14px;color:var(--gris);padding:0 4px}
+fieldset{border:1px solid var(--linea);border-radius:12px;padding:8px 14px 12px;margin:0 0 12px;background:#fff}
+legend{font-weight:600;font-size:12.5px;color:var(--copa);text-transform:uppercase;letter-spacing:.06em;padding:0 6px}
 .slot .vega-bind{margin:4px 0}
 .slot .vega-bind label{display:grid;grid-template-columns:170px minmax(80px,1fr) 64px;align-items:center;gap:8px;font-size:14.5px}
 .slot .vega-bind-name{font-weight:500}
 .slot input[type=range]{width:100%;margin:0;accent-color:var(--copa)}
 .slot select{font-size:14.5px;padding:3px 6px}
 .slot .vega-bind-radio{display:flex;gap:10px;align-items:center}
-.fijo{position:sticky;top:16px}
+.fijo{position:sticky;top:16px;border:1px solid var(--linea);border-radius:14px;background:#fff;padding:16px 16px 10px}
 footer{max-width:980px;margin:0 auto;padding:30px 0;color:var(--gris);font-size:14px}
 @media (max-width:1150px){.probar{grid-template-columns:1fr}.fijo{position:static}}
 .paso{margin:44px 0 0}
@@ -110,7 +120,21 @@ footer{max-width:980px;margin:0 auto;padding:30px 0;color:var(--gris);font-size:
 .remate{font-family:var(--serif);font-size:19px;color:var(--tinta-2);margin:18px 0 0;max-width:54ch}
 .remate b{color:var(--acento);font-weight:400}
 .pie-portada{margin-top:36px;border-top:3px double var(--linea);padding-top:14px}
-@media (max-width:860px){.duelo{grid-template-columns:1fr}.duelo .flecha{flex-direction:row;min-height:64px}
+.pasos-tu{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:26px 0 0}
+.paso-chip{display:flex;align-items:center;gap:10px;border:1px solid var(--linea);border-radius:999px;
+  background:#fff;padding:10px 16px;font-size:14px;color:var(--tinta-2);margin:0}
+.paso-chip b{width:24px;height:24px;border-radius:999px;background:var(--copa);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-size:13px;flex:none}
+.carta{margin:38px 0 0}
+.rotulo-c{font-size:11.5px;letter-spacing:.15em;text-transform:uppercase;font-weight:700;color:var(--gris);
+  display:flex;align-items:center;gap:12px;margin:0 0 14px}
+.rotulo-c::after{content:"";flex:1;border-top:1px solid var(--linea)}
+.carta ul{list-style:none;display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;padding:0;margin:0}
+.carta li{border:1px solid var(--linea);border-radius:12px;background:#fff;padding:18px 18px 16px}
+.carta li .falta{font-family:var(--serif);font-size:18px;color:var(--tinta);margin:0 0 6px}
+.carta li .hoy{font-size:13.5px;color:var(--gris);line-height:1.5;margin:0}
+.carta li .hoy b{color:var(--tinta-2)}
+@media (max-width:860px){.pasos-tu{grid-template-columns:1fr}.carta ul{grid-template-columns:1fr}.morgue ul{grid-template-columns:1fr}.duelo{grid-template-columns:1fr}.duelo .flecha{flex-direction:row;min-height:64px}
 nav{display:none}main{margin-left:0;padding:0 16px 60px}.nums{grid-template-columns:1fr}h1{font-size:32px}
 #portada{padding:28px 20px 18px;border-radius:12px}.nums.versus{grid-template-columns:1fr}.nums.versus .flecha{transform:rotate(90deg)}}
 """
@@ -284,23 +308,60 @@ def armar(df, r, pm, specs, h, sha, tablas):
 
 <section id="hallazgos">
   <p class="etapa tallo">Lo que encontramos</p>
-  <h2>Quien ya dijo que sí en la campaña anterior vuelve a decir que sí {num(h['lift_exito'], 1)} veces más que el promedio</h2>
-  <p>Cómo se lee: cada barra es un grupo de clientes, agrupados por cómo terminó su <b>último contacto de la campaña anterior</b>.
-  La barra mide la <b>tasa de sí</b> de ese grupo —de cada 100 clientes que llegan con ese mismo pasado, cuántos aceptaron el depósito
-  esta vez—, no la cantidad de clientes: eso lo dice el rótulo del costado, porque los grupos no pesan lo mismo. La línea punteada es el
-  promedio de todos, {pct(h['media'], 1)}: una barra a la derecha del promedio dice que a ese grupo le va mejor que al cliente promedio;
-  una a la izquierda, que le va peor.</p>
-  <p>Lo que más separa es el éxito previo: de los {num(h['n_exito'])} clientes que en la campaña anterior dijeron que sí, el {pct(h['exito'], 1)}
-  volvió a aceptar, {num(h['lift_exito'], 1)} veces el promedio. En el otro extremo están los {num(h['n_sin'])} clientes que nunca habían
-  sido contactados: {pct(h['sin'], 1)}, por debajo del promedio. Para ellos el banco sabe muy poco.</p>
-  <div class="grafico" id="g-hallazgo"></div>
-  <p><b>Qué es «Otro».</b> Es el grupo de {num(h['n_otro'])} clientes que <i>sí</i> tuvieron un contacto previo, pero cuyo resultado quedó
-  registrado como «Otro» (<code>poutcome</code> = <code>other</code>): ni Éxito ni Fracaso. No es un cliente sin historia ni un hueco del
-  gráfico: el contacto existió y el dataset no cuenta cómo terminó, así que no se puede saber si en esa llamada anterior dijo que sí o que
-  no. Por eso su barra no ayuda a decidir: {pct(h['otro'], 1)} de sí, entre el {pct(h['fracaso'], 1)} de los {num(h['n_fracaso'])} que
-  fracasaron y el {pct(h['exito'], 1)} del éxito, y muy por debajo del corte de lift. Existe y hay que mostrarlo, pero no sirve para elegir
-  a quién llamar. Aparte quedan {num(h['n_desc'])} clientes con contacto previo y resultado directamente desconocido, que no entran al gráfico.</p>
-  <details><summary>Cómo lo sabemos</summary>
+  <p class="capitulo">Capítulo 03</p>
+  <h2>Quien ya dijo que sí en la campaña anterior vuelve a decir que sí <b>{num(h['lift_exito'], 1)} veces</b> más que el promedio</h2>
+  <p class="entradilla">La lista elegida que presentamos en los datos no es magia: se apoya en el historial de campañas. Cuando el banco
+  pasó de llamar a casi todos a elegir a quién llamar, lo que más aprovechó fue justamente el pasado de cada cliente:</p>
+  <div class="duelo">
+    <div class="lado hoy">
+      <p class="rotulo">2008 · llamaba a casi todos</p>
+      <p class="cifra">{pct(h['hist_viejos'], 1)}</p>
+      <p class="detalle">de los contactados tenía una campaña anterior: casi todo el pasado por escribir.</p>
+    </div>
+    <div class="flecha">
+      <span class="punta" aria-hidden="true">──▶</span>
+      <p class="nota-f">la lista nueva se arma sobre el historial</p>
+    </div>
+    <div class="lado nuevo">
+      <p class="rotulo">Desde 2009 · la lista elegida</p>
+      <p class="cifra">{pct(h['hist_rec'], 1)}</p>
+      <p class="detalle">de los contactados ya había sido llamada antes por el banco.</p>
+    </div>
+  </div>
+  <p class="entradilla">Cada barra es un grupo de clientes, agrupados por cómo terminó su <b>último contacto de la campaña anterior</b>.
+  La barra mide la <b>tasa de sí</b> de ese grupo —de cada 100 clientes que llegan con ese mismo pasado, cuántos aceptaron esta vez—,
+  y el rótulo del costado dice cuántos hay, porque los grupos no pesan lo mismo. La línea punteada es el promedio de todos,
+  {pct(h['media'], 1)}: lo que queda a su derecha le va mejor que al cliente promedio.</p>
+  <figure class="figura">
+    <p class="titulo-f">La tasa de sí según el contacto anterior <em>· Éxito, Fracaso, Otro o ninguno</em></p>
+    <div class="grafico" id="g-hallazgo"></div>
+    <figcaption>El hallazgo que sostiene al modelo: el pasado del cliente manda más que su perfil. De los {num(h['n_sin'])}
+    clientes que nunca fueron contactados acepta apenas el {pct(h['sin'], 1)}: de ellos, el banco sabe muy poco.</figcaption>
+  </figure>
+  <div class="morgue">
+    <p class="rotulo-m">Lo que probamos y no llegó · el corte de lift era 3,33</p>
+    <figure class="figura">
+      <p class="titulo-f">El lift de cada hipótesis <em>· y el corte que fijamos antes de mirar</em></p>
+      <div class="grafico" id="g-lift"></div>
+      <figcaption>La única que cruzó el corte es la que sostiene al modelo. Las demás existen en el promedio,
+      pero no distinguen cliente por cliente — por eso no entran.</figcaption>
+    </figure>
+    <ul>
+      <li><p class="h">Los estudiantes aceptan más</p>
+        <p class="v">{pct(h['estudiante'], 1)} de sí, lift <b>{num(h['lift_est'], 2)}</b> — pero sobre {num(h['n_est'])} contactos,
+        el {pct(h['n_est'] / len(df), 1)} del dataset: el volumen no alcanza y la tasa se mueve mucho entre períodos.</p></li>
+      <li><p class="h">Los casados aceptan menos</p>
+        <p class="v">Solteros lift <b>1,28</b>, casados <b>0,87</b> (η² 0,004, resultado de la Entrega 2) — existe en el promedio
+        pero no distingue cliente por cliente.</p></li>
+      <li><p class="h">Insistir con llamadas separa</p>
+        <p class="v">Separación <b>0,27 → 0,29 → 0,24</b> (Entrega 2) — inconclusa, y cuenta la llamada en curso:
+        <code>campaign</code> queda afuera del modelo.</p></li>
+      <li><p class="h">El mes y el día</p>
+        <p class="v">El mes explica mucho (η² 6,8&nbsp;%) pero no se puede asegurar que se conozcan antes de llamar:
+        <b>fuga posible</b>, no falta de señal.</p></li>
+    </ul>
+  </div>
+  <details><summary>Cómo lo sabemos · el detalle de cada hipótesis</summary>
     <p>Los números del gráfico y de estos párrafos salen del mismo CSV que usa el modelo y se calculan al generar la página; los de las
     hipótesis descartadas son resultados del análisis exploratorio (Entrega 2), sobre los {num(len(df))} contactos del dataset, y se citan
     como tales. Una hipótesis se sostiene si el <i>lift</i> —la tasa del grupo dividida por la tasa de todos— llega a 3,33, el corte que
@@ -339,38 +400,66 @@ def armar(df, r, pm, specs, h, sha, tablas):
 
 <section id="modelo">
   <p class="etapa tallo">El modelo</p>
-  <h2>El modelo baja el costo de cada sí un {pct(ahorro, 1)} y deja escapar menos de 5 de cada 100 clientes</h2>
-  <p>Un aviso antes del número: el rival no es llamar a los {num(len(df))} clientes del dataset, sino la lista a la que el banco ya llama —
-  la que su estrategia elige desde 2009. En el test esa lista convierte a la mitad de los que llama: es un rival duro. Contra eso, cada sí
-  pasa de {num(todos, 2)} a {num(t['llamadas_por_si'], 2)} llamadas.</p>
-  <div class="nums dos versus">
-    <div class="num hoy">
+  <p class="capitulo">Capítulo 04</p>
+  <h2>El modelo baja el costo de cada sí un <b>{pct(ahorro, 1)}</b> y deja escapar menos de 5 de cada 100 clientes</h2>
+  <p class="entradilla">El rival no es llamar a los {num(len(df))} clientes del dataset, sino la lista a la que el banco ya llama —
+  la que su estrategia elige desde 2009. En el test esa lista convierte a la mitad de los que llama: es un rival duro. Contra eso:</p>
+  <div class="duelo">
+    <div class="lado hoy">
       <p class="rotulo">Llamar a toda la lista</p>
-      <span>{num(todos, 2)}</span>
-      <p>llamadas por cada sí, con el 100 % de los sí: es el rival</p>
+      <p class="cifra">{num(todos, 2)}</p>
+      <p class="detalle">llamadas por cada sí: {num(len(r['y_te']))} llamadas para los {num(t['si_totales'])} sí.</p>
     </div>
-    <div class="flecha" aria-hidden="true">→</div>
-    <div class="num conmodelo">
+    <div class="flecha">
+      <span class="delta">−{pct(ahorro, 0)}</span>
+      <span class="punta" aria-hidden="true">──▶</span>
+      <p class="nota-f">{num(menos)} llamadas menos, {num(perdidos)} sí que se escapan</p>
+    </div>
+    <div class="lado modelo">
       <p class="rotulo">Con el modelo</p>
-      <span>{num(t['llamadas_por_si'], 2)}</span>
-      <p>llamadas por cada sí, sin perder casi ningún sí</p>
+      <p class="cifra">{num(t['llamadas_por_si'], 2)}</p>
+      <p class="detalle">llamadas por cada sí: {num(t['llamadas'])} llamadas, {num(t['si_conseguidos'])} de {num(t['si_totales'])} sí ({pct(t['recall'], 0)}).</p>
     </div>
   </div>
-  <div class="nums dos">
-    <div class="num"><span>−{num(menos)}</span><p>llamadas de las {num(len(r['y_te']))} del test: un {pct(menos / len(r['y_te']), 1)} menos</p></div>
-    <div class="num"><span>{num(t['si_conseguidos'])} de {num(t['si_totales'])}</span><p>sí conseguidos: el compromiso de no perder más de {num(100 * (1 - m3.RECALL_MIN), 0)} de cada 100 se sostiene</p></div>
+  <div class="paso">
+    <p class="rotulo-paso">Acto 1 · Cómo se llegó: cuatro familias contra el piso</p>
+    <p class="entradilla">Ninguna familia le gana a la logística por más de un desvío — y la logística, además, es la que se puede
+    llevar a esta página. La regla se fijó antes de mirar el test.</p>
+    <figure class="figura">
+      <p class="titulo-f">Ahorro de llamadas por sí, por familia <em>· la misma validación temporal para todas</em></p>
+      <div class="grafico" id="g-familias"></div>
+      <figcaption>La regla de selección se fijó de antemano: si un modelo más complejo no le gana a la logística por más de un
+      desvío, se queda la logística. Ninguno le ganó.</figcaption>
+    </figure>
   </div>
-  <h3>Cómo se llegó: cuatro familias contra el piso</h3>
-  <p>Antes del resultado, el proceso. Cada barra es el ahorro del mejor de cada familia en la misma validación temporal, con su desvío;
-  la gris es llamar a todos. Ninguna familia le gana a la logística por más de un desvío — y la logística, además, es la que se puede
-  llevar a esta página: se elige por la regla fijada de antemano.</p>
-  <div class="grafico" id="g-familias"></div>
-  <h3>El resultado, medido una sola vez en el test</h3>
-  <p>La curva arranca en (0, 0) y muestra cuántas llamadas cuesta cada sí según cuántos sí se exige conseguir, desde exigirle poquísimos
-  hasta no perder ninguno. La distancia entre la curva y la línea gris —llamar a todos— es el ahorro real, del tamaño que es: un {pct(ahorro, 1)}.
-  El punto es el umbral fijado antes de mirar el test: exige al menos el {pct(m3.RECALL_MIN, 0)} de los sí. Aceptando perder más sí el ahorro
-  crecería, pero eso ya no lo decide el modelo sino el negocio.</p>
-  <div class="grafico" id="g-modelo"></div>
+  <div class="paso resultado">
+    <p class="rotulo-paso">Acto 2 · El resultado, medido una sola vez en el test</p>
+    <p class="entradilla">La curva arranca en (0, 0): cuánto cuesta cada sí según cuántos sí se exige conseguir, desde exigirle
+    poquísimos hasta no perder ninguno. El punto es el umbral fijado antes de mirar el test: exige al menos el
+    {pct(m3.RECALL_MIN, 0)} de los sí. La distancia a la línea gris es el ahorro real.</p>
+    <figure class="figura">
+      <p class="titulo-f">Llamadas por cada sí <em>· según cuántos sí se exige conseguir</em></p>
+      <div class="grafico" id="g-modelo"></div>
+      <figcaption>Del tamaño que es: entre el punto azul y la línea gris cabe todo el ahorro — {num(menos)} llamadas menos de
+      {num(len(r['y_te']))} a cambio de {num(perdidos)} sí de {num(t['si_totales'])}. Aceptando perder más sí el ahorro crecería;
+      dónde pararse es decisión del negocio, no del modelo.</figcaption>
+    </figure>
+  </div>
+  <div class="paso">
+    <p class="rotulo-paso">Acto 3 · La radiografía del modelo</p>
+    <figure class="figura">
+      <p class="titulo-f">Dónde se equivoca <em>· la matriz del test, con los colores de Explorá</em></p>
+      <div class="grafico" id="g-confusion"></div>
+      <figcaption>Para no perder sí, el modelo llama a casi todos: su error típico es una llamada a quien dice que no.
+      Los sí que se escapan son {num(perdidos)} — el costo en clientes de las {num(menos)} llamadas ahorradas.</figcaption>
+    </figure>
+    <figure class="figura">
+      <p class="titulo-f">En qué se apoya <em>· los coeficientes de mayor magnitud</em></p>
+      <div class="grafico" id="g-coef"></div>
+      <figcaption>El coeficiente que más empuja hacia el sí es haber dicho sí en la campaña anterior: es exactamente el hallazgo
+      del capítulo 03. No es fuga: se conoce antes de llamar.</figcaption>
+    </figure>
+  </div>
   <details><summary>Cómo lo sabemos</summary>
     <h4>La métrica y por qué</h4>
     <p>El banco quiere que cada depósito le cueste la menor cantidad de llamadas posible, sin perder a los que iban a decir que sí.
@@ -386,6 +475,20 @@ def armar(df, r, pm, specs, h, sha, tablas):
     daban números más lindos que falsos. V3 fijó la métrica de negocio y el umbral por pedazo. V4 sacó mayo de 2009: {num(n_may)} llamadas
     con {pct(tasa_may, 1)} de sí, la cola del régimen viejo que quedaba en el corte; sin ese mes, el ahorro de validación sube en los
     cuatro pedazos (1,5 % → 5,0 %).</p>
+    <h4>Las versiones que hubo antes, y por qué el modelo es lo que es</h4>
+    <p>Cada punto es una versión medida en su propio test: cuántos sí consigue (horizontal) contra cuánto ahorra por sí
+    (vertical). Las viejas sólo ahorraban dejando clientes escaparse; la vigente fija primero el compromiso — no perder más de
+    5 de cada 100 sí — y recién ahí mide el ahorro.</p>
+    <div class="grafico" id="g-versiones"></div>
+    <p>V1 mezclaba épocas: entrenada con las campañas viejas y medida con f1, ahorraba un 18,6 % por sí en su test — pero
+    perdiendo 23 de cada 100 clientes que iban a aceptar, con una validación (f1 0,158 ± 0,092) que no anticipaba nada.
+    V6 probó si la era vieja escondía una estrategia: su mejor ahorro interno es ruido (4,8 % ± 1,7 % en validación, la
+    rayita vertical) y su único test decente (19,1 %) vuelve a caer en el mismo vicio — ahorra perdiendo 17 de cada 100 sí.
+    V4, la vigente, mide 4,1 % con la validación anticipándolo (4,5 % ± 1,6 %). <b>No cambiamos el modelo: cambiamos la
+    pregunta.</b></p>
+    <p class="nota">Los números de V1 y V6 son los documentados en los notebooks de la Entrega 3 (V1 con umbral 0,5 y pesos
+    balanceados, sobre su test de 9.043 contactos; V6 sobre su test interno de 7.234); los de V4 los computa esta página al
+    generarla.</p>
     <h4>La validación</h4>
     <p>Validación cruzada temporal (<code>TimeSeriesSplit</code>, 5 pedazos) sobre el entrenamiento: cada pedazo se entrena con el pasado y se valida con lo que viene después,
     como se va a usar el modelo. Imputar, escalar y codificar van adentro del pipeline, así que se ajustan dentro de cada pedazo.</p>
@@ -403,33 +506,42 @@ def armar(df, r, pm, specs, h, sha, tablas):
     <h4>El resultado en el test</h4>
     <p>{num(t['llamadas'])} llamadas en vez de {num(len(r['y_te']))}, {num(t['si_conseguidos'])} de {num(t['si_totales'])} sí (recall {num(t['recall'], 3)}):
     {num(t['llamadas_por_si'], 2)} llamadas por sí contra {num(todos, 2)}, un ahorro de {pct(ahorro, 1)}. La validación había anticipado {pct(e.ahorro_media, 1)}.</p>
-    <h4>Dónde se equivoca</h4>
-    <p>Para no perder sí, el modelo llama a casi todos: su error típico es una llamada a quien dice que no. Los colores son los mismos de
-    la sección Explorá: azul es lo que el modelo quiere ver; rojo, los sí que se escapan; gris, el ahorro real.</p>
-    <div class="grafico" id="g-confusion"></div>
-    <h4>En qué se apoya</h4>
-    <p>Los coeficientes de la logística sobre columnas estandarizadas, los 12 de mayor magnitud (el resto queda cerca de cero). Azul empuja hacia el sí,
-    rojo hacia el no. El que más pesa es haber dicho que sí en la campaña anterior: es lo que mostró el análisis, y no es fuga, porque se conoce antes de llamar.</p>
-    <div class="grafico" id="g-coef"></div>
   </details>
 </section>
 
 <section id="techo">
   <p class="etapa tallo">El techo</p>
-  <h2>Entrená con los datos viejos o con los nuevos: el ahorro de cada sí se topa en el {pct(ahorro, 1)}</h2>
-  <p>Cada barra mide el ahorro de llamadas por sí en el mismo test, según con qué época se entrenó la misma logística.
-  Las dos azules son entrenamientos con épocas disjuntas —los {num(d['n'])} contactos descartados y los recientes— y llegan al mismo techo.
-  La roja es el mismo modelo viejo con su umbral tal cual vino de su época. El límite no está en el modelo: está en lo que el dataset sabe de cada cliente.</p>
-  <div class="grafico" id="g-techo"></div>
-  <h3>¿La estrategia del banco salió de los datos viejos?</h3>
-  <p>No como regla para llamar. La señal del cliente siempre estuvo en esos datos —ordenan el test de hoy igual que el modelo reciente—
-  pero la escala de probabilidad quedó atada a la tasa de sí de su época, {pct(d['tasa'], 1)}, y los umbrales no viajan entre regímenes.
-  Lo que cambió en 2009 fue el régimen: menos llamadas, más elegidas, casi todas a clientes ya contactados.</p>
-  <div class="nums dos">
-    <div class="num"><span>{pct(d['ahorro_trans'], 1)}</span><p>de ahorro si el umbral de la era vieja llega tal cual al test nuevo: sin recalibrar, no hay estrategia</p></div>
-    <div class="num"><span>{pct(d['ahorro_cal'], 1)}</span><p>de ahorro recalibrando ese umbral con lo reciente: la misma logística, el mismo techo que el modelo de la app</p></div>
+  <p class="capitulo">Capítulo 05</p>
+  <h2>El techo es <b>{pct(ahorro, 1)}</b> — y es de los datos, no del modelo</h2>
+  <p class="entradilla">Entrená con la época que entrenes, la misma logística llega al mismo lugar. Para romper el techo no hace
+  falta un modelo mejor: hace falta <b>otra información</b>. Esta es la demostración, y la carta de lo que falta.</p>
+  <figure class="figura">
+    <p class="titulo-f">Ahorro de llamadas por sí, según con qué época se entrenó <em>· la misma logística, el mismo test</em></p>
+    <div class="grafico" id="g-techo"></div>
+    <figcaption>Dos épocas de entrenamiento, el mismo techo. La roja muestra por qué la estrategia del banco no salió de los
+    datos viejos: la señal del cliente siempre estuvo, pero su umbral no viaja entre regímenes.</figcaption>
+  </figure>
+  <div class="carta">
+    <p class="rotulo-c">La carta de lo que falta · para romper el techo habría que recolectar</p>
+    <ul>
+      <li>
+        <p class="falta">Cuánto vale el cliente</p>
+        <p class="hoy">Ingresos, productos contratados, antigüedad. Hoy sólo hay <b>edad, ocupación y saldo</b> — nada que diga
+        si a este cliente le conviene un plazo fijo.</p>
+      </li>
+      <li>
+        <p class="falta">Un historial de campañas de verdad</p>
+        <p class="hoy">En los viejos casi nadie tenía contacto previo, y el resultado anterior casi siempre es <b>«Otro» o
+        desconocido</b>. La señal que más pesa es justamente la que menos registrada está.</p>
+      </li>
+      <li>
+        <p class="falta">Contexto que no sea fuga</p>
+        <p class="hoy">El mes explica mucho (η² 6,8&nbsp;%) pero no se puede asegurar que se conozca antes de llamar:
+        <b>queda afuera por fuga posible</b>, no por falta de señal.</p>
+      </li>
+    </ul>
   </div>
-  <details><summary>Cómo lo sabemos</summary>
+  <details><summary>Cómo lo sabemos · qué se hizo, la era vieja por adentro y el empate del ranking</summary>
     <h4>Qué se hizo</h4>
     <p>La misma logística y el mismo pipeline del modelo de esta app, entrenados sólo con los {num(d['n'])} contactos que la app descarta
     ({d['desde']:%d/%m/%Y} – {d['hasta']:%d/%m/%Y}, {pct(d['tasa'], 1)} de sí), con el umbral fijado igual que en el modelo: el mejor con
@@ -442,15 +554,6 @@ def armar(df, r, pm, specs, h, sha, tablas):
     <p>Sobre el mismo test, el modelo viejo ordena igual que el reciente: AP {num(d['ap_viejo'], 3)} contra {num(d['ap_rec'], 3)},
     contra una tasa base de {pct(float(r['y_te'].mean()), 1)}. Lo que no viaja entre épocas es el umbral: la tasa de sí pasa de {pct(d['tasa'], 1)}
     en los viejos a {pct(float(r['y_te'].mean()), 1)} en el test, y las probabilidades quedan en otra escala.</p>
-    <h4>Qué le falta al dataset</h4>
-    <p>El techo de {pct(ahorro, 1)} no es una excusa: es lo que dejan estas columnas. Para romperlo habría que recolectar:</p>
-    <ul>
-      <li>El valor del cliente para el banco: ingresos, productos contratados, antigüedad. Hoy sólo hay edad, ocupación y saldo.</li>
-      <li>Un historial de campañas de verdad: en los viejos casi nadie tenía contacto previo, y el resultado anterior casi siempre es "Otro" o desconocido.</li>
-      <li>Contexto que no sea fuga: mes, tipo de contacto y duración quedaron afuera porque no se puede asegurar que se conozcan antes de decidir a quién llamar.</li>
-    </ul>
-    <p>La otra palanca no es un dato sino una decisión de negocio: aceptando perder {num(100 * (1 - d['recall_r80']), 0)} de cada 100 sí
-    (recall {num(d['recall_r80'], 2)}), el ahorro sube a {pct(d['ahorro_r80'], 1)}. Conviene sólo si un sí vale menos que las llamadas que ahorra.</p>
     <p class="nota">Honestidad: el test de esta app ya fue mirado en versiones anteriores del proyecto. El umbral de esta sección se calibró sólo
     con el entrenamiento reciente, sin mirar el test.</p>
   </details>
@@ -458,22 +561,32 @@ def armar(df, r, pm, specs, h, sha, tablas):
 
 <section id="explora">
   <p class="etapa copa">Tu turno · Explorá</p>
+  <p class="capitulo">Tu turno · 01</p>
   <h2>Los clientes, según la probabilidad de sí que les da el modelo</h2>
-  <p>Cada punto es un contacto; a la derecha de la línea punteada, el modelo dice que hay que llamarlo. En rojo, los sí que se escapan.
-  Empezá por el panorama, después achicá con los menús o mové el umbral, y pasá el mouse por un cliente para ver sus datos y qué dijo el modelo.</p>
-  <p class="nota">La vertical es el <strong>saldo</strong>: el dinero en la cuenta del cliente en este banco. Va en escala logarítmica con signo,
-  para que los saldos chicos y los descubiertos (los negativos) queden legibles en el mismo eje; pasá el mouse por un punto para ver el monto
-  exacto en euros. Con el menú «Eje vertical» podés cambiar la vertical por la edad o por los contactos anteriores.</p>
-  <div class="grafico" id="g-explora"></div>
-  <p class="nota">Cada contacto lo predice un modelo que no lo vio: los del entrenamiento salen de la validación cruzada, y los del test, del modelo final.
-  Los primeros {num(r['cortes'][0][0].size)} contactos del entrenamiento no tienen predicción, porque ningún pedazo los valida.</p>
+  <p class="entradilla">Cada punto es un contacto; a la derecha de la línea punteada, el modelo dice que hay que llamarlo. En rojo,
+  los sí que se escapan. La vertical la elegís vos con el menú «Eje vertical»; el eje horizontal es siempre la probabilidad de sí
+  según el modelo.</p>
+  <div class="pasos-tu">
+    <p class="paso-chip"><b>1</b> achicá el universo con los menús</p>
+    <p class="paso-chip"><b>2</b> mové el umbral y mirá cómo cambia la lista</p>
+    <p class="paso-chip"><b>3</b> pasá el mouse por un cliente para verlo entero</p>
+  </div>
+  <figure class="figura">
+    <p class="titulo-f">El panorama, con filtros <em>· cada punto lleva la probabilidad del modelo y su resultado real</em></p>
+    <div class="grafico" id="g-explora"></div>
+    <figcaption>Cada contacto lo predice un modelo que no lo vio: los del entrenamiento salen de la validación cruzada, y los del
+    test, del modelo final. Los primeros {num(r['cortes'][0][0].size)} contactos del entrenamiento no tienen predicción, porque
+    ningún pedazo los valida. El monto exacto en euros aparece al pasar el mouse.</figcaption>
+  </figure>
 </section>
 
 <section id="proba">
   <p class="etapa copa">Tu turno · Probá el modelo</p>
+  <p class="capitulo">Tu turno · 02</p>
   <h2>Armá un cliente y mirá si el modelo lo llamaría</h2>
-  <p>La probabilidad se calcula dentro de la página con los coeficientes de la logística entrenada: nada se reentrena. Los deslizadores van del mínimo
-  al máximo que vio el entrenamiento y los menús sólo ofrecen categorías que el modelo conoce, así que no se puede cargar un valor que nunca vio.</p>
+  <p class="entradilla">La probabilidad se calcula dentro de la página con los coeficientes de la logística entrenada: nada se
+  reentrena. Los deslizadores van del mínimo al máximo que vio el entrenamiento y los menús sólo ofrecen categorías que el modelo
+  conoce, así que no se puede cargar un valor que nunca vio.</p>
   <div class="probar">
     <div class="entradas">
       <fieldset><legend>El cliente</legend>
@@ -487,6 +600,8 @@ def armar(df, r, pm, specs, h, sha, tablas):
     <p class="nota">Valores de partida: la mediana del entrenamiento. Con 0 contactos anteriores, el cliente cuenta como «sin contacto previo».
     El umbral es el mismo que en el test: {num(r['umbral'], 4)}.</p></div>
   </div>
+  <p class="nota pie-portada"><b>Probalo vos:</b> subí la edad a 70 o cambiá el resultado anterior a Fracaso, y mirá cómo cae la
+  probabilidad. Después de probar un caso raro, volvé a la sección de arriba y buscalo en el panorama.</p>
 </section>
 
 <footer>Ciencia de Datos · UTN FRM · 2026 · Grupo 5K09-04 · Datos: Bank Marketing (UCI, bank-full), contactos hasta el {hasta:%d/%m/%Y}.

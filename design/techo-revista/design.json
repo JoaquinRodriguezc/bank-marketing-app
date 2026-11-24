@@ -1,0 +1,28 @@
+{
+  "title": "Sección «Por qué no más» — revista de datos",
+  "brief": "Quinta sección del tallo (capítulo 05, el cierre). Contenido ya implementado: el techo demostrado con dos épocas de entrenamiento (4,1 % vs 4,0 %), el transplant fallido (0,4 %), y en el desplegable la era vieja inestable, el empate del ranking, qué le falta al dataset y la palanca de negocio (80 % → 10 %). Tres direcciones editoriales.",
+  "feature": "odd/tasks/mejoras-entrega4.md",
+  "artboards": [
+    {
+      "file": "01-techo-enmarcado.html",
+      "title": "El techo enmarcado",
+      "tradeoff": "El sistema editorial uniforme: capítulo 05, la cifra del título en acento, el gráfico de barras enmarcado con epígrafe, y el transplant-vs-recalibrado como duelo. El desplegable queda como está. El de menor riesgo; la sección cambia solo de ropa.",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "02-dos-preguntas.html",
+      "title": "Dos preguntas",
+      "tradeoff": "Reestructura la sección como las dos preguntas que la motivan: «¿la estrategia salió de los datos viejos?» (duelo transplant→recalibrado) y «¿cuánto más se puede estirar?» (el gráfico del techo + la palanca de negocio al epígrafe). Máxima claridad argumentativa; el título deja de afirmar el techo y pasa a anunciar la estructura.",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "03-carta-de-lo-que-falta.html",
+      "title": "La carta de lo que falta",
+      "tradeoff": "Promueve el «bardeo a los datos» a la vista: las tres cosas que habría que recolectar (cuánto vale el cliente · historial de verdad · contexto sin fuga) como tarjetas, y la palanca de negocio (80 % → 10 %) como cierre en caja acentuada. Responde de frente el pedido principal del profesor («para mejorar habría que recolectar tal información»); la sección se alarga y adelanta contenido que hoy vive en el desplegable.",
+      "width": 1440,
+      "height": 900
+    }
+  ]
+}

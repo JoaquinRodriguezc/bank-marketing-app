@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hallazgos · 04 Dos mínimos</title>
+<style>
+  :root{
+    --papel:#faf9f6; --tinta:#141310; --tinta-2:#3d3831; --apagado:#6b6459;
+    --linea:#e4dfd5; --acento:#0072B2; --acento-suave:#eff4f9; --serif:Georgia,"Times New Roman",serif;
+    --sans:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0}
+  body{display:flex;min-height:100vh;background:var(--papel);color:var(--tinta);font-family:var(--sans);font-size:17px;line-height:1.6}
+  a{color:inherit;text-decoration:none}
+  nav{width:230px;flex:none;border-right:1px solid var(--linea);padding:32px 22px;position:sticky;top:0;height:100vh}
+  nav .marca{font-family:var(--serif);font-size:13.5px;color:var(--apagado);line-height:1.45;margin-bottom:34px}
+  nav h3{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--apagado);margin:26px 0 8px;font-weight:600}
+  nav ol{list-style:none;padding-left:10px;border-left:2px solid var(--linea)}
+  nav li a{display:block;padding:6px 0 6px 12px;font-size:14.5px;color:var(--tinta-2)}
+  nav li a.activo{color:var(--acento);font-weight:600;border-left:2px solid var(--acento);margin-left:-2px}
+  main{flex:1;max-width:880px;margin:0 auto;padding:64px 64px 90px}
+  .etapa{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--apagado);font-weight:600}
+  h2{font-family:var(--serif);font-weight:400;font-size:31px;line-height:1.22;margin:18px 0 12px;max-width:26ch}
+  h2 b{color:var(--acento);font-weight:400}
+  .morgue{margin:30px 0 0}
+  .rotulo-m{font-size:11.5px;letter-spacing:.15em;text-transform:uppercase;font-weight:700;color:var(--apagado);
+    display:flex;align-items:center;gap:12px;margin:0 0 14px}
+  .rotulo-m::after{content:"";flex:1;border-top:1px solid var(--linea)}
+  .morgue ul{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:0;margin:0}
+  .morgue li{border:1px solid var(--linea);border-radius:12px;background:#fff;padding:16px 18px}
+  .morgue li .h{font-family:var(--serif);font-size:17px;color:var(--tinta-2);margin:0 0 6px}
+  .morgue li .v{font-size:13.5px;color:var(--apagado);line-height:1.5;margin:0}
+  .morgue li .v b{color:var(--tinta-2)}
+  .mini{margin-top:12px}
+  .mini .leyenda{font-size:11.5px;color:var(--apagado);margin:6px 0 0}
+  .mini .leyenda b{color:var(--acento)}
+  @media (max-width:900px){main{padding:48px 24px}nav{display:none}.morgue ul{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav aria-label="Índice">
+  <p class="marca">Ciencia de Datos · UTN FRM · 2026<br>Grupo 5K09-04</p>
+  <h3>La historia</h3>
+  <ol>
+    <li><a href="#">El proyecto</a></li>
+    <li><a href="#">Los datos</a></li>
+    <li><a class="activo" href="#">Lo que encontramos</a></li>
+    <li><a href="#">El modelo</a></li>
+    <li><a href="#">Por qué no más</a></li>
+  </ol>
+  <h3>Tu turno</h3>
+  <ol>
+    <li><a href="#">Explorá los clientes</a></li>
+    <li><a href="#">Probá el modelo</a></li>
+  </ol>
+</nav>
+<main>
+  <section>
+    <p class="etapa">Lo que encontramos · detalle de la morgue</p>
+    <h2>Dos mínimos: <b>el volumen</b> y <b>el corte</b>, de un vistazo</h2>
+
+    <div class="morgue">
+      <p class="rotulo-m">Lo que probamos y no llegó · el corte de lift era 3,33</p>
+      <ul>
+        <li>
+          <p class="h">Los estudiantes aceptan más</p>
+          <p class="v">28,7&nbsp;% de sí, lift <b>2,45</b> — pero el grupo es ínfimo:</p>
+          <div class="mini" role="img" aria-label="De cada 100 contactos del dataset, 2 son estudiantes">
+            <svg viewBox="0 0 220 70" width="220">
+              <g fill="#e4dfd5">
+                <script></script>
+              </g>
+              <g fill="#e4dfd5" id="puntos"></g>
+              <g>
+                <circle cx="8"  cy="10" r="4" fill="#0072B2"/><circle cx="26" cy="10" r="4" fill="#0072B2"/>
+                <circle cx="44" cy="10" r="4" fill="#e4dfd5"/><circle cx="62" cy="10" r="4" fill="#e4dfd5"/><circle cx="80" cy="10" r="4" fill="#e4dfd5"/><circle cx="98" cy="10" r="4" fill="#e4dfd5"/><circle cx="116" cy="10" r="4" fill="#e4dfd5"/><circle cx="134" cy="10" r="4" fill="#e4dfd5"/><circle cx="152" cy="10" r="4" fill="#e4dfd5"/><circle cx="170" cy="10" r="4" fill="#e4dfd5"/><circle cx="188" cy="10" r="4" fill="#e4dfd5"/><circle cx="206" cy="10" r="4" fill="#e4dfd5"/>
+                <circle cx="8"  cy="28" r="4" fill="#e4dfd5"/><circle cx="26" cy="28" r="4" fill="#e4dfd5"/><circle cx="44" cy="28" r="4" fill="#e4dfd5"/><circle cx="62" cy="28" r="4" fill="#e4dfd5"/><circle cx="80" cy="28" r="4" fill="#e4dfd5"/><circle cx="98" cy="28" r="4" fill="#e4dfd5"/><circle cx="116" cy="28" r="4" fill="#e4dfd5"/><circle cx="134" cy="28" r="4" fill="#e4dfd5"/><circle cx="152" cy="28" r="4" fill="#e4dfd5"/><circle cx="170" cy="28" r="4" fill="#e4dfd5"/><circle cx="188" cy="28" r="4" fill="#e4dfd5"/><circle cx="206" cy="28" r="4" fill="#e4dfd5"/>
+                <circle cx="8"  cy="46" r="4" fill="#e4dfd5"/><circle cx="26" cy="46" r="4" fill="#e4dfd5"/><circle cx="44" cy="46" r="4" fill="#e4dfd5"/><circle cx="62" cy="46" r="4" fill="#e4dfd5"/><circle cx="80" cy="46" r="4" fill="#e4dfd5"/><circle cx="98" cy="46" r="4" fill="#e4dfd5"/><circle cx="116" cy="46" r="4" fill="#e4dfd5"/><circle cx="134" cy="46" r="4" fill="#e4dfd5"/><circle cx="152" cy="46" r="4" fill="#e4dfd5"/><circle cx="170" cy="46" r="4" fill="#e4dfd5"/><circle cx="188" cy="46" r="4" fill="#e4dfd5"/><circle cx="206" cy="46" r="4" fill="#e4dfd5"/>
+              </g>
+            </svg>
+            <p class="leyenda">de cada 100 contactos del dataset, <b>2 son estudiantes</b>: la tasa es alta, el grupo chico.</p>
+          </div>
+        </li>
+        <li>
+          <p class="h">Los casados aceptan menos</p>
+          <p class="v">La diferencia existe — pero se queda lejos del corte:</p>
+          <div class="mini" role="img" aria-label="Lift de solteros 1,28 y casados 0,87 contra un corte de 3,33; el éxito previo en 5,53">
+            <svg viewBox="0 0 340 92" width="340">
+              <line x1="20" y1="46" x2="320" y2="46" stroke="#e4dfd5"/>
+              <line x1="187" y1="18" x2="187" y2="74" stroke="#6b6459" stroke-dasharray="5 4"/>
+              <text x="187" y="88" font-family="-apple-system,Segoe UI,sans-serif" font-size="11" fill="#6b6459" text-anchor="middle">el corte: 3,33</text>
+              <circle cx="64" cy="46" r="6" fill="#9a9a9a"/>
+              <text x="64" y="30" font-family="-apple-system,Segoe UI,sans-serif" font-size="11.5" fill="#3d3831" text-anchor="middle">casados · 0,87</text>
+              <circle cx="94" cy="46" r="6" fill="#9a9a9a"/>
+              <text x="94" y="66" font-family="-apple-system,Segoe UI,sans-serif" font-size="11.5" fill="#3d3831" text-anchor="middle">solteros · 1,28</text>
+              <circle cx="287" cy="46" r="6" fill="#0072B2"/>
+              <text x="287" y="30" font-family="-apple-system,Segoe UI,sans-serif" font-size="11.5" fill="#0072B2" font-weight="700" text-anchor="middle">éxito previo · 5,53</text>
+            </svg>
+            <p class="leyenda">lift de cada grupo · <b>solo el éxito previo cruzó el corte</b>.</p>
+          </div>
+        </li>
+        <li><p class="h">Insistir con llamadas separa</p>
+          <p class="v">Separación <b>0,27 → 0,29 → 0,24</b> — inconclusa, y cuenta la llamada en curso: <code>campaign</code> afuera.</p></li>
+        <li><p class="h">El mes y el día</p>
+          <p class="v">El mes explica mucho (η² 6,8&nbsp;%) pero no se puede asegurar que se conozcan antes de llamar: <b>fuga posible</b>.</p></li>
+      </ul>
+    </div>
+  </section>
+</main>
+</body>
+</html>

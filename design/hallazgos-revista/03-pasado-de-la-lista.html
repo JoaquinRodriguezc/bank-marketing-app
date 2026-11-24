@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hallazgos · 03 El pasado de la lista</title>
+<style>
+  :root{
+    --papel:#faf9f6; --tinta:#141310; --tinta-2:#3d3831; --apagado:#6b6459;
+    --linea:#e4dfd5; --acento:#0072B2; --acento-suave:#eff4f9; --serif:Georgia,"Times New Roman",serif;
+    --sans:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0}
+  body{display:flex;min-height:100vh;background:var(--papel);color:var(--tinta);font-family:var(--sans);font-size:17px;line-height:1.6}
+  a{color:inherit;text-decoration:none}
+  nav{width:230px;flex:none;border-right:1px solid var(--linea);padding:32px 22px;position:sticky;top:0;height:100vh}
+  nav .marca{font-family:var(--serif);font-size:13.5px;color:var(--apagado);line-height:1.45;margin-bottom:34px}
+  nav h3{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--apagado);margin:26px 0 8px;font-weight:600}
+  nav ol{list-style:none;padding-left:10px;border-left:2px solid var(--linea)}
+  nav li a{display:block;padding:6px 0 6px 12px;font-size:14.5px;color:var(--tinta-2)}
+  nav li a.activo{color:var(--acento);font-weight:600;border-left:2px solid var(--acento);margin-left:-2px}
+  main{flex:1;max-width:880px;margin:0 auto;padding:64px 64px 90px}
+  .etapa{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--apagado);font-weight:600}
+  .capitulo{float:right;font-family:var(--serif);font-size:15px;color:var(--apagado);border:1px solid var(--linea);
+    border-radius:999px;padding:6px 14px}
+  h2{font-family:var(--serif);font-weight:400;font-size:31px;line-height:1.22;margin:18px 0 12px;max-width:28ch}
+  h2 b{color:var(--acento);font-weight:400}
+  .entradilla{font-size:16.5px;color:var(--tinta-2);max-width:64ch}
+  .puente{display:grid;grid-template-columns:1fr auto 1fr;gap:18px;align-items:center;margin:30px 0 0;max-width:560px}
+  .puente .lado{border-radius:12px;padding:16px 20px;background:#fff}
+  .puente .antes{border:1px dashed #c3c9d0}
+  .puente .despues{border:1px solid var(--linea)}
+  .puente .rotulo{font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--apagado);margin:0 0 8px}
+  .puente .cifra{font-family:var(--serif);font-size:38px;line-height:1;color:var(--tinta-2)}
+  .puente .detalle{font-size:13.5px;color:var(--apagado);margin:8px 0 0}
+  .puente .flecha{text-align:center;color:var(--acento);font-size:24px}
+  .puente .nota-f{font-size:11.5px;color:var(--apagado);text-align:center;max-width:18ch;margin:4px 0 0}
+  figure{margin:30px 0 0;background:#fff;border:1px solid var(--linea);border-radius:14px;padding:24px 24px 14px}
+  figure .titulo-f{font-family:var(--serif);font-size:17.5px;margin-bottom:14px}
+  figure .titulo-f em{color:var(--apagado)}
+  figcaption{font-size:13.5px;color:var(--apagado);margin-top:10px;border-top:1px solid var(--linea);padding-top:10px;max-width:74ch}
+  .aparte{margin:26px 0 0;background:#f4f1ea;border-left:4px solid var(--apagado);border-radius:0 12px 12px 0;
+    padding:18px 22px;font-size:15.5px;color:var(--tinta-2);max-width:74ch}
+  details{background:#f4f1ea;border-radius:12px;padding:0 22px;margin:34px 0 0}
+  summary{cursor:pointer;font-weight:600;padding:16px 0;color:var(--acento);font-size:16.5px}
+  details h4{margin:14px 0 6px;font-size:17px;font-family:var(--serif);font-weight:400}
+  details p{font-size:15.5px;color:var(--tinta-2);max-width:70ch}
+  details code{font-size:.9em;background:#eef1f4;padding:1px 5px;border-radius:4px}
+  @media (max-width:900px){main{padding:48px 24px}nav{display:none}.puente{grid-template-columns:1fr}figure svg{width:100%;height:auto}}
+</style>
+</head>
+<body>
+<nav aria-label="Índice">
+  <p class="marca">Ciencia de Datos · UTN FRM · 2026<br>Grupo 5K09-04</p>
+  <h3>La historia</h3>
+  <ol>
+    <li><a href="#">El proyecto</a></li>
+    <li><a href="#">Los datos</a></li>
+    <li><a class="activo" href="#">Lo que encontramos</a></li>
+    <li><a href="#">El modelo</a></li>
+    <li><a href="#">Por qué no más</a></li>
+  </ol>
+  <h3>Tu turno</h3>
+  <ol>
+    <li><a href="#">Explorá los clientes</a></li>
+    <li><a href="#">Probá el modelo</a></li>
+  </ol>
+</nav>
+<main>
+  <section>
+    <p class="etapa">Lo que encontramos</p>
+    <p class="capitulo">Capítulo 03</p>
+    <h2>La lista del banco funciona porque se apoya en el pasado: quien ya dijo que sí, vuelve a decir que sí <b>5,5&nbsp;veces</b> más</h2>
+    <p class="entradilla">La estrategia del banco que vimos en los datos no es magia: se apoya en algo que los datos confirman.
+    Cuando el banco eligió a quién llamar, lo que más aprovechó es el historial de campañas:</p>
+
+    <div class="puente">
+      <div class="lado antes">
+        <p class="rotulo">2008 · llamaba a casi todos</p>
+        <p class="cifra">1 de cada 10</p>
+        <p class="detalle">clientes contactados tenía historial de una campaña anterior.</p>
+      </div>
+      <div>
+        <p class="flecha" aria-hidden="true">──▶</p>
+        <p class="nota-f">la lista nueva se arma sobre el historial</p>
+      </div>
+      <div class="lado despues">
+        <p class="rotulo">Desde 2009 · la lista elegida</p>
+        <p class="cifra">≈ la mitad</p>
+        <p class="detalle">de los contactados ya había sido llamada antes por el banco.</p>
+      </div>
+    </div>
+
+    <figure>
+      <p class="titulo-f">Y el historial es lo que más pesa <em>· tasa de sí según el contacto anterior</em></p>
+      <svg viewBox="0 0 700 300" role="img" aria-label="Tasa de sí por resultado del contacto anterior">
+        <g font-family="-apple-system,Segoe UI,sans-serif" font-size="13" fill="#3d3831">
+          <text x="0" y="34">Éxito</text>
+          <rect x="170" y="18" width="453" height="24" rx="4" fill="#0072B2"/>
+          <text x="633" y="35" fill="#141310" font-weight="600">64,7 % · 1.511</text>
+          <text x="0" y="94">Otro</text>
+          <rect x="170" y="78" width="117" height="24" rx="4" fill="#9ec7e3"/>
+          <text x="297" y="95">16,7 % · 1.840</text>
+          <text x="0" y="154">Fracaso</text>
+          <rect x="170" y="138" width="88" height="24" rx="4" fill="#9ec7e3"/>
+          <text x="268" y="155">12,6 % · 4.901</text>
+          <text x="0" y="214">Sin contacto previo</text>
+          <rect x="170" y="198" width="64" height="24" rx="4" fill="#9ec7e3"/>
+          <text x="244" y="215">9,2 % · 36.954</text>
+        </g>
+        <line x1="241" y1="8" x2="241" y2="240" stroke="#6b6459" stroke-dasharray="5 4"/>
+        <text x="241" y="262" font-family="-apple-system,Segoe UI,sans-serif" font-size="12" fill="#6b6459" text-anchor="middle">promedio: 11,7 %</text>
+      </svg>
+      <figcaption>Quien dijo sí antes convierte a 64,7&nbsp;% — cinco veces y media el promedio—, y es justamente el coeficiente
+      que más pesa en el modelo. «Otro» son clientes con contacto previo cuyo resultado quedó registrado ni Éxito ni Fracaso:
+      el dataset no cuenta cómo terminó, así que su barra no ayuda a decidir.</figcaption>
+    </figure>
+
+    <p class="aparte">Lo que el análisis probó y <b>no</b> sirvió: los estudiantes aceptan más (28,7&nbsp;%, pero son el 2,1&nbsp;% del
+    dataset, lift 2,45), los casados no aceptan menos (lift 1,28 contra 3,33 exigidos), insistir con llamadas no separa
+    (0,27 → 0,29 → 0,24), y el mes y el día quedaron afuera por fuga posible. El detalle de cada una está en el desplegable.</p>
+
+    <details>
+      <summary>Cómo lo sabemos · el detalle de las hipótesis</summary>
+      <h4>Una que se sostuvo: el éxito previo vale más que el perfil</h4>
+      <p>Tasa de sí con éxito previo: 64,7&nbsp;%, contra 11,7&nbsp;% de todos. Lift 5,53, sobre el corte de 3,33 fijado antes de mirar. El resultado anterior entra al modelo, y no es fuga: se conoce antes de llamar.</p>
+      <h4>El historial de la lista</h4>
+      <p>En las campañas masivas de 2008, apenas uno de cada diez clientes contactados tenía una campaña anterior; en la lista que el banco arma desde 2009, casi la mitad ya había sido llamada. Los números se calculan sobre el mismo CSV al generar la página.</p>
+      <h4>Las que no funcionaron</h4>
+      <p>Estudiantes (lift 2,45 con 938 contactos), estado civil (1,28/0,87, η² 0,004), insistencia de llamadas (0,27→0,29→0,24, además cuenta la llamada en curso) y mes/día (fuga posible, aunque el mes explique η² 6,8&nbsp;%). Cada una con su número en el análisis exploratorio (Entrega 2).</p>
+      <h4>Cómo se construyó el gráfico</h4>
+      <p>Datos: un contacto por fila. Transformación: agrupar por el resultado de la campaña anterior (<code>poutcome</code> limpio, «Otro» = <code>other</code>) y calcular la tasa de sí de cada grupo; quedan fuera los 5 contactos con resultado desconocido. Marca: barras, magnitud con eje desde 0. Mapeo: la tasa a la posición horizontal, el rótulo con el tamaño del grupo.</p>
+    </details>
+  </section>
+</main>
+</body>
+</html>

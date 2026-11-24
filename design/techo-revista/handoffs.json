@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "chosen": "03-carta-de-lo-que-falta.html",
+  "handoffs": {
+    "03-carta-de-lo-que-falta.html": {
+      "status": "implemented",
+      "queued": false,
+      "sentAt": "2026-11-24T16:23:40.869Z",
+      "startedAt": "2026-11-24T16:24:41.263Z",
+      "implementedAt": "2026-11-24T16:25:29.837Z",
+      "feature": "odd/tasks/mejoras-entrega4.md",
+      "note": "Chapter 05 with the dataset-critique cards and the business lever promoted to the body; drawer keeps what-was-done, old-era internals and the ranking tie. Build identical; 12/12 specs compile.",
+      "previewUrl": "http://127.0.0.1:8424/index.html"
+    }
+  }
+}

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hallazgos · 05 La escala del corte</title>
+<style>
+  :root{
+    --papel:#faf9f6; --tinta:#141310; --tinta-2:#3d3831; --apagado:#6b6459;
+    --linea:#e4dfd5; --acento:#0072B2; --acento-suave:#eff4f9; --serif:Georgia,"Times New Roman",serif;
+    --sans:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0}
+  body{display:flex;min-height:100vh;background:var(--papel);color:var(--tinta);font-family:var(--sans);font-size:17px;line-height:1.6}
+  a{color:inherit;text-decoration:none}
+  nav{width:230px;flex:none;border-right:1px solid var(--linea);padding:32px 22px;position:sticky;top:0;height:100vh}
+  nav .marca{font-family:var(--serif);font-size:13.5px;color:var(--apagado);line-height:1.45;margin-bottom:34px}
+  nav h3{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--apagado);margin:26px 0 8px;font-weight:600}
+  nav ol{list-style:none;padding-left:10px;border-left:2px solid var(--linea)}
+  nav li a{display:block;padding:6px 0 6px 12px;font-size:14.5px;color:var(--tinta-2)}
+  nav li a.activo{color:var(--acento);font-weight:600;border-left:2px solid var(--acento);margin-left:-2px}
+  main{flex:1;max-width:880px;margin:0 auto;padding:64px 64px 90px}
+  .etapa{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--apagado);font-weight:600}
+  h2{font-family:var(--serif);font-weight:400;font-size:31px;line-height:1.22;margin:18px 0 12px;max-width:26ch}
+  h2 b{color:var(--acento);font-weight:400}
+  .entradilla{font-size:16.5px;color:var(--tinta-2);max-width:64ch}
+  .morgue{margin:30px 0 0}
+  .rotulo-m{font-size:11.5px;letter-spacing:.15em;text-transform:uppercase;font-weight:700;color:var(--apagado);
+    display:flex;align-items:center;gap:12px;margin:0 0 14px}
+  .rotulo-m::after{content:"";flex:1;border-top:1px solid var(--linea)}
+  .morgue ul{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:0;margin:26px 0 0}
+  .morgue li{border:1px solid var(--linea);border-radius:12px;background:#fff;padding:16px 18px}
+  .morgue li .h{font-family:var(--serif);font-size:17px;color:var(--tinta-2);margin:0 0 4px}
+  .morgue li .v{font-size:13.5px;color:var(--apagado);line-height:1.5;margin:0}
+  .morgue li .v b{color:var(--tinta-2)}
+  .escala{background:#fff;border:1px solid var(--linea);border-radius:14px;padding:20px 22px 14px}
+  .escala .leyenda{font-size:13px;color:var(--apagado);margin:8px 0 0;border-top:1px solid var(--linea);padding-top:10px}
+  .escala .leyenda b{color:var(--acento)}
+  @media (max-width:900px){main{padding:48px 24px}nav{display:none}.morgue ul{grid-template-columns:1fr}.escala svg{width:100%;height:auto}}
+</style>
+</head>
+<body>
+<nav aria-label="Índice">
+  <p class="marca">Ciencia de Datos · UTN FRM · 2026<br>Grupo 5K09-04</p>
+  <h3>La historia</h3>
+  <ol>
+    <li><a href="#">El proyecto</a></li>
+    <li><a href="#">Los datos</a></li>
+    <li><a class="activo" href="#">Lo que encontramos</a></li>
+    <li><a href="#">El modelo</a></li>
+    <li><a href="#">Por qué no más</a></li>
+  </ol>
+  <h3>Tu turno</h3>
+  <ol>
+    <li><a href="#">Explorá los clientes</a></li>
+    <li><a href="#">Probá el modelo</a></li>
+  </ol>
+</nav>
+<main>
+  <section>
+    <p class="etapa">Lo que encontramos · detalle de la morgue</p>
+    <h2>Una sola mirada: <b>solo el éxito previo cruzó el corte</b></h2>
+    <p class="entradilla">Cada punto es una hipótesis, ubicada por su <i>lift</i> — cuántas veces supera la tasa del cliente promedio.
+    El corte de 3,33 se fijó antes de mirar. Lo que no lo cruza, no entra al modelo.</p>
+
+    <div class="escala" role="img" aria-label="Lift de cada hipótesis contra el corte de 3,33: éxito previo 5,53 en azul; estudiantes 2,45, solteros 1,28 y casados 0,87 en gris, todos a la izquierda del corte">
+      <svg viewBox="0 0 760 120">
+        <line x1="30" y1="60" x2="730" y2="60" stroke="#e4dfd5"/>
+        <g font-family="-apple-system,Segoe UI,sans-serif" font-size="12" fill="#6b6459">
+          <text x="30" y="112">lift 0</text>
+          <text x="730" y="112" text-anchor="end">lift 6</text>
+        </g>
+        <line x1="410" y1="24" x2="410" y2="86" stroke="#6b6459" stroke-dasharray="5 4"/>
+        <text x="410" y="104" font-family="-apple-system,Segoe UI,sans-serif" font-size="12" fill="#6b6459" text-anchor="middle">el corte: 3,33</text>
+        <circle cx="64" cy="60" r="7" fill="#9a9a9a"/>
+        <text x="64" y="38" font-family="-apple-system,Segoe UI,sans-serif" font-size="12.5" fill="#3d3831" text-anchor="middle">casados · 0,87</text>
+        <circle cx="95" cy="60" r="7" fill="#9a9a9a"/>
+        <text x="95" y="84" font-family="-apple-system,Segoe UI,sans-serif" font-size="12.5" fill="#3d3831" text-anchor="middle">solteros · 1,28</text>
+        <circle cx="178" cy="60" r="7" fill="#9a9a9a"/>
+        <text x="178" y="38" font-family="-apple-system,Segoe UI,sans-serif" font-size="12.5" fill="#3d3831" text-anchor="middle">estudiantes · 2,45</text>
+        <circle cx="658" cy="60" r="9" fill="#0072B2"/>
+        <text x="658" y="34" font-family="-apple-system,Segoe UI,sans-serif" font-size="13" fill="#0072B2" font-weight="700" text-anchor="middle">éxito previo · 5,53</text>
+      </svg>
+      <p class="leyenda">La única que cruzó el corte es la que sostiene al modelo. Las demás quedan del lado de acá — <b>existen en el promedio, pero no distinguen cliente por cliente</b>.</p>
+    </div>
+
+    <div class="morgue">
+      <p class="rotulo-m">Las tarjetas quedan para el detalle de cada una</p>
+      <ul>
+        <li><p class="h">Los estudiantes aceptan más</p><p class="v">28,7&nbsp;% de sí, lift <b>2,45</b> — pero son 938 contactos, el 2,1&nbsp;% del dataset: la tasa se mueve mucho entre períodos.</p></li>
+        <li><p class="h">Los casados aceptan menos</p><p class="v">Solteros <b>1,28</b>, casados <b>0,87</b>, η² 0,004 — existe en el promedio, no distingue cliente por cliente.</p></li>
+        <li><p class="h">Insistir con llamadas separa</p><p class="v">Separación <b>0,27 → 0,29 → 0,24</b> — inconclusa, y cuenta la llamada en curso: <code>campaign</code> afuera.</p></li>
+        <li><p class="h">El mes y el día</p><p class="v">El mes explica mucho (η² 6,8&nbsp;%) pero no se puede asegurar que se conozcan antes de llamar: <b>fuga posible</b>.</p></li>
+      </ul>
+    </div>
+  </section>
+</main>
+</body>
+</html>

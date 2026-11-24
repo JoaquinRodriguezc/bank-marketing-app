@@ -1,0 +1,42 @@
+{
+  "title": "Sección «Lo que encontramos» — revista de datos",
+  "brief": "Tercera sección del restilo editorial sección por sección de la app de la Entrega 4 (bank marketing). Contenido ya corregido según el profesor (qué es «Otro», eje «Resultado del contacto previo», hipótesis fallidas con sus números). Tres direcciones: vestimenta editorial, morgue visible de hipótesis, o puente narrativo hacia la lista del banco que abre la portada.",
+  "feature": "odd/tasks/mejoras-entrega4.md",
+  "artboards": [
+    {
+      "file": "01-hallazgo-enmarcado.html",
+      "title": "El hallazgo enmarcado",
+      "tradeoff": "El tratamiento editorial de «Los datos» aplicado acá: capítulo 03, figura enmarcada con epígrafe, y «Otro» como aparte destacado. Las hipótesis fallidas siguen adentro del desplegable. El de menor riesgo: no toca contenido, solo vestimenta.",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "02-morgue-de-hipotesis.html",
+      "title": "La morgue de hipótesis",
+      "tradeoff": "Saca las hipótesis fallidas del desplegable y las pone en una grilla visible de cuatro tarjetas («lo que probamos y no llegó», cada una con su número). Rigor analítico a la vista sin clicks; agrega altura y reduce el desplegable a casi nada.",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "03-pasado-de-la-lista.html",
+      "title": "El pasado de la lista",
+      "tradeoff": "Cierra el círculo narrativo con la portada: un mini-versus (1 de cada 10 con historial en 2008 → casi la mitad en la lista de 2009) conecta la estrategia del banco con el hallazgo, y el hallazgo con el modelo. Agrega un dato que hoy no está computado en la app (el % con historial por período, calculable del CSV) y reangula el título de la sección.",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "04-dos-minimos.html",
+      "title": "Dos mínimos",
+      "tradeoff": "Refinamiento pedido por el grupo: dos gráficos minimalistas para las dos hipótesis principales. En la tarjeta de estudiantes, un waffle de 100 puntos (2 azules = su 2,1 % del dataset) que muestra el problema de volumen de un vistazo; en la de casados, una mini escala de lift con el corte en 3,33 y el éxito previo como referencia. Dos miradas, cero carga extra.",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "05-escala-del-corte.html",
+      "title": "La escala del corte",
+      "tradeoff": "La versión más minimalista: UN solo gráfico de lift con todas las hipótesis sobre la misma línea y el corte en 3,33 — solo el éxito previo lo cruza. Cuenta las cuatro fallidas en una mirada; las tarjetas pasan a ser el detalle y ninguna hipótesis tiene su propio visual.",
+      "width": 1440,
+      "height": 900
+    }
+  ]
+}
