@@ -431,6 +431,21 @@ def armar(df, r, pm, specs, h, sha, tablas):
       dónde pararse es decisión del negocio, no del modelo.</figcaption>
     </figure>
   </div>
+  <div class="paso">
+    <p class="rotulo-paso">Acto 3 · La radiografía del modelo</p>
+    <figure class="figura">
+      <p class="titulo-f">Dónde se equivoca <em>· la matriz del test, con los colores de Explorá</em></p>
+      <div class="grafico" id="g-confusion"></div>
+      <figcaption>Para no perder sí, el modelo llama a casi todos: su error típico es una llamada a quien dice que no.
+      Los sí que se escapan son {num(perdidos)} — el costo en clientes de las {num(menos)} llamadas ahorradas.</figcaption>
+    </figure>
+    <figure class="figura">
+      <p class="titulo-f">En qué se apoya <em>· los coeficientes de mayor magnitud</em></p>
+      <div class="grafico" id="g-coef"></div>
+      <figcaption>El coeficiente que más empuja hacia el sí es haber dicho sí en la campaña anterior: es exactamente el hallazgo
+      del capítulo 03. No es fuga: se conoce antes de llamar.</figcaption>
+    </figure>
+  </div>
   <details><summary>Cómo lo sabemos</summary>
     <h4>La métrica y por qué</h4>
     <p>El banco quiere que cada depósito le cueste la menor cantidad de llamadas posible, sin perder a los que iban a decir que sí.
@@ -463,14 +478,6 @@ def armar(df, r, pm, specs, h, sha, tablas):
     <h4>El resultado en el test</h4>
     <p>{num(t['llamadas'])} llamadas en vez de {num(len(r['y_te']))}, {num(t['si_conseguidos'])} de {num(t['si_totales'])} sí (recall {num(t['recall'], 3)}):
     {num(t['llamadas_por_si'], 2)} llamadas por sí contra {num(todos, 2)}, un ahorro de {pct(ahorro, 1)}. La validación había anticipado {pct(e.ahorro_media, 1)}.</p>
-    <h4>Dónde se equivoca</h4>
-    <p>Para no perder sí, el modelo llama a casi todos: su error típico es una llamada a quien dice que no. Los colores son los mismos de
-    la sección Explorá: azul es lo que el modelo quiere ver; rojo, los sí que se escapan; gris, el ahorro real.</p>
-    <div class="grafico" id="g-confusion"></div>
-    <h4>En qué se apoya</h4>
-    <p>Los coeficientes de la logística sobre columnas estandarizadas, los 12 de mayor magnitud (el resto queda cerca de cero). Azul empuja hacia el sí,
-    rojo hacia el no. El que más pesa es haber dicho que sí en la campaña anterior: es lo que mostró el análisis, y no es fuga, porque se conoce antes de llamar.</p>
-    <div class="grafico" id="g-coef"></div>
   </details>
 </section>
 
