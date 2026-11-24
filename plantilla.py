@@ -325,6 +325,12 @@ def armar(df, r, pm, specs, h, sha, tablas):
   </figure>
   <div class="morgue">
     <p class="rotulo-m">Lo que probamos y no llegó · el corte de lift era 3,33</p>
+    <figure class="figura">
+      <p class="titulo-f">El lift de cada hipótesis <em>· y el corte que fijamos antes de mirar</em></p>
+      <div class="grafico" id="g-lift"></div>
+      <figcaption>La única que cruzó el corte es la que sostiene al modelo. Las demás existen en el promedio,
+      pero no distinguen cliente por cliente — por eso no entran.</figcaption>
+    </figure>
     <ul>
       <li><p class="h">Los estudiantes aceptan más</p>
         <p class="v">{pct(h['estudiante'], 1)} de sí, lift <b>{num(h['lift_est'], 2)}</b> — pero sobre {num(h['n_est'])} contactos,
