@@ -502,7 +502,7 @@ def grafico_techo(r, d):
     orden = barras.estrategia.tolist()
     x = alt.X("ahorro:Q", title="Ahorro de llamadas por cada sí en el test (%)", scale=alt.Scale(zero=True))
     y = lambda: alt.Y("estrategia:N", sort=orden, title="Con qué época se entrenó",
-                      axis=alt.Axis(labelFontSize=14.5, labelLimit=250))
+                      axis=alt.Axis(labelFontSize=14.5, labelLimit=250, titleX=-280))
     base = alt.Chart(barras).encode(
         y(),
         tooltip=[alt.Tooltip("estrategia:N", title="Versión"),
