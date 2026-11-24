@@ -55,6 +55,15 @@ h2 b{color:var(--acento);font-weight:400}
 .figura .titulo-f{font-family:var(--serif);font-size:17.5px;margin:0 0 14px;color:var(--tinta)}
 .figura .titulo-f em{color:var(--gris)}
 .figura figcaption{font-size:13.5px;color:var(--gris);margin:10px 0 0;border-top:1px solid var(--linea);padding-top:10px;max-width:74ch}
+.aparte{margin:26px 0 0;background:var(--suave);border-left:4px solid var(--gris);border-radius:0 12px 12px 0;padding:18px 22px;font-size:15.5px;color:var(--tinta-2);max-width:74ch}
+.morgue{margin:30px 0 0}
+.rotulo-m{font-size:11.5px;letter-spacing:.15em;text-transform:uppercase;font-weight:700;color:var(--gris);display:flex;align-items:center;gap:12px;margin:0 0 14px}
+.rotulo-m::after{content:"";flex:1;border-top:1px solid var(--linea)}
+.morgue ul{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:0;margin:0}
+.morgue li{border:1px solid var(--linea);border-radius:12px;background:#fff;padding:16px 18px}
+.morgue li .h{font-family:var(--serif);font-size:17px;color:var(--tinta-2);margin:0 0 4px}
+.morgue li .v{font-size:13.5px;color:var(--gris);line-height:1.5;margin:0}
+.morgue li .v b{color:var(--tinta-2)}
 .num{background:var(--suave);border-radius:8px;padding:18px 20px}
 .num span{display:block;font-size:44px;font-weight:700;line-height:1.1;color:var(--acento)}
 .num p{margin:6px 0 0;font-size:15.5px;color:var(--gris)}
@@ -110,7 +119,7 @@ footer{max-width:980px;margin:0 auto;padding:30px 0;color:var(--gris);font-size:
 .remate{font-family:var(--serif);font-size:19px;color:var(--tinta-2);margin:18px 0 0;max-width:54ch}
 .remate b{color:var(--acento);font-weight:400}
 .pie-portada{margin-top:36px;border-top:3px double var(--linea);padding-top:14px}
-@media (max-width:860px){.duelo{grid-template-columns:1fr}.duelo .flecha{flex-direction:row;min-height:64px}
+@media (max-width:860px){.morgue ul{grid-template-columns:1fr}.duelo{grid-template-columns:1fr}.duelo .flecha{flex-direction:row;min-height:64px}
 nav{display:none}main{margin-left:0;padding:0 16px 60px}.nums{grid-template-columns:1fr}h1{font-size:32px}
 #portada{padding:28px 20px 18px;border-radius:12px}.nums.versus{grid-template-columns:1fr}.nums.versus .flecha{transform:rotate(90deg)}}
 """
@@ -284,23 +293,39 @@ def armar(df, r, pm, specs, h, sha, tablas):
 
 <section id="hallazgos">
   <p class="etapa tallo">Lo que encontramos</p>
-  <h2>Quien ya dijo que sí en la campaña anterior vuelve a decir que sí {num(h['lift_exito'], 1)} veces más que el promedio</h2>
-  <p>Cómo se lee: cada barra es un grupo de clientes, agrupados por cómo terminó su <b>último contacto de la campaña anterior</b>.
-  La barra mide la <b>tasa de sí</b> de ese grupo —de cada 100 clientes que llegan con ese mismo pasado, cuántos aceptaron el depósito
-  esta vez—, no la cantidad de clientes: eso lo dice el rótulo del costado, porque los grupos no pesan lo mismo. La línea punteada es el
-  promedio de todos, {pct(h['media'], 1)}: una barra a la derecha del promedio dice que a ese grupo le va mejor que al cliente promedio;
-  una a la izquierda, que le va peor.</p>
-  <p>Lo que más separa es el éxito previo: de los {num(h['n_exito'])} clientes que en la campaña anterior dijeron que sí, el {pct(h['exito'], 1)}
-  volvió a aceptar, {num(h['lift_exito'], 1)} veces el promedio. En el otro extremo están los {num(h['n_sin'])} clientes que nunca habían
-  sido contactados: {pct(h['sin'], 1)}, por debajo del promedio. Para ellos el banco sabe muy poco.</p>
-  <div class="grafico" id="g-hallazgo"></div>
-  <p><b>Qué es «Otro».</b> Es el grupo de {num(h['n_otro'])} clientes que <i>sí</i> tuvieron un contacto previo, pero cuyo resultado quedó
-  registrado como «Otro» (<code>poutcome</code> = <code>other</code>): ni Éxito ni Fracaso. No es un cliente sin historia ni un hueco del
-  gráfico: el contacto existió y el dataset no cuenta cómo terminó, así que no se puede saber si en esa llamada anterior dijo que sí o que
-  no. Por eso su barra no ayuda a decidir: {pct(h['otro'], 1)} de sí, entre el {pct(h['fracaso'], 1)} de los {num(h['n_fracaso'])} que
-  fracasaron y el {pct(h['exito'], 1)} del éxito, y muy por debajo del corte de lift. Existe y hay que mostrarlo, pero no sirve para elegir
-  a quién llamar. Aparte quedan {num(h['n_desc'])} clientes con contacto previo y resultado directamente desconocido, que no entran al gráfico.</p>
-  <details><summary>Cómo lo sabemos</summary>
+  <p class="capitulo">Capítulo 03</p>
+  <h2>Quien ya dijo que sí en la campaña anterior vuelve a decir que sí <b>{num(h['lift_exito'], 1)} veces</b> más que el promedio</h2>
+  <p class="entradilla">Cada barra es un grupo de clientes, agrupados por cómo terminó su <b>último contacto de la campaña anterior</b>.
+  La barra mide la <b>tasa de sí</b> de ese grupo —de cada 100 clientes que llegan con ese mismo pasado, cuántos aceptaron esta vez—,
+  y el rótulo del costado dice cuántos hay, porque los grupos no pesan lo mismo. La línea punteada es el promedio de todos,
+  {pct(h['media'], 1)}: lo que queda a su derecha le va mejor que al cliente promedio.</p>
+  <figure class="figura">
+    <p class="titulo-f">La tasa de sí según el contacto anterior <em>· Éxito, Fracaso, Otro o ninguno</em></p>
+    <div class="grafico" id="g-hallazgo"></div>
+    <figcaption>El hallazgo que sostiene al modelo: el pasado del cliente manda más que su perfil. De los {num(h['n_sin'])}
+    clientes que nunca fueron contactados acepta apenas el {pct(h['sin'], 1)}: de ellos, el banco sabe muy poco.</figcaption>
+  </figure>
+  <p class="aparte"><b>¿Y qué es «Otro»?</b> Los {num(h['n_otro'])} clientes que <i>sí</i> tuvieron un contacto previo, pero cuyo resultado
+  quedó registrado ni Éxito ni Fracaso (<code>poutcome</code> = <code>other</code>): el contacto existió y el dataset no cuenta cómo
+  terminó. Su barra —{pct(h['otro'], 1)} de sí— no ayuda a decidir: existe, se muestra, y no sirve para elegir a quién llamar.</p>
+  <div class="morgue">
+    <p class="rotulo-m">Lo que probamos y no llegó · el corte de lift era 3,33</p>
+    <ul>
+      <li><p class="h">Los estudiantes aceptan más</p>
+        <p class="v">{pct(h['estudiante'], 1)} de sí, lift <b>{num(h['lift_est'], 2)}</b> — pero sobre {num(h['n_est'])} contactos,
+        el {pct(h['n_est'] / len(df), 1)} del dataset: el volumen no alcanza y la tasa se mueve mucho entre períodos.</p></li>
+      <li><p class="h">Los casados aceptan menos</p>
+        <p class="v">Solteros lift <b>1,28</b>, casados <b>0,87</b> (η² 0,004, resultado de la Entrega 2) — existe en el promedio
+        pero no distingue cliente por cliente.</p></li>
+      <li><p class="h">Insistir con llamadas separa</p>
+        <p class="v">Separación <b>0,27 → 0,29 → 0,24</b> (Entrega 2) — inconclusa, y cuenta la llamada en curso:
+        <code>campaign</code> queda afuera del modelo.</p></li>
+      <li><p class="h">El mes y el día</p>
+        <p class="v">El mes explica mucho (η² 6,8&nbsp;%) pero no se puede asegurar que se conozcan antes de llamar:
+        <b>fuga posible</b>, no falta de señal.</p></li>
+    </ul>
+  </div>
+  <details><summary>Cómo lo sabemos · el detalle de cada hipótesis</summary>
     <p>Los números del gráfico y de estos párrafos salen del mismo CSV que usa el modelo y se calculan al generar la página; los de las
     hipótesis descartadas son resultados del análisis exploratorio (Entrega 2), sobre los {num(len(df))} contactos del dataset, y se citan
     como tales. Una hipótesis se sostiene si el <i>lift</i> —la tasa del grupo dividida por la tasa de todos— llega a 3,33, el corte que
