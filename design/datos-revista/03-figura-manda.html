@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Datos · 03 La figura manda</title>
+<style>
+  :root{
+    --papel:#faf9f6; --tinta:#141310; --tinta-2:#3d3831; --apagado:#6b6459;
+    --linea:#e4dfd5; --acento:#0072B2; --acento-suave:#eff4f9; --serif:Georgia,"Times New Roman",serif;
+    --sans:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0}
+  body{display:flex;min-height:100vh;background:var(--papel);color:var(--tinta);font-family:var(--sans);font-size:17px;line-height:1.6}
+  a{color:inherit;text-decoration:none}
+  nav{width:230px;flex:none;border-right:1px solid var(--linea);padding:32px 22px;position:sticky;top:0;height:100vh}
+  nav .marca{font-family:var(--serif);font-size:13.5px;color:var(--apagado);line-height:1.45;margin-bottom:34px}
+  nav h3{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--apagado);margin:26px 0 8px;font-weight:600}
+  nav ol{list-style:none;padding-left:10px;border-left:2px solid var(--linea)}
+  nav li a{display:block;padding:6px 0 6px 12px;font-size:14.5px;color:var(--tinta-2)}
+  nav li a.activo{color:var(--acento);font-weight:600;border-left:2px solid var(--acento);margin-left:-2px}
+  main{flex:1;max-width:920px;margin:0 auto;padding:64px 64px 90px}
+  .etapa{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--apagado);font-weight:600}
+  figure{margin:26px 0 0;background:#fff;border:1px solid var(--linea);border-radius:14px;padding:24px 24px 12px}
+  figcaption{font-size:14px;color:var(--apagado);margin-top:8px;border-top:1px solid var(--linea);padding-top:12px;max-width:76ch}
+  figcaption b{color:var(--acento);font-weight:600}
+  h2{font-family:var(--serif);font-weight:400;font-size:33px;line-height:1.22;margin:30px 0 14px;max-width:28ch}
+  h2 b{color:var(--acento);font-weight:400}
+  .entradilla{font-size:16.5px;color:var(--tinta-2);max-width:66ch}
+  details{background:#f4f1ea;border-radius:12px;padding:0 22px;margin:34px 0 0}
+  summary{cursor:pointer;font-weight:600;padding:16px 0;color:var(--acento);font-size:16.5px}
+  details h4{margin:14px 0 6px;font-size:17px;font-family:var(--serif);font-weight:400}
+  details p{font-size:15.5px;color:var(--tinta-2);max-width:70ch}
+  details code{font-size:.9em;background:#eef1f4;padding:1px 5px;border-radius:4px}
+  .tabla{overflow-x:auto;margin:8px 0 14px}
+  table{border-collapse:collapse;font-size:14.5px;background:#fff}
+  th,td{border:1px solid var(--linea);padding:6px 10px;text-align:left;vertical-align:top}
+  th{background:#eef1f4;font-weight:600}
+  @media (max-width:900px){main{padding:48px 24px}nav{display:none}figure svg{width:100%;height:auto}}
+</style>
+</head>
+<body>
+<nav aria-label="Índice">
+  <p class="marca">Ciencia de Datos · UTN FRM · 2026<br>Grupo 5K09-04</p>
+  <h3>La historia</h3>
+  <ol>
+    <li><a href="#">El proyecto</a></li>
+    <li><a class="activo" href="#">Los datos</a></li>
+    <li><a href="#">Lo que encontramos</a></li>
+    <li><a href="#">El modelo</a></li>
+    <li><a href="#">Por qué no más</a></li>
+  </ol>
+  <h3>Tu turno</h3>
+  <ol>
+    <li><a href="#">Explorá los clientes</a></li>
+    <li><a href="#">Probá el modelo</a></li>
+  </ol>
+</nav>
+<main>
+  <section>
+    <p class="etapa">Los datos</p>
+    <figure>
+      <svg viewBox="0 0 760 260" role="img" aria-label="Tasa de sí mensual arriba y volumen de llamadas abajo, con el salto de 2009 anotado">
+        <rect x="360" y="16" width="360" height="208" fill="#eff4f9"/>
+        <text x="368" y="32" font-family="-apple-system,Segoe UI,sans-serif" font-size="11" fill="#0072B2" font-weight="600">período del modelo · junio 2009 →</text>
+        <g font-family="-apple-system,Segoe UI,sans-serif" font-size="11" fill="#6b6459">
+          <line x1="40" y1="152" x2="730" y2="152" stroke="#e4dfd5"/>
+          <text x="40" y="170">may 2008</text><text x="660" y="170">nov 2010</text>
+        </g>
+        <path d="M40,148 L80,149 L120,146 L160,148 L200,147 L240,148 L280,145 L320,147 L340,140 L380,100 L410,64 L440,72 L470,60 L500,76 L530,56 L560,68 L590,50 L620,62 L650,46 L690,54 L730,50"
+          fill="none" stroke="#0072B2" stroke-width="2.5"/>
+        <circle cx="380" cy="100" r="5" fill="#0072B2"/>
+        <text x="392" y="96" font-family="-apple-system,Segoe UI,sans-serif" font-size="12.5" fill="#141310" font-weight="700">el salto · mediados de 2009</text>
+        <text x="150" y="130" font-family="Georgia,serif" font-size="16" fill="#6b6459">≈ 3–6 %</text>
+        <text x="610" y="42" font-family="Georgia,serif" font-size="16" fill="#0072B2">35–60 %</text>
+        <g>
+          <line x1="40" y1="222" x2="730" y2="222" stroke="#e4dfd5"/>
+          <g fill="#9ec7e3">
+            <rect x="42" y="202" width="13" height="20"/><rect x="59" y="198" width="13" height="24"/><rect x="76" y="194" width="13" height="28"/>
+            <rect x="93" y="196" width="13" height="26"/><rect x="110" y="192" width="13" height="30"/><rect x="127" y="196" width="13" height="26"/>
+            <rect x="144" y="198" width="13" height="24"/><rect x="161" y="194" width="13" height="28"/>
+            <rect x="178" y="204" width="13" height="18"/><rect x="195" y="200" width="13" height="22"/><rect x="212" y="202" width="13" height="20"/>
+            <rect x="229" y="200" width="13" height="22"/><rect x="246" y="202" width="13" height="20"/><rect x="263" y="204" width="13" height="18"/>
+            <rect x="280" y="202" width="13" height="20"/><rect x="297" y="206" width="13" height="16"/><rect x="314" y="204" width="13" height="18"/>
+            <rect x="331" y="208" width="13" height="14"/><rect x="348" y="212" width="13" height="10"/>
+            <rect x="365" y="216" width="13" height="6"/><rect x="382" y="214" width="13" height="8"/><rect x="399" y="216" width="13" height="6"/>
+            <rect x="416" y="215" width="13" height="7"/><rect x="433" y="216" width="13" height="6"/><rect x="450" y="215" width="13" height="7"/>
+            <rect x="467" y="216" width="13" height="6"/><rect x="484" y="215" width="13" height="7"/><rect x="501" y="216" width="13" height="6"/>
+          </g>
+          <text x="40" y="252" font-family="-apple-system,Segoe UI,sans-serif" font-size="11" fill="#6b6459">contactos por mes</text>
+        </g>
+      </svg>
+      <figcaption>La tasa de sí por mes, arriba, y cuántos contactos hubo, abajo. Cuando las barras se achican, la línea se dispara:
+      en 2008 el banco hacía <b>miles de llamadas por mes</b> que convertían al 3–6 %; desde mediados de 2009 llama a 200–300 por mes
+      y convierte <b>entre el 35 y el 60 %</b>. El modelo vive en el período sombreado, el que se parece al uso actual.</figcaption>
+    </figure>
+    <h2>La tasa de sí cambió con el tiempo: <b>7,1&nbsp;%</b> en las campañas viejas, <b>45,5&nbsp;%</b> en las recientes</h2>
+    <p class="entradilla">No cambió el cliente: cambió la estrategia del banco, que dejó de llamar a casi todos para llamar a una lista elegida.
+    Esa lista — la que convierte casi la mitad — es el rival real del modelo, y todo lo que sigue se mide contra ella.</p>
+
+    <details>
+      <summary>Cómo lo sabemos</summary>
+      <h4>De dónde salen</h4>
+      <p>Del dataset <b>Bank Marketing</b> de UCI (Moro, Cortez y Rita, 2014), versión <code>bank-full</code>: 45.211 contactos de las campañas de telemarketing de un banco portugués, de mayo de 2008 a noviembre de 2010. El archivo no trae el año: viene ordenado en el tiempo y la fecha se reconstruye con el mes y el día, sumando un año cada vez que el mes vuelve atrás.</p>
+      <h4>Qué es una fila</h4>
+      <p>Un contacto de campaña con un cliente (<code>contact_id</code>), con los datos del cliente y del último contacto. La respuesta es <code>y</code>: si contrató el depósito. Como las filas son una secuencia en el tiempo, los pedazos de la validación se arman por fecha, nunca al azar.</p>
+      <h4>Qué se filtró y qué quedó</h4>
+      <div class="tabla"><table>
+        <thead><tr><th>Paso</th><th>Contactos</th><th>Tasa de sí</th><th>Qué se hizo</th></tr></thead>
+        <tbody>
+          <tr><td>Dataset completo</td><td>45.211</td><td>11,7 %</td><td>Todos los contactos, may 2008 → nov 2010</td></tr>
+          <tr><td>Desde junio de 2009</td><td>5.459</td><td>45,5 %</td><td>Se dejan afuera los 39.752 anteriores (7,1 % de sí)</td></tr>
+          <tr><td>Entrenamiento</td><td>4.367</td><td>44,5 %</td><td>Modelo, C, pesos y umbral se eligen acá, con validación temporal</td></tr>
+          <tr><td>Test</td><td>1.092</td><td>49,6 %</td><td>Separado por fecha, se mira una sola vez</td></tr>
+        </tbody>
+      </table></div>
+      <h4>Qué columnas quedan afuera por fuga</h4>
+      <p><code>duration</code> se conoce recién cuando la llamada termina, y una llamada de cero segundos siempre es un no. Por precaución también quedan afuera <code>campaign</code>, <code>contact</code>, <code>day</code> y <code>month</code>: el dataset no permite asegurar que se conozcan antes de decidir a quién llamar. No son fuga pero tampoco entran: <code>marital</code> (hipótesis refutada, lift 1,28) y <code>default</code> (sólo el 1,8 % tiene una deuda impaga).</p>
+    </details>
+  </section>
+</main>
+</body>
+</html>

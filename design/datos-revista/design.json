@@ -1,0 +1,28 @@
+{
+  "title": "Sección «Los datos» — revista de datos",
+  "brief": "Segunda sección del restilo editorial sección por sección de la app de la Entrega 4 (bank marketing, personalidad «revista de datos» ya aprobada: papel, serif, hairlines, nav lateral, gráficos en Okabe-Ito). Contenido real de la sección: el salto de la tasa de sí (7,1 % → 45,5 %), el gráfico mensual de tasa + volumen, el embudo de filtrado (45.211 → 5.459 → 4.367 → 1.092) y el «Cómo lo sabemos» con fuente UCI, qué es una fila y columnas por fuga.",
+  "feature": "odd/tasks/mejoras-entrega4.md",
+  "artboards": [
+    {
+      "file": "01-salto-senhalado.html",
+      "title": "El salto señalado",
+      "tradeoff": "Conserva el orden actual (título que afirma → figura enmarcada con epígrafe → detalles), y suma el capítulo 02 y la anotación del salto dentro del gráfico. Es el de menor riesgo: la sección ya estaba bien contada según el profesor.",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "02-embudo-primero.html",
+      "title": "El embudo primero",
+      "tradeoff": "Saca la tabla de filtrado del «Cómo lo sabemos» y la convierte en cuatro tarjetas-paso antes del gráfico (45.211 → 5.459 → 4.367 → 1.092). El filtrado se ve de un vistazo; la sección gana altura y se adelanta información que antes era evidencia desplegable.",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "03-figura-manda.html",
+      "title": "La figura manda",
+      "tradeoff": "Invierte el orden: el gráfico abre la sección a todo lo ancho y el título que afirma llega después, como lectura de la figura (estilo nota de revista donde la imagen es el anzuelo). Máximo gancho visual; el título deja de ser lo primero que se lee.",
+      "width": 1440,
+      "height": 900
+    }
+  ]
+}

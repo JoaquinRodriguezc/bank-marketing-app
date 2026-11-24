@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portada · 03 El gancho del régimen</title>
+<style>
+  :root{
+    --papel:#faf9f6; --tinta:#141310; --tinta-2:#3d3831; --apagado:#6b6459;
+    --linea:#e4dfd5; --acento:#0072B2; --acento-suave:#eff4f9; --naranja:#E69F00;
+    --serif:Georgia,"Times New Roman",serif; --sans:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0}
+  body{display:flex;min-height:100vh;background:var(--papel);color:var(--tinta);font-family:var(--sans);font-size:17px;line-height:1.6}
+  a{color:inherit;text-decoration:none}
+  nav{width:230px;flex:none;border-right:1px solid var(--linea);padding:32px 22px;position:sticky;top:0;height:100vh}
+  nav .marca{font-family:var(--serif);font-size:14.5px;color:var(--apagado);line-height:1.45;margin-bottom:34px}
+  nav h3{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--apagado);margin:26px 0 8px;font-weight:600}
+  nav ol{list-style:none;padding-left:10px;border-left:2px solid var(--linea)}
+  nav li a{display:block;padding:6px 0 6px 12px;font-size:14.5px;color:var(--tinta-2)}
+  nav li a.activo{color:var(--acento);font-weight:600;border-left:2px solid var(--acento);margin-left:-2px}
+  main{flex:1;max-width:860px;margin:0 auto;padding:64px 64px 96px}
+  .kicker{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--apagado);font-weight:600}
+  h1{font-family:var(--serif);font-size:44px;line-height:1.15;font-weight:400;margin:16px 0 10px;max-width:20ch}
+  .entradilla{font-size:16.5px;color:var(--tinta-2);max-width:62ch}
+  .grafico{margin:40px 0 6px;border:1px solid var(--linea);border-radius:12px;background:#fff;padding:22px 22px 10px}
+  .grafico .titulo-g{font-family:var(--serif);font-size:18px;margin-bottom:12px}
+  .grafico .titulo-g b{color:var(--acento)}
+  .epigrafe{font-size:13.5px;color:var(--apagado);max-width:70ch;margin:10px 0 0}
+  .oracion{font-family:var(--serif);font-size:26px;line-height:1.42;max-width:34ch;color:var(--tinta);
+    border-left:4px solid var(--acento);padding:6px 0 6px 26px;margin:42px 0 30px}
+  .chips{display:flex;flex-wrap:wrap;gap:14px;max-width:640px}
+  .chip{border:1px solid var(--linea);border-radius:10px;padding:14px 20px;background:#fff}
+  .chip .rotulo{font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--apagado)}
+  .chip .valor{font-family:var(--serif);font-size:32px;color:var(--tinta-2)}
+  .chip.modelo{border:2px solid var(--acento);background:var(--acento-suave)}
+  .chip.modelo .rotulo,.chip.modelo .valor{color:var(--acento)}
+  .pie{margin-top:38px;font-size:13.5px;color:var(--apagado);border-top:3px double var(--linea);padding-top:14px;max-width:70ch}
+  @media (max-width:900px){main{padding:48px 24px}nav{display:none}.grafico svg{width:100%;height:auto}}
+</style>
+</head>
+<body>
+<nav aria-label="Índice">
+  <p class="marca">Ciencia de Datos · UTN FRM · 2026<br>Grupo 5K09-04</p>
+  <h3>La historia</h3>
+  <ol>
+    <li><a class="activo" href="#">El proyecto</a></li>
+    <li><a href="#">Los datos</a></li>
+    <li><a href="#">Lo que encontramos</a></li>
+    <li><a href="#">El modelo</a></li>
+    <li><a href="#">Por qué no más</a></li>
+  </ol>
+  <h3>Tu turno</h3>
+  <ol>
+    <li><a href="#">Explorá los clientes</a></li>
+    <li><a href="#">Probá el modelo</a></li>
+  </ol>
+</nav>
+<main>
+  <header>
+    <p class="kicker">Proyecto integrador · Ciencia de datos · Bank Marketing</p>
+    <h1>¿A quién conviene llamar para que cada depósito cueste menos llamadas?</h1>
+    <p class="entradilla">Un banco portugués llamó a 45.211 clientes entre mayo de 2008 y noviembre de 2010 para ofrecerles un depósito a plazo. Pero antes del resultado hay una historia: el banco mismo cambió de estrategia en el medio.</p>
+  </header>
+  <figure class="grafico">
+    <p class="titulo-g">La tasa de sí por mes: <b>6,7&nbsp;%</b> en las campañas masivas de 2008, <b>hasta 60&nbsp;%</b> desde mediados de 2009</p>
+    <svg viewBox="0 0 700 170" role="img" aria-label="Tasa de sí mensual de 2008 a 2010: baja y plana hasta 2009, luego salta y se mantiene alta">
+      <g font-family="Georgia, serif" font-size="11" fill="#6b6459">
+        <line x1="40" y1="140" x2="670" y2="140" stroke="#e4dfd5"/>
+        <text x="40" y="158">may 2008</text>
+        <text x="330" y="158">mediados de 2009 · el banco cambia de estrategia</text>
+        <text x="590" y="158">nov 2010</text>
+      </g>
+      <path d="M40,132 L80,134 L120,131 L160,133 L200,132 L240,133 L280,130 L320,131 L340,120 L360,86 L380,52 L400,40 L440,42 L480,55 L520,38 L560,46 L600,30 L640,36 L670,44"
+        fill="none" stroke="#0072B2" stroke-width="2.5"/>
+      <path d="M40,132 L80,134 L120,131 L160,133 L200,132 L240,133 L280,130 L320,131 L340,120 L360,86 L380,52 L400,40 L440,42 L480,55 L520,38 L560,46 L600,30 L640,36 L670,44 L670,140 L40,140 Z"
+        fill="#eff4f9" opacity="0.8"/>
+      <line x1="340" y1="18" x2="340" y2="140" stroke="#6b6459" stroke-dasharray="3 4"/>
+      <text x="348" y="26" font-family="-apple-system,Segoe UI,sans-serif" font-size="11" fill="#6b6459">el salto</text>
+    </svg>
+    <figcaption class="epigrafe">En 2008 el banco hacía miles de llamadas por mes y convertía al 3–6&nbsp;%. Desde mediados de 2009 llama a mucha menos gente, más elegida, y convierte entre 35 y 60&nbsp;%. No es el mismo negocio al principio que al final — y esa es la razón de todo lo que sigue.</figcaption>
+  </figure>
+  <p class="oracion">Con lo que el banco ya sabe antes de llamar, cada sí cuesta un 4&nbsp;% menos llamadas sin perder casi ningún cliente — y esa es toda la distancia que estos datos permiten recorrer.</p>
+  <div class="chips">
+    <p class="chip">Banco hoy<span class="rotulo"><br>llamadas por sí</span><span class="valor">2,01</span></p>
+    <p class="chip modelo">Con el modelo<span class="rotulo"><br>llamadas por sí</span><span class="valor">1,93</span></p>
+    <p class="chip">El test<span class="rotulo"><br>llamadas</span><span class="valor">1.003 de 1.092</span></p>
+    <p class="chip">Se escapan<span class="rotulo"><br>sí de 542</span><span class="valor">23</span></p>
+  </div>
+  <p class="pie">Datos: Bank Marketing (UCI, <i>bank-full</i>). El salto de la estrategia del banco es el rival real del modelo: la lista a la que hoy llama el operador ya convierte al 49,6&nbsp;%. Las secciones siguientes cuentan cómo la medimos, cómo la intentamos superar y dónde se topa el techo.</p>
+</main>
+</body>
+</html>

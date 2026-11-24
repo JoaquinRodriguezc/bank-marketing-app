@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portada · 02 Cifras protagonistas</title>
+<style>
+  :root{
+    --papel:#faf9f6; --tinta:#141310; --tinta-2:#3d3831; --apagado:#6b6459;
+    --linea:#e4dfd5; --acento:#0072B2; --acento-suave:#eff4f9; --serif:Georgia,"Times New Roman",serif;
+    --sans:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0}
+  body{display:flex;min-height:100vh;background:var(--papel);color:var(--tinta);font-family:var(--sans);font-size:17px;line-height:1.6}
+  a{color:inherit;text-decoration:none}
+  nav{width:230px;flex:none;border-right:1px solid var(--linea);padding:32px 22px;position:sticky;top:0;height:100vh}
+  nav .marca{font-family:var(--serif);font-size:14.5px;color:var(--apagado);line-height:1.45;margin-bottom:34px}
+  nav h3{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--apagado);margin:26px 0 8px;font-weight:600}
+  nav ol{list-style:none;padding-left:10px;border-left:2px solid var(--linea)}
+  nav li a{display:block;padding:6px 0 6px 12px;font-size:14.5px;color:var(--tinta-2)}
+  nav li a.activo{color:var(--acento);font-weight:600;border-left:2px solid var(--acento);margin-left:-2px}
+  main{flex:1;max-width:900px;margin:0 auto;padding:64px 64px 96px}
+  .kicker{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--apagado);font-weight:600}
+  h1{font-family:var(--serif);font-size:40px;line-height:1.18;font-weight:400;margin:16px 0 6px;max-width:22ch}
+  .entradilla{font-family:var(--serif);font-size:19px;color:var(--tinta-2);line-height:1.5;max-width:56ch}
+  .filo{border:none;border-top:1px solid var(--linea);margin:38px 0 10px}
+  .cifra-fila{display:grid;grid-template-columns:290px 1fr;gap:36px;align-items:center;
+    padding:30px 0;border-bottom:1px solid var(--linea)}
+  .cifra-fila:last-of-type{border-bottom:none}
+  .cifra{font-family:var(--serif);font-size:104px;line-height:.95;font-weight:400;color:var(--tinta);letter-spacing:-.02em}
+  .cifra .unidade{font-size:34px;color:var(--apagado)}
+  .cifra.acento{color:var(--acento)}
+  .cifra-chica{font-size:72px}
+  .anot{max-width:44ch}
+  .anot .rotulo{font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--apagado);margin-bottom:4px}
+  .anot .rotulo.a{color:var(--acento)}
+  .anot p{font-size:15px;color:var(--tinta-2)}
+  .anot .versus-linea{font-family:var(--serif);font-size:21px;margin:2px 0 4px}
+  .anot .versus-linea .antes{color:var(--apagado);text-decoration:line-through;text-decoration-thickness:1px}
+  .anot .versus-linea .ahora{color:var(--acento)}
+  .pie{margin-top:36px;font-size:13.5px;color:var(--apagado);max-width:70ch;border-top:3px double var(--linea);padding-top:14px}
+  @media (max-width:900px){.cifra-fila{grid-template-columns:1fr;gap:10px}.cifra{font-size:72px}main{padding:48px 24px}nav{display:none}}
+</style>
+</head>
+<body>
+<nav aria-label="Índice">
+  <p class="marca">Ciencia de Datos · UTN FRM · 2026<br>Grupo 5K09-04</p>
+  <h3>La historia</h3>
+  <ol>
+    <li><a class="activo" href="#">El proyecto</a></li>
+    <li><a href="#">Los datos</a></li>
+    <li><a href="#">Lo que encontramos</a></li>
+    <li><a href="#">El modelo</a></li>
+    <li><a href="#">Por qué no más</a></li>
+  </ol>
+  <h3>Tu turno</h3>
+  <ol>
+    <li><a href="#">Explorá los clientes</a></li>
+    <li><a href="#">Probá el modelo</a></li>
+  </ol>
+</nav>
+<main>
+  <header>
+    <p class="kicker">Proyecto integrador · Ciencia de datos · Bank Marketing</p>
+    <h1>¿A quién conviene llamar para que cada depósito cueste menos llamadas?</h1>
+    <p class="entradilla">Un banco portugués llamó a 45.211 clientes entre 2008 y 2010 para ofrecerles un plazo fijo. Cada llamada cuesta minutos de operador: eso es lo que intentamos bajar.</p>
+  </header>
+  <hr class="filo">
+  <div class="cifra-fila">
+    <p class="cifra">2,01<span class="unidade"> → 1,93</span></p>
+    <div class="anot">
+      <p class="rotulo a">La respuesta en una línea</p>
+      <p class="versus-linea"><span class="antes">llamar a toda la lista</span> <span class="ahora">con el modelo</span></p>
+      <p>Con lo que el banco ya sabe antes de llamar, cada sí cuesta un 4&nbsp;% menos llamadas y se escapan 23 de los 542 clientes que igual iban a aceptar. Esa es toda la distancia que estos datos permiten recorrer.</p>
+    </div>
+  </div>
+  <div class="cifra-fila">
+    <p class="cifra cifra-chica">−89</p>
+    <div class="anot">
+      <p class="rotulo">Llamadas menos</p>
+      <p>En el test final: 1.003 llamadas en lugar de las 1.092 de la lista del banco, con el umbral fijado antes de mirar el test.</p>
+    </div>
+  </div>
+  <div class="cifra-fila">
+    <p class="cifra cifra-chica">96&nbsp;%</p>
+    <div class="anot">
+      <p class="rotulo">De los sí, conseguidos</p>
+      <p>519 de los 542 sí del período más reciente. El compromiso era no perder más de 5 de cada 100: se cumplió.</p>
+    </div>
+  </div>
+  <div class="cifra-fila">
+    <p class="cifra cifra-chica">49,6&nbsp;%</p>
+    <div class="anot">
+      <p class="rotulo">El rival a batir</p>
+      <p>De la lista que el banco ya llama — elegida por su estrategia desde 2009 — termina aceptando casi la mitad. No competimos contra el azar: competimos contra expertos.</p>
+    </div>
+  </div>
+  <p class="pie">Datos: Bank Marketing (UCI, <i>bank-full</i>), campañas de telemarketing de un banco portugués, mayo de 2008 a noviembre de 2010. Todo lo que sigue muestra cómo llegamos a estas cifras — y por qué no se pueden estirar mucho más.</p>
+</main>
+</body>
+</html>
