@@ -283,7 +283,7 @@ def grafico_familias(r):
     mejor["hi"] = mejor.ahorro_media + mejor.ahorro_desvio
     mejor = mejor.sort_values("ahorro_media", ascending=False)
     barras = alt.Chart(mejor).mark_bar(size=26).encode(
-        alt.Y("modelo:N", sort=mejor.modelo.tolist(), title=None, axis=alt.Axis(labelFontSize=15)),
+        alt.Y("modelo:N", sort=mejor.modelo.tolist(), title="Modelos probados", axis=alt.Axis(labelFontSize=15)),
         alt.X("ahorro_media:Q", title="Ahorro de llamadas por sí en la validación (%)", scale=alt.Scale(zero=True)),
         alt.Color("color:N", scale=None, legend=None),
         tooltip=[alt.Tooltip("ahorro_media:Q", title="Ahorro medio", format=".1f"),
@@ -292,7 +292,7 @@ def grafico_familias(r):
     error = alt.Chart(mejor).mark_rule(size=2, color="#555").encode(
         alt.Y("modelo:N", sort=mejor.modelo.tolist()),
         alt.X("lo:Q"), alt.X2("hi:Q"))
-    return tema(alt.layer(barras, error).properties(width=720, height=200))
+    return tema(alt.layer(barras, error).properties(width=616, height=200))
 
 
 def curva_test(y, p):
@@ -374,22 +374,22 @@ def grafico_confusion(r):
     pred = (r["p_te"] >= r["umbral"]).astype(int)
     cm = confusion_matrix(r["y_te"], pred)
     filas = [dict(decision="Llamar", real="Dijo sí", color=AZUL, tinta="#fff",
-                  texto=f"{num(cm[1, 1])} clientes · {pct(cm[1, 1] / cm[1].sum())} de los que dijeron sí"),
+                  texto=f"{num(cm[1, 1])} clientes\n{pct(cm[1, 1] / cm[1].sum())} de los que dijeron sí"),
              dict(decision="Llamar", real="Dijo no", color=NARANJA, tinta="#fff",
-                  texto=f"{num(cm[0, 1])} clientes · la mayoría de las llamadas"),
+                  texto=f"{num(cm[0, 1])} clientes\nla mayoría de las llamadas"),
              dict(decision="No llamar", real="Dijo sí", color=ROJO, tinta="#fff",
-                  texto=f"{num(cm[1, 0])} clientes · los sí que se escapan"),
+                  texto=f"{num(cm[1, 0])} clientes\nlos sí que se escapan"),
              dict(decision="No llamar", real="Dijo no", color="#c9c9c9", tinta="#1a1a1a",
-                  texto=f"{num(cm[0, 0])} clientes · el ahorro real")]
+                  texto=f"{num(cm[0, 0])} clientes\nel ahorro real")]
     d = pd.DataFrame(filas)
     celdas = alt.Chart(d).mark_rect(cornerRadius=6).encode(
         alt.X("decision:N", sort=["Llamar", "No llamar"], title="Decisión del modelo", axis=alt.Axis(labelFontSize=14)),
-        alt.Y("real:N", sort=["Dijo sí", "Dijo no"], title=None, axis=alt.Axis(labelFontSize=14)),
+        alt.Y("real:N", sort=["Dijo sí", "Dijo no"], title="Lo que realmente pasó", axis=alt.Axis(labelFontSize=14)),
         alt.Color("color:N", scale=None, legend=None))
-    textos = alt.Chart(d).mark_text(fontSize=13.5, fontWeight="bold").encode(
+    textos = alt.Chart(d).mark_text(fontSize=13.5, fontWeight="bold", lineBreak="\n").encode(
         alt.X("decision:N", sort=["Llamar", "No llamar"]), alt.Y("real:N", sort=["Dijo sí", "Dijo no"]),
         alt.Color("tinta:N", scale=None), text="texto:N")
-    return tema(alt.layer(celdas, textos).properties(width=480, height=200))
+    return tema(alt.layer(celdas, textos).properties(width=560, height=230))
 
 
 def grafico_coeficientes(pm):
@@ -399,11 +399,11 @@ def grafico_coeficientes(pm):
     d["color"] = np.where(d.coef > 0, AZUL, ROJO)
     cero = alt.Chart(pd.DataFrame({"z": [0]})).mark_rule(color="#555", size=1).encode(x="z:Q")
     barras = alt.Chart(d).mark_bar(size=16).encode(
-        alt.Y("nombre:N", sort=top.index.tolist(), title=None, axis=alt.Axis(labelFontSize=13.5)),
+        alt.Y("nombre:N", sort=top.index.tolist(), title="Columnas del modelo", axis=alt.Axis(labelFontSize=13.5)),
         alt.X("coef:Q", title="Coeficiente sobre columnas estandarizadas (12 de mayor magnitud)"),
         alt.Color("color:N", scale=None, legend=None),
         tooltip=[alt.Tooltip("coef:Q", title="Coeficiente", format=".2f")])
-    return tema(alt.layer(cero, barras).properties(width=720, height=len(d) * 24 + 60))
+    return tema(alt.layer(cero, barras).properties(width=616, height=len(d) * 24 + 60))
 
 
 def analizar_descartados(df, r):
